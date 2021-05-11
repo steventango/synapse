@@ -272,7 +272,6 @@
             "STAT 151",
             "SCI 151"
           ],
-          [],
           [
             "any  MATH 113",
             "any 114",
@@ -979,7 +978,6 @@
             "CHEM 164",
             "CHEM 261"
           ],
-          [],
           [
             "a 200-level Biological Sciences course",
             "PL SC 221"
@@ -1027,7 +1025,7 @@
           [
             "BOT 382",
             "GENET 364",
-            "consent of the instruct"
+            "consent of the instructor"
           ]
         ]
       },
@@ -1036,7 +1034,7 @@
         "prereqs": [
           [
             "GENET 364",
-            "consent of the instruct"
+            "consent of the instructor"
           ]
         ]
       },
@@ -1052,7 +1050,7 @@
         "name": "Advanced Plant Physiology",
         "prereqs": [
           [
-            "consent of the instruct"
+            "consent of the instructor"
           ]
         ]
       },
@@ -1060,7 +1058,7 @@
         "name": "Advanced Molecular Plant Physiology",
         "prereqs": [
           [
-            "Consent of the instruct"
+            "consent of the instructor"
           ]
         ]
       },
@@ -1068,7 +1066,7 @@
         "name": "Advanced Plant Functional Genomics",
         "prereqs": [
           [
-            "consent of the instruct"
+            "consent of the instructor"
           ]
         ]
       },
@@ -1458,7 +1456,6 @@
           [
             "CHEM 263"
           ],
-          [],
           [
             "one 200-level CHEM course",
             "CH E 243"
@@ -1649,7 +1646,7 @@
             "CHEM 333"
           ],
           [
-            "consent of the instruct"
+            "consent of the instructor"
           ]
         ]
       },
@@ -1666,7 +1663,7 @@
             "CHEM 333"
           ],
           [
-            "consent of the instruct"
+            "consent of the instructor"
           ]
         ]
       },
@@ -1680,7 +1677,7 @@
             "one 300-level CHEM course"
           ],
           [
-            "consent of the instruct"
+            "consent of the instructor"
           ]
         ]
       },
@@ -1695,7 +1692,7 @@
           ],
           [
             "CHEM 333",
-            "consent of the instruct"
+            "consent of the instructor"
           ]
         ]
       },
@@ -1810,7 +1807,7 @@
           ],
           [
             "one 300-level Chemistry course",
-            "consent of the instruct"
+            "consent of the instructor"
           ]
         ]
       },
@@ -1836,7 +1833,7 @@
             "CHEM 371"
           ],
           [
-            "consent of the instruct"
+            "consent of the instructor"
           ]
         ]
       },
@@ -2055,7 +2052,7 @@
             "STAT"
           ],
           [
-            "consent of the instruct",
+            "consent of the instructor",
             "SCI 100"
           ]
         ]
@@ -2180,8 +2177,7 @@
         "name": "Computers and Society",
         "prereqs": [
           [
-            "Any introduct",
-            "y-level Computing Science course",
+            "Any introductory-level Computing Science course",
             "SCI 100"
           ],
           [
@@ -2225,7 +2221,7 @@
             "MATH 228"
           ],
           [
-            "consent of the instruct"
+            "consent of the instructor"
           ]
         ]
       },
@@ -2238,7 +2234,7 @@
             "CMPUT 411"
           ],
           [
-            "consent of the instruct"
+            "consent of the instructor"
           ]
         ]
       },
@@ -2252,7 +2248,7 @@
             "MATH 127",
             "STAT 151",
             "STAT 265",
-            "consent of the instruct"
+            "consent of the instructor"
           ]
         ]
       },
@@ -2277,15 +2273,14 @@
             "CMPUT 201"
           ],
           [
-            " 204",
-            " 275"
+            "CMPUT 204",
+            "CMPUT 275"
           ],
           [
             "CMPUT 229",
             "E E 380",
             "ECE 212"
           ],
-          [],
           [
             "STAT 252",
             "STAT 266"
@@ -2299,8 +2294,8 @@
             "CMPUT 201"
           ],
           [
-            " 204",
-            " 275"
+            "CMPUT 204",
+            "CMPUT 275"
           ],
           [
             "CMPUT 229",
@@ -2397,7 +2392,7 @@
             "CMPUT 275"
           ],
           [
-            " 204"
+            "CMPUT 204"
           ]
         ]
       },
@@ -2430,7 +2425,7 @@
           ],
           [
             "CMPUT 267",
-            "consent of the instruct"
+            "consent of the instructor"
           ]
         ]
       },
@@ -2457,8 +2452,8 @@
             "CMPUT 201"
           ],
           [
-            " 204",
-            " 275"
+            "CMPUT 204",
+            "CMPUT 275"
           ],
           [
             "CMPUT 229",
@@ -2538,7 +2533,7 @@
           ],
           [
             "CMPUT 291",
-            "consent of the instruct"
+            "consent of the instructor"
           ]
         ]
       },
@@ -2579,8 +2574,8 @@
             "CMPUT 201"
           ],
           [
-            " 204",
-            " 275"
+            "CMPUT 204",
+            "CMPUT 275"
           ],
           [
             "CMPUT 340",
@@ -2599,7 +2594,7 @@
             "CMPUT 306",
             "CMPUT 307",
             "CMPUT 411",
-            "consent of the instruct"
+            "consent of the instructor"
           ]
         ]
       },
@@ -2613,7 +2608,7 @@
           ],
           [
             "a 300-level Computing Science course",
-            "consent of the instruct"
+            "consent of the instructor"
           ]
         ]
       },
@@ -2693,7 +2688,7 @@
             "SCI 151"
           ],
           [
-            "consent of the instruct"
+            "consent of the instructor"
           ]
         ]
       },
@@ -2712,7 +2707,7 @@
             "SCI 151"
           ],
           [
-            "consent of the instruct"
+            "consent of the instructor"
           ]
         ]
       },
@@ -2741,7 +2736,7 @@
             "MATH 225",
             "MATH 227",
             "MATH 228",
-            "consent of the instruct"
+            "consent of the instructor"
           ]
         ]
       },
@@ -2751,7 +2746,7 @@
           [
             "CMPUT 201",
             "CMPUT 379",
-            "consent of the instruct"
+            "consent of the instructor"
           ]
         ]
       },
@@ -2759,9 +2754,8 @@
         "name": "Honors Seminar",
         "prereqs": [
           [
-            "Restricted to Hon",
-            "s Computing Science students",
-            "consent of the instruct"
+            "Restricted to Honors Computing Science students",
+            "consent of the instructor"
           ]
         ]
       },
@@ -4226,7 +4220,7 @@
         "name": "Problem Solving Seminar",
         "prereqs": [
           [
-            "consent of the instruct"
+            "consent of the instructor"
           ]
         ]
       },
@@ -4953,7 +4947,7 @@
           ],
           [
             "differential equations",
-            "consent of the instruct"
+            "consent of the instructor"
           ]
         ]
       },
@@ -5611,7 +5605,7 @@
             " 344",
             "PMCOL 371",
             "ZOOL 342",
-            "consent of the instruct"
+            "consent of the instructor"
           ]
         ]
       },
@@ -6514,7 +6508,6 @@
             "PSYCO 241",
             "PSYCO 341"
           ],
-          [],
           [
             "a seni",
             "level course in ART",
@@ -6925,7 +6918,7 @@
         "prereqs": [
           [
             "STAT 265",
-            "consent of the instruct"
+            "consent of the instructor"
           ]
         ]
       },
@@ -6946,7 +6939,7 @@
           [
             "STAT 252",
             "STAT 337",
-            "consent of the instruct"
+            "consent of the instructor"
           ]
         ]
       },
@@ -7073,7 +7066,7 @@
         "name": "Statistical Computing",
         "prereqs": [
           [
-            "consent of the instruct"
+            "consent of the instructor"
           ]
         ]
       },
@@ -7091,7 +7084,7 @@
         "prereqs": [
           [
             "STAT 437 equivalent",
-            "consent of the instruct"
+            "consent of the instructor"
           ]
         ]
       },
@@ -7099,7 +7092,7 @@
         "name": "Statistics for Learning",
         "prereqs": [
           [
-            "Consent of the instruct"
+            "consent of the instructor"
           ]
         ]
       },
@@ -7215,7 +7208,7 @@
           [
             "STAT 537",
             "equivalent",
-            "consent of the instruct"
+            "consent of the instructor"
           ]
         ]
       },
@@ -8152,7 +8145,7 @@
           ],
           [
             " 331",
-            "consent of the instruct"
+            "consent of the instructor"
           ]
         ]
       },
@@ -8348,7 +8341,7 @@
           [
             "EAS 225",
             "EAS 250",
-            "consent of the instruct"
+            "consent of the instructor"
           ]
         ]
       },
@@ -8815,7 +8808,7 @@
         "name": "Advanced Microbial Physiology",
         "prereqs": [
           [
-            "consent of the instruct"
+            "consent of the instructor"
           ]
         ]
       },
@@ -8831,7 +8824,7 @@
         "name": "Advanced Molecular Microbiology",
         "prereqs": [
           [
-            "consent of the instruct"
+            "consent of the instructor"
           ]
         ]
       },
@@ -9227,7 +9220,6 @@
             "PHYS 146",
             "PHYS 130"
           ],
-          [],
           [
             "MATH 100",
             "MATH 113",
@@ -9271,7 +9263,6 @@
             "PHYS 146",
             "PHYS 130"
           ],
-          [],
           [
             "MATH 113",
             "MATH 114",
@@ -9336,7 +9327,6 @@
             "PHYS 144",
             "EN PH 131"
           ],
-          [],
           [
             "PHYS 126",
             "PHYS 146",
@@ -9356,7 +9346,6 @@
             "PHYS 144",
             "EN PH 131"
           ],
-          [],
           [
             "PHYS 126",
             "PHYS 146",
@@ -10378,7 +10367,7 @@
         "prereqs": [
           [
             "SOC 100",
-            "consent of the instruct"
+            "consent of the instructor"
           ]
         ]
       },
@@ -10455,7 +10444,7 @@
         "prereqs": [
           [
             "SOC 100",
-            "consent of the instruct"
+            "consent of the instructor"
           ]
         ]
       },
@@ -10492,7 +10481,7 @@
         "prereqs": [
           [
             "SOC 225",
-            "consent of the instruct"
+            "consent of the instructor"
           ]
         ]
       },
@@ -10510,7 +10499,7 @@
         "prereqs": [
           [
             "SOC 212",
-            "consent of the instruct"
+            "consent of the instructor"
           ]
         ]
       },
@@ -10631,7 +10620,7 @@
         "prereqs": [
           [
             "SOC 100",
-            "consent of the instruct"
+            "consent of the instructor"
           ]
         ]
       },
@@ -10769,7 +10758,7 @@
           [
             "SOC 212",
             "SOC 335",
-            "consent of the instruct"
+            "consent of the instructor"
           ]
         ]
       },
@@ -10828,7 +10817,7 @@
             "SOC 251",
             "SOC 271",
             "SOC 301",
-            "consent of the Instruct"
+            "consent of the instructor"
           ]
         ]
       },
@@ -10866,7 +10855,7 @@
             "SOC 212",
             "SOC 269",
             "SOC 346",
-            "consent of the instruct"
+            "consent of the instructor"
           ]
         ]
       },
@@ -14987,7 +14976,6 @@
             "DRAMA 102",
             "DRAMA 103"
           ],
-          [],
           [
             " 149",
             " 150"
@@ -17517,7 +17505,6 @@
             "English *3 of juni",
             "English plus WRS 101"
           ],
-          [],
           [
             " *12 of seni",
             " -level English *6 of which must be at the 300 level"
@@ -17533,7 +17520,6 @@
             "English *3 of juni",
             "English plus WRS 101"
           ],
-          [],
           [
             " *12 of seni",
             " -level English",
@@ -17550,7 +17536,6 @@
             "English *3 of juni",
             "English plus WRS 101"
           ],
-          [],
           [
             " *12 of seni",
             " -level English",
@@ -17567,7 +17552,6 @@
             "English *3 of juni",
             "English plus WRS 101"
           ],
-          [],
           [
             " *12 of seni",
             " -level English",
@@ -17584,7 +17568,6 @@
             "English *3 of juni",
             "English plus WRS 101"
           ],
-          [],
           [
             " *12 of seni",
             " -level English",
@@ -17601,7 +17584,6 @@
             "English *3 of juni",
             "English plus WRS 101"
           ],
-          [],
           [
             " *12 of seni",
             " -level English",
@@ -17618,7 +17600,6 @@
             "English *3 of juni",
             "English plus WRS 101"
           ],
-          [],
           [
             " *12 of seni",
             " -level English",
@@ -17635,7 +17616,6 @@
             "English *3 of juni",
             "English plus WRS 101"
           ],
-          [],
           [
             " *12 of seni",
             " -level English",
@@ -17652,7 +17632,6 @@
             "English *3 of juni",
             "English plus WRS 101"
           ],
-          [],
           [
             " *12 of seni",
             " -level English",
@@ -17669,7 +17648,6 @@
             "English *3 of juni",
             "English plus WRS 101"
           ],
-          [],
           [
             " *12 of seni",
             " -level English",
@@ -17686,7 +17664,6 @@
             "English *3 of juni",
             "English plus WRS 101"
           ],
-          [],
           [
             " *12 of seni",
             " -level English",
@@ -17703,7 +17680,6 @@
             "English *3 of juni",
             "English plus WRS 101"
           ],
-          [],
           [
             " *12 of seni",
             " -level English",
@@ -17720,7 +17696,6 @@
             "English *3 of juni",
             "English plus WRS 101"
           ],
-          [],
           [
             " *12 of seni",
             " -level English",
@@ -17737,7 +17712,6 @@
             "English *3 of juni",
             "English plus WRS 101"
           ],
-          [],
           [
             " *12 of seni",
             " -level English *6 of which must be at the 300 level"
@@ -17753,7 +17727,6 @@
             "English *3 of juni",
             "English plus WRS 101"
           ],
-          [],
           [
             " *12 of seni",
             " -level English",
@@ -17770,7 +17743,6 @@
             "English *3 of juni",
             "English plus WRS 101"
           ],
-          [],
           [
             " *12 of seni",
             " -level English",
@@ -17787,7 +17759,6 @@
             "English *3 of juni",
             "English plus WRS 101"
           ],
-          [],
           [
             " *12 of seni",
             " -level English",
@@ -17804,7 +17775,6 @@
             "English *3 of juni",
             "English plus WRS 101"
           ],
-          [],
           [
             " *12 of seni",
             " -level English",
@@ -18286,7 +18256,6 @@
             "FREN 301",
             "FRANC 225"
           ],
-          [],
           [
             "FREN 311",
             "FREN 312",
@@ -27642,7 +27611,7 @@
           [
             " *6 selected from 100-level ENGL",
             " 100-level WRS",
-            "consent of the instruct"
+            "consent of the instructor"
           ]
         ]
       },
