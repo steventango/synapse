@@ -10,7 +10,7 @@ function random_color() {
     return `rgb(${r}, ${g}, ${b})`;
 }
 async function load() {
-    const response = await fetch("ualberta.ca.json");
+    const response = await fetch("https://raw.githubusercontent.com/steventango/synapse/master/ualberta.ca.json");
     return response.json();
 }
 function search(graph, code, courses, explored = new Set()) {
