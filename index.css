@@ -97,7 +97,7 @@ canvas {
   width: 100%;
 }
 
-@media screen and (max-width: 599px) {
+@media screen and (max-width: 839px) {
   #search_bar,
   #delete_button,
   main {

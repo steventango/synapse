@@ -125,30 +125,32 @@ export default class Graph {
   }
 
   resize = () => {
-    const scale = window.devicePixelRatio;
-    let w = Math.floor(window.innerWidth * scale);
-    let h = Math.floor(window.innerHeight * scale);
-    let xfactor = w/this.canvas.width;
-    let yfactor = h/this.canvas.height;
-    this.canvas.width = w;
-    this.canvas.height = h;
-    for (const [_, vertex] of this.vertexes) {
-      const rect = vertex.e.getBoundingClientRect();
-      let x = rect.left + window.scrollX;
-      let y = rect.top + window.scrollY;
-      vertex.e.style.left = x * xfactor + "px";
-      vertex.e.style.top = y * yfactor + "px";
+    if (window.innerWidth > 839) {
+      const scale = window.devicePixelRatio;
+      let w = Math.floor(window.innerWidth * scale);
+      let h = Math.floor(window.innerHeight * scale);
+      let xfactor = w/this.canvas.width;
+      let yfactor = h/this.canvas.height;
+      this.canvas.width = w;
+      this.canvas.height = h;
+      for (const [_, vertex] of this.vertexes) {
+        const rect = vertex.e.getBoundingClientRect();
+        let x = rect.left + window.scrollX;
+        let y = rect.top + window.scrollY;
+        vertex.e.style.left = x * xfactor + "px";
+        vertex.e.style.top = y * yfactor + "px";
+      }
+      this.ctx.scale(scale, scale);
+      this.draw();
     }
-    this.ctx.scale(scale, scale);
-    this.draw();
   }
-  addVertex(vertex: Vertex) {
+  addVertex = (vertex: Vertex) => {
     this.vertexes.set(vertex.id, vertex);
     this.root.appendChild(vertex.e);
     vertex.graph = this;
   }
 
-  addEdge(edge: Edge) {
+  addEdge = (edge: Edge) => {
     if (!this.edges.has(edge.u)) {
       this.edges.set(edge.u, new Set());
     }
