@@ -78,3 +78,33 @@ canvas {
 .mdc-fab:disabled .mdc-fab__label {
   color: #444;
 }
+
+#mobile {
+  display: none;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: none;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+}
+
+#mobile p {
+  text-align: center;
+  width: 100%;
+}
+
+@media screen and (max-width: 599px) {
+  #search_bar,
+  #delete_button,
+  main {
+    display: none;
+  }
+
+  #mobile {
+    display: flex;
+  }
+}

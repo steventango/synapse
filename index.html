@@ -16,20 +16,29 @@
 </head>
 
 <body>
-  <label id="search_bar" class="mdc-text-field mdc-text-field--outlined mdc-text-field--no-label">
-    <span class="mdc-notched-outline">
-      <span class="mdc-notched-outline__leading"></span>
-      <span class="mdc-notched-outline__trailing"></span>
-    </span>
-    <i class="material-icons mdc-text-field__icon mdc-text-field__icon--leading" tabindex="0" role="button">search</i>
-    <input id="search" class="mdc-text-field__input" type="text" aria-label="Label" placeholder="CMPUT 466" autocomplete="off">
-  </label>
-  <div id="delete_button" class="mdc-touch-target-wrapper">
-    <button class="mdc-fab mdc-fab--mini mdc-fab--touch">
-      <div class="mdc-fab__ripple"></div>
-      <span class="material-icons mdc-fab__icon">delete</span>
-      <div class="mdc-fab__touch"></div>
-    </button>
+  <main>
+    <label id="search_bar" class="mdc-text-field mdc-text-field--outlined mdc-text-field--no-label">
+      <span class="mdc-notched-outline">
+        <span class="mdc-notched-outline__leading"></span>
+        <span class="mdc-notched-outline__trailing"></span>
+      </span>
+      <i class="material-icons mdc-text-field__icon mdc-text-field__icon--leading" tabindex="0" role="button">search</i>
+      <input id="search" class="mdc-text-field__input" type="text" aria-label="Label" placeholder="CMPUT 466" autocomplete="off">
+    </label>
+    <div id="delete_button" class="mdc-touch-target-wrapper">
+      <button class="mdc-fab mdc-fab--mini mdc-fab--touch">
+        <div class="mdc-fab__ripple"></div>
+        <span class="material-icons mdc-fab__icon">delete</span>
+        <div class="mdc-fab__touch"></div>
+      </button>
+    </div>
+  </main>
+  <div id="mobile">
+    <p class="mdc-typography">
+      Small screen sizes are not supported. Please reopen on a larger device.
+      <br>
+      <a href="https://steventang.tk/projects/synapse/" target="_blank" rel="noopener noreferrer">https://steventang.tk/projects/synapse/</a>
+    </p>
   </div>
   <script src="https://unpkg.com/material-components-web@11.0.0/dist/material-components-web.min.js"></script>
   <script type="module" src="graph.js"></script>

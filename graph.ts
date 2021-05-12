@@ -77,7 +77,6 @@ export class Vertex {
     }
 
     this.e.addEventListener("mousedown", this.mousedown);
-    document.body.appendChild(this.e);
   }
 }
 
@@ -98,16 +97,18 @@ export class Edge {
 export default class Graph {
   canvas: HTMLCanvasElement;
   ctx: CanvasRenderingContext2D;
+  root: HTMLElement;
   vertexes: Map<string, Vertex>;
   edges: Map<string, Set<Edge>>;
 
-  constructor() {
+  constructor(root: HTMLElement) {
     this.vertexes = new Map();
     this.edges = new Map();
     this.canvas = document.createElement("canvas");
-
-    document.body.appendChild(this.canvas);
     this.ctx = this.canvas.getContext("2d")!;
+    this.root = root;
+
+    this.root.appendChild(this.canvas);
     this.resize();
 
     document.addEventListener("mousemove", this.draw);
@@ -143,6 +144,7 @@ export default class Graph {
   }
   addVertex(vertex: Vertex) {
     this.vertexes.set(vertex.id, vertex);
+    this.root.appendChild(vertex.e);
     vertex.graph = this;
   }
 

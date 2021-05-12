@@ -143,7 +143,7 @@ function search(
 
 async function main() {
   const data = await load();
-  const graph: Graph = new Graph();
+  const graph: Graph = new Graph(document.querySelector('main')!);
 
   const search_input: HTMLInputElement = document.querySelector("#search")!;
   const search_bar: HTMLInputElement = document.querySelector("#search_bar")!;
