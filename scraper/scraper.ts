@@ -205,7 +205,7 @@ async function main() {
         console.error(error);
         return;
       }
-      console.log(`The data has been saved successfully to ${PATH}!'`);
+      console.log(`The data has been saved successfully to ${PATH}!`);
     },
   );
 }
