@@ -12,8 +12,9 @@
     "typescript": "^4.2.4"
   },
   "scripts": {
-    "scrape": "tsc ./scraper/scraper.ts ./scraper/pool.ts && node scraper/scraper.js",
     "build": "tsc && copyfiles -u 1 src/**/*.html src/**/*.css dist/",
+    "scrape": "tsc ./scraper/scraper.ts ./scraper/pool.ts && node scraper/scraper.js",
+    "start": "npm run build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
