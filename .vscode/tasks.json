@@ -1,0 +1,24 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "type": "npm",
+      "script": "scrape",
+      "group": "build",
+      "problemMatcher": [],
+      "label": "npm: scrape",
+      "detail": "tsc ./scraper/scraper.ts ./scraper/pool.ts && node scraper/scraper.js"
+    },
+    {
+      "type": "npm",
+      "script": "build",
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "problemMatcher": [],
+      "label": "npm: build",
+      "detail": "tsc && copyfiles -u 1 src/**/*.html src/**/*.css dist/"
+    }
+  ]
+}
