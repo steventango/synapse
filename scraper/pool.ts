@@ -22,8 +22,7 @@ export default class Pool<T> {
         console.error(error);
       }
       --this.concurrency;
-      this.
-      _next();
+      this._next();
     }
   }
 
@@ -33,8 +32,7 @@ export default class Pool<T> {
    * @return promise result
    */
   async add(promise: () => Promise<T>) {
-    this.
-    _next();
+    this._next();
     return new Promise<T>((resolve, reject) => {
       this.queue.push(() => promise().then(resolve).catch(reject));
     });
