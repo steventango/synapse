@@ -1,5 +1,6 @@
 import * as fs from "fs";
 import * as puppeteer from "puppeteer";
+import Pool from "./pool";
 
 interface University {
   name: string;
@@ -9,6 +10,12 @@ interface University {
     [subject: string]: {
       [number: string]: Course;
     };
+  };
+}
+
+interface Subject {
+  [subject: string]: {
+    [number: string]: Course;
   };
 }
 
@@ -25,7 +32,7 @@ interface Course {
 async function launch() {
   let browser: puppeteer.Browser;
   try {
-    console.log("Launching browser......");
+    console.log("Launching browser...");
     browser = await puppeteer.launch({
       headless: true,
       args: [],
@@ -45,7 +52,7 @@ async function launch() {
  */
 async function scrape_subjects(browser: puppeteer.Browser, url: string) {
   const page = await browser.newPage();
-  console.log(`Navigating to ${url}...`);
+  console.log(`Scraping ${url}`);
   await page.goto(url);
   await page.waitForSelector("div.content ul > li > a");
   const urls = await page.$$eval("div.content ul > li > a", (links) => {
@@ -67,7 +74,7 @@ async function scrape_subjects(browser: puppeteer.Browser, url: string) {
  */
 async function scrape_courses(browser: puppeteer.Browser, url: string) {
   const page = await browser.newPage();
-  console.log(`Navigating to ${url}...`);
+  console.log(`Scraping ${url}`);
   await page.goto(url);
   await page.waitForSelector("div.card-body > div:last-child");
 
@@ -157,6 +164,8 @@ async function scrape_courses(browser: puppeteer.Browser, url: string) {
 async function main() {
   const COURSE_CATALOGUE = "https://apps.ualberta.ca/catalogue/course";
   const PATH = "data/ualberta.ca.json";
+  const MAX_CONCURRENCY = 10;
+  const POOL = new Pool<Subject>(MAX_CONCURRENCY);
 
   const DATA: University = {
     name: "University of Alberta",
@@ -168,16 +177,10 @@ async function main() {
   try {
     const browser = await launch();
     const subjects = await scrape_subjects(browser, COURSE_CATALOGUE);
-    const promises: Promise<{
-      [subject: string]: {
-        [number: string]: Course;
-      };
-    }>[] = [];
+    const promises: Promise<Subject>[] = [];
 
     for (const subject of subjects) {
-      // add delay between requests
-      await new Promise(resolve => setTimeout(resolve, 150));
-      promises.push(scrape_courses(browser, subject));
+      promises.push(POOL.add(() => scrape_courses(browser, subject)));
     }
 
     const courses = await Promise.all(promises);

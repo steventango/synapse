@@ -11,7 +11,7 @@
     "typescript": "^4.2.4"
   },
   "scripts": {
-    "start": "tsc ./scraper/scraper.ts && node scraper/scraper.js",
+    "scrape": "tsc ./scraper/scraper.ts ./scraper/pool.ts && node scraper/scraper.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
