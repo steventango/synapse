@@ -14,7 +14,7 @@ function random_color() {
 }
 
 async function load() {
-  const response = await fetch("https://raw.githubusercontent.com/steventango/synapse/master/ualberta.ca.json");
+  const response = await fetch("https://raw.githubusercontent.com/steventango/synapse/master/data/ualberta.ca.json");
   return response.json();
 }
 
