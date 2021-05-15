@@ -1,10 +1,27 @@
 {
-  "name": "awesome",
-  "author": "Vandelay Industries",
-  "version": "1.0.0",
-  "main": "./lib/main.js",
-  "scripts": {
-    "build": "tsc && cp src/*.html dist && src/*.css"
+  "name": "synapse",
+  "version": "0.0.1",
+  "description": "Synapse is a tool that generates interactive graphs of course prerequisites and corequisites using data extracted from the UAlberta course catalogue.",
+  "main": "index.js",
+  "dependencies": {
+    "puppeteer": "^9.1.1"
   },
-  "types": "./lib/main.d.ts"
+  "devDependencies": {
+    "@types/puppeteer": "^5.4.3",
+    "typescript": "^4.2.4"
+  },
+  "scripts": {
+    "start": "tsc ./scraper/scraper.ts && node scraper/scraper.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/steventango/synapse.git"
+  },
+  "author": "Steven Tang",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/steventango/synapse/issues"
+  },
+  "homepage": "https://github.com/steventango/synapse#readme"
 }
