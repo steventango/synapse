@@ -88,11 +88,11 @@ async function scrape_courses(browser: puppeteer.Browser, url: string) {
      */
     function parse_requisites(requisites_text: string) {
       let reqs = [];
+      let prev = "";
       for (let branch of requisites_text.split(/and |; /)) {
         branch = branch.trim().replace(/[Oo]ne of/, "");
         let codes = branch.split(/,|or/).map((v) => v.trim());
         let set = [];
-        let prev = "";
         for (let code of codes) {
           code = code.trim();
           if (code.length) {
