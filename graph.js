@@ -68,9 +68,6 @@ export class Edge {
 }
 export default class Graph {
     constructor(root) {
-        this.getSize = () => {
-            return this.vertexes.size;
-        };
         this.clear = () => {
             for (const [_, vertex] of this.vertexes) {
                 vertex.remove();
@@ -177,6 +174,9 @@ export default class Graph {
         document.addEventListener("mousemove", this.draw);
         document.addEventListener("click", this.draw);
         window.addEventListener("resize", this.resize);
+    }
+    get size() {
+        return this.vertexes.size;
     }
 }
 //# sourceMappingURL=graph.js.map

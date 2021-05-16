@@ -104,8 +104,8 @@ function search(graph, code, courses, explored = new Set()) {
                         }
                     }
                 }
+                found = true;
             }
-            found = true;
         }
     }
     graph.draw();
@@ -139,7 +139,7 @@ async function main() {
         }
     });
     delete_button.addEventListener("click", () => {
-        if (graph.getSize() == 0) {
+        if (graph.size == 0) {
             return;
         }
         if (confirm("Clear all courses?")) {
