@@ -139,6 +139,9 @@ async function main() {
         }
     });
     delete_button.addEventListener("click", () => {
+        if (graph.getSize() == 0) {
+            return;
+        }
         if (confirm("Clear all courses?")) {
             graph.clear();
         }

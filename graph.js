@@ -68,6 +68,9 @@ export class Edge {
 }
 export default class Graph {
     constructor(root) {
+        this.getSize = () => {
+            return this.vertexes.size;
+        };
         this.clear = () => {
             for (const [_, vertex] of this.vertexes) {
                 vertex.remove();
