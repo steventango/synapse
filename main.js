@@ -1,4 +1,4 @@
-import Graph, { Edge, Vertex } from "./graph.js";
+import Graph, { Edge, Vertex } from "./graph";
 const card = {
     width: 128,
     height: 72,
@@ -10,10 +10,13 @@ function random_color() {
     return `rgb(${r}, ${g}, ${b})`;
 }
 async function load() {
-    const response = await fetch("https://raw.githubusercontent.com/steventango/synapse/master/data/ualberta.ca.json");
+    const url = "//raw.githubusercontent.com/steventango/synapse/master/data/" +
+        "ualberta.ca.json";
+    const response = await fetch(url);
     return response.json();
 }
-function search(graph, code, courses, explored = new Set()) {
+function search(graph, code, courses) {
+    const explored = new Set();
     const stack = [];
     stack.push([code.split(" "), [
             Math.random() * window.innerWidth / 3 + window.innerWidth / 3,
@@ -25,7 +28,8 @@ function search(graph, code, courses, explored = new Set()) {
         const [department, number] = req || [];
         const code = `${department} ${number}`;
         if (courses[department]) {
-            if (courses[department][number]) {
+            const course = courses[department][number];
+            if (course) {
                 if (!graph.vertexes.has(code)) {
                     const v = new Vertex({
                         code: code,
@@ -38,9 +42,9 @@ function search(graph, code, courses, explored = new Set()) {
                     const rect = v.e.getBoundingClientRect();
                     v.e.style.top = rect.top + card.width + "px";
                 }
-                if (courses[department][number].prereqs) {
+                if (course.prereqs) {
                     let reqlen = 0;
-                    for (const prereqs of courses[department][number].prereqs) {
+                    for (const prereqs of course.prereqs) {
                         for (const prereq of prereqs) {
                             const [department, number] = prereq.split(' ');
                             if (courses[department]) {
@@ -51,7 +55,7 @@ function search(graph, code, courses, explored = new Set()) {
                         }
                     }
                     let i = 0;
-                    for (const prereqs of courses[department][number].prereqs) {
+                    for (const prereqs of course.prereqs) {
                         const color = random_color();
                         for (const prereq of prereqs) {
                             const [department, number] = prereq.split(' ');
@@ -71,9 +75,9 @@ function search(graph, code, courses, explored = new Set()) {
                         }
                     }
                 }
-                if (courses[department][number].coreqs) {
+                if (course.coreqs) {
                     let reqlen = 0;
-                    for (const coreqs of courses[department][number].coreqs) {
+                    for (const coreqs of course.coreqs) {
                         for (const coreq of coreqs) {
                             const [department, number] = coreq.split(' ');
                             if (courses[department]) {
@@ -84,7 +88,7 @@ function search(graph, code, courses, explored = new Set()) {
                         }
                     }
                     let i = 0;
-                    for (const coreqs of courses[department][number].coreqs) {
+                    for (const coreqs of course.coreqs) {
                         const color = random_color();
                         for (const coreq of coreqs) {
                             const [department, number] = coreq.split(' ');
