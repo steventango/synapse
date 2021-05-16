@@ -31,6 +31,7 @@ export class Vertex {
                 this.graph.vertexes.delete(this.id);
             }
             this.e.parentElement?.removeChild(this.e);
+            this.graph?.canvas.dispatchEvent(new Event('graph:change'));
         };
         this.e = document.createElement("div");
         this.e.classList.add("mdc-card", "vertex", "mdc-elevation--z1");
@@ -99,6 +100,7 @@ export default class Graph {
             this.vertexes.set(vertex.id, vertex);
             this.root.appendChild(vertex.e);
             vertex.graph = this;
+            this.root.dispatchEvent(new Event('graph:change'));
         };
         this.addEdge = (edge) => {
             if (!this.edges.has(edge.u)) {
