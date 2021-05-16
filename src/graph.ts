@@ -116,6 +116,10 @@ export default class Graph {
     window.addEventListener("resize", this.resize);
   }
 
+  getSize = (): number => {
+    return this.vertexes.size;
+  }
+
   clear = () => {
     for (const [_, vertex] of this.vertexes) {
       vertex.remove();
