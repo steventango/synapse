@@ -15,7 +15,7 @@ export default class Pool<T> {
   async _next() {
     if (this.queue.length && this.concurrency < this.max_concurrency) {
       ++this.concurrency;
-      const promise = this.queue.pop();
+      const promise = this.queue.pop()!;
       try {
         await promise();
       } catch (error) {

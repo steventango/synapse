@@ -30,17 +30,13 @@ interface Course {
  * @return Puppeteer browser.
  */
 async function launch() {
-  let browser: puppeteer.Browser;
-  try {
-    console.log("Launching browser...");
-    browser = await puppeteer.launch({
-      headless: true,
-      args: [],
-      ignoreHTTPSErrors: false,
-    });
-  } catch (error) {
-    console.error("Could not create a browser instance: ", error);
-  }
+  console.log("Launching browser...");
+  const browser: puppeteer.Browser = await puppeteer.launch({
+    headless: true,
+    args: [],
+    ignoreHTTPSErrors: false,
+  });
+
   return browser;
 }
 
@@ -56,11 +52,9 @@ async function scrape_subjects(browser: puppeteer.Browser, url: string) {
   await page.goto(url);
   await page.waitForSelector("div.content ul > li > a");
   const urls = await page.$$eval("div.content ul > li > a", (links) => {
-    return links.map((element) => {
-      if (element instanceof HTMLAnchorElement) {
-        return element.href;
-      }
-    });
+    return links
+      .filter((e): e is HTMLAnchorElement => (e instanceof HTMLAnchorElement))
+      .map((e) => e.href);
   });
   await page.close();
   return urls;
@@ -78,7 +72,7 @@ async function scrape_courses(browser: puppeteer.Browser, url: string) {
   await page.goto(url);
   await page.waitForSelector("div.card-body > div:last-child");
 
-  const courses = {};
+  const courses: Subject = {};
 
   const cards = await page.$$eval("div.card-body > div:last-child", (cards) => {
     /**
@@ -111,7 +105,7 @@ async function scrape_courses(browser: puppeteer.Browser, url: string) {
 
     return cards.map((card) => {
       // parse title for subject, course code, and course name
-      const h4 = card.querySelector("h4").childNodes[0].textContent.trim();
+      const h4 = card.querySelector("h4")!.childNodes[0].textContent!.trim();
       const [code, name] = h4.split(" - ");
 
       const parts = code.split(" ");
@@ -119,20 +113,20 @@ async function scrape_courses(browser: puppeteer.Browser, url: string) {
       const number = parts[parts.length - 1];
 
       const data: Course = {
-        name: name
+        name: name,
       };
 
       const p = card.querySelector("div > p:last-child");
       if (p) {
         // parse course requisites
         const prereq_regex = /Prerequisites*:* (.+?)(?:\.)/;
-        const prereqtext = p.textContent.match(prereq_regex);
+        const prereqtext = p.textContent!.match(prereq_regex);
         if (prereqtext) {
           data.prereqs = parse_requisites(prereqtext[1]);
         }
 
         const coreq_regex = /Corequisites*:* (.+?)(?:\.)/;
-        const coreqtext = p.textContent.match(coreq_regex);
+        const coreqtext = p.textContent!.match(coreq_regex);
         if (coreqtext) {
           data.coreqs = parse_requisites(coreqtext[1]);
         }

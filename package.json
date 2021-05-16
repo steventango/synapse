@@ -14,7 +14,7 @@
   },
   "scripts": {
     "build": "tsc && copyfiles -u 1 src/**/*.html src/**/*.css dist/",
-    "scrape": "tsc ./scraper/scraper.ts ./scraper/pool.ts && node scraper/scraper.js",
+    "scrape": "tsc scraper/pool.ts scraper/scraper.ts --strict && node scraper/scraper.js",
     "start": "npm run watch",
     "test": "echo \"Error: no test specified\" && exit 1",
     "watch": "nodemon --watch src --exec \"npm run build\" -e html,css,ts"
@@ -23,7 +23,7 @@
     "type": "git",
     "url": "git+https://github.com/steventango/synapse.git"
   },
-  "author": "Steven Tang",
+  "author": "Steven Tang and OSC",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/steventango/synapse/issues"
