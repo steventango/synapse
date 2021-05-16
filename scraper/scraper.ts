@@ -81,16 +81,42 @@ async function scrape_courses(browser: puppeteer.Browser, url: string) {
      * @return array of parsed course requisites
      */
     function parse_requisites(requisites_text: string) {
+      const generic: {
+        [key: string]: string
+      } = {
+        "": "ANY",
+        "ANTHROPOLOGY": "ANTHR",
+        "ART HISTORY": "AUART",
+        "BIOLOGICAL SCIENCES": "BIOL",
+        "BIOLOGY": "BIOL",
+        "COMPUTING SCIENCE": "CMPUT",
+        "THE FACULTY OF SCIENCE": "SCIENCE"
+      };
+
       let reqs = [];
       let prev = "";
-      for (let branch of requisites_text.split(/and |; /)) {
-        branch = branch.trim().replace(/[Oo]ne of/, "");
-        let codes = branch.split(/,|or/).map((v) => v.trim());
+      for (let branch of requisites_text.split(/\band\b|; /)) {
+        branch = branch.trim().replace(/one of/i, "");
+        let codes = branch.split(/,|\bor\b/i).map((v) => v.trim());
         let set = [];
         for (let code of codes) {
           code = code.trim();
           if (code.length) {
-            if (/[a-zA-Z]/.test(code[0])) {
+            const generics_1 = code.match(/(?:Any|a) (\d{3})-level course in (.*)/i);
+            const generics_2 = code.match(/(?:Any|a) (\d{3})-level (.*) course/i);
+            if (generics_1 || generics_2) {
+              let [_, level, subject] = (generics_1 || generics_2)!;
+              if (level) {
+                level = level[0] + "XX";
+              }
+              if (subject) {
+                subject = subject.trim().toUpperCase();
+              }
+              if (subject in generic) {
+                subject = generic[subject];
+              }
+              set.push(`${subject} ${level}`);
+            } else if (/[a-zA-Z]/.test(code[0])) {
               prev = code.split(" ")[0];
               set.push(code);
             } else {
