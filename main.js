@@ -154,6 +154,7 @@ async function main() {
         }
         if (confirm("Clear all courses?")) {
             graph.clear();
+            delete_button.style.display = 'none';
         }
     });
 }
