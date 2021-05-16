@@ -5,6 +5,10 @@ export class Vertex {
   id: string;
   graph?: Graph;
 
+  /**
+   * Event listener that handles the beginning of a drag event on a vertex.
+   * @param e mousedown event
+   */
   mousedown = (e: MouseEvent) => {
     e.preventDefault();
     this.draggable = true;
@@ -18,6 +22,10 @@ export class Vertex {
     document.addEventListener("mousemove", this.mousemove);
   };
 
+  /**
+   * Event listener that handles the dragging of a vertex.
+   * @param e mousedown event
+   */
   mousemove = (e: MouseEvent) => {
     e.preventDefault();
     if (this.draggable) {
@@ -26,6 +34,10 @@ export class Vertex {
     }
   };
 
+  /**
+   * Event listener that handles the end of a drag event on a vertex.
+   * @param e mousedown event
+   */
   mouseup = () => {
     this.draggable = false;
     this.e.classList.remove("mdc-elevation--z4");
@@ -34,6 +46,9 @@ export class Vertex {
     document.removeEventListener("mousemove", this.mousemove);
   };
 
+  /**
+   * Removes vertex from graph.
+   */
   remove = () => {
     if (this.graph) {
       this.graph.vertexes.delete(this.id);
@@ -116,10 +131,13 @@ export default class Graph {
     window.addEventListener("resize", this.resize);
   }
 
-  getSize = (): number => {
+  get size () {
     return this.vertexes.size;
   }
 
+  /**
+   * Clear the graph of all vertexes and edges
+   */
   clear = () => {
     for (const [_, vertex] of this.vertexes) {
       vertex.remove();
@@ -128,6 +146,9 @@ export default class Graph {
     this.draw();
   }
 
+  /**
+   * Handle resize events
+   */
   resize = () => {
     if (window.innerWidth > 839) {
       const scale = window.devicePixelRatio;
@@ -148,12 +169,21 @@ export default class Graph {
       this.draw();
     }
   }
+
+  /**
+   * Adds a vertex to the graph
+   * @param vertex vertex to add to the graph
+   */
   addVertex = (vertex: Vertex) => {
     this.vertexes.set(vertex.id, vertex);
     this.root.appendChild(vertex.e);
     vertex.graph = this;
   }
 
+  /**
+   * Adds an edge to the graph.
+   * @param edge edge to add to the graph
+   */
   addEdge = (edge: Edge) => {
     if (!this.edges.has(edge.u)) {
       this.edges.set(edge.u, new Set());
@@ -161,6 +191,9 @@ export default class Graph {
     this.edges.get(edge.u)?.add(edge);
   }
 
+  /**
+   * Draws the graph.
+   */
   draw = () => {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     for (const [_, edges] of this.edges) {
