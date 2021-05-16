@@ -129,14 +129,23 @@ async function scrape_courses(browser: puppeteer.Browser, url: string) {
       return reqs;
     }
 
+    /**
+     * Splits on the rightmost occurence of separator.
+     * @param string string to split
+     * @param separator characters to split by
+     * @returns 2-tuple of split string
+     */
+    function rsplit(string: string, separator: string = " ") {
+      const index = string.lastIndexOf(separator);
+      return [string.substring(0, index), string.substring(index  + 1)];
+    }
+    
     return cards.map((card) => {
       // parse title for subject, course code, and course name
       const h4 = card.querySelector("h4")!.childNodes[0].textContent!.trim();
       const [code, name] = h4.split(" - ");
 
-      const parts = code.split(" ");
-      const subject = parts[0];
-      const number = parts[parts.length - 1];
+      const [subject, number] = rsplit(code);
 
       const data: Course = {
         name: name,
