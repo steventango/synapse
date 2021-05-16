@@ -1,5 +1,5 @@
 import Graph, { Edge, Vertex } from "./graph.js";
-import {University, Subject} from "./university"
+import {University, Subject} from "./university";
 
 const card = {
   width: 128,
@@ -170,6 +170,8 @@ async function main() {
   const delete_button: HTMLButtonElement = document.querySelector(
     "#delete_button",
   )!;
+  const snackbar: HTMLButtonElement = document.querySelector('.mdc-snackbar')!;
+  const snackbar_text: HTMLButtonElement = document.querySelector('.mdc-snackbar__label')!;
 
   search_bar.addEventListener("focusin", () => {
     search_bar.classList.add("mdc-elevation--z4");
@@ -194,9 +196,10 @@ async function main() {
     } else {
       search_bar.classList.add("mdc-text-field--invalid");
       // show error
-      const error_message: HTMLInputElement = document.querySelector(".error p")!;
-      error_message.textContent = "Course not found"; // This course is already in the graph
-      error_notice.style.display = "flex";
+
+      // show
+      snackbar_text.textContent = "Course not found"; // This course is already in the graph
+      snackbar.style.visibility = "visible";
     }
     if (graph.size) {
       delete_button.style.display = 'inline-flex';
