@@ -13,6 +13,13 @@ canvas {
   top: 0;
 }
 
+.transition {
+  transition: .2s;
+  -moz-transition: .2s;
+  -webkit-transition: .2s;
+  -o-transition: .2s;
+}
+
 .vertex {
   position: absolute;
   padding: 8px;

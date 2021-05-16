@@ -69,10 +69,10 @@ export class Vertex {
       <h2 class="mdc-typography mdc-typography--headline6">${course.code}</h2>
       <h3 class="mdc-typography mdc-typography--subtitle2">${course.name}</h3>
       <div class="mdc-card__action-icons">
-      <a href="${'https://apps.ualberta.ca/catalogue/course/'}${rsplit(course.code).join('/').replace(' ', '_')}" target="_blank" class="mdc-icon-button material-icons mdc-card__action mdc-card__action--icon" aria-label="More">
+      <a href="${'https://apps.ualberta.ca/catalogue/course/'}${rsplit(course.code).join('/').replace(' ', '_')}" target="_blank" class="mdc-icon-button material-icons mdc-card__action mdc-card__action--icon" aria-label="More" title="View ${course.code} - ${course.name}">
       open_in_new
       </a>
-      <button class="mdc-icon-button material-icons mdc-card__action mdc-card__action--icon" aria-label="Remove">
+      <button class="mdc-icon-button material-icons mdc-card__action mdc-card__action--icon" aria-label="Remove" title="Delete course">
       delete
       </button>
     </div>`;
