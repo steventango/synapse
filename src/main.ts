@@ -198,11 +198,11 @@ async function main() {
       // show error
 
       // show
-      snackbar_text.textContent = "Course not found"; // This course is already in the graph
-      snackbar.style.visibility = "visible";
+      // snackbar_text.innerHTML = "Course not found"; // This course is already in the graph
+      // snackbar.style.display = "block";
     }
     if (graph.size) {
-      delete_button.style.display = 'inline-flex';
+      delete_button.style.display = 'inline';
     } else {
       delete_button.style.display = 'none';
     }
