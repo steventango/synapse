@@ -1,4 +1,4 @@
-import Graph, { Edge, Vertex } from "./graph";
+import Graph, { Edge, Vertex } from "./graph.js";
 const card = {
     width: 128,
     height: 72,
