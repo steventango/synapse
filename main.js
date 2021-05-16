@@ -1,4 +1,5 @@
 import Graph, { Edge, Vertex } from "./graph.js";
+import { rsplit } from "./util.js";
 const card = {
     width: 128,
     height: 72,
@@ -8,10 +9,6 @@ function random_color() {
     const g = Math.floor(200 + Math.random() * 255) / 2;
     const b = Math.floor(200 + Math.random() * 255) / 2;
     return `rgb(${r}, ${g}, ${b})`;
-}
-function rsplit(string, separator = " ") {
-    const index = string.lastIndexOf(separator);
-    return [string.substring(0, index), string.substring(index + 1)];
 }
 async function load() {
     const url = "//raw.githubusercontent.com/steventango/synapse/master/data/" +
