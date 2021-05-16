@@ -1,15 +1,16 @@
 html,
 body {
-  width: 100%;
-  height: 100%;
-  margin: 0;
+  width: 100vw;
+  height: 100vh;
+  margin: 0 auto;
   overflow: hidden;
 }
 
 canvas {
-  width: 100%;
-  height: 100%;
+  width: 100vw;
+  height: 100vh;
   background-color: whitesmoke;
+  top: 0;
 }
 
 .vertex {
@@ -111,4 +112,28 @@ canvas {
   #mobile {
     display: flex;
   }
+}
+
+/* error bar */
+.error {
+  display: none;
+  position: absolute;
+  top: 5vh;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  transition: .2s;
+  -moz-transition: .2s;
+  -webkit-transition: .2s;
+  -o-transition: .2s;
+}
+.error p {
+  background-color: #dc3545;
+  color: whitesmoke;
+  margin: 0 auto;
+  padding-top: 12px;
+  padding-bottom: 12px;
+  padding-left: 20px;
+  padding-right: 20px;
+  margin-top: 12px;
+  border-radius: 10px;
 }

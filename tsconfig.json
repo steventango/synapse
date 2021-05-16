@@ -10,4 +10,4 @@
   },
   "compileOnSave": true,
   "include": ["src/**/*"],
-  }
+}
