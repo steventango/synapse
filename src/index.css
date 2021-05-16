@@ -1,15 +1,23 @@
+:root {
+  --mdc-theme-primary: #000;
+  --mdc-theme-secondary: #fff;
+}
+
 html,
 body {
   width: 100vw;
   height: 100vh;
   margin: 0 auto;
   overflow: hidden;
-  transition: background-color 500ms cubic-bezier(0.4, 0.0, 0.2, 1);
+  background-color: var(--mdc-theme-background);
+  transition: background-color 1000ms cubic-bezier(0.4, 0.0, 0.2, 1),
+  color 1000ms cubic-bezier(0.4, 0.0, 0.2, 1),
+  border-color 1000ms cubic-bezier(0.4, 0.0, 0.2, 1);
 }
 
 .dark {
   --mdc-theme-primary: #fff;
-  --mdc-theme-secondary: #eee;
+  --mdc-theme-secondary: #1f1f1f;
   --mdc-theme-surface: #1f1f1f;
   --mdc-theme-background: #121212;
   color: var(--mdc-theme-primary)!important;
@@ -41,7 +49,6 @@ body {
 canvas {
   width: 100vw;
   height: 100vh;
-  background-color: var(--mdc-theme-background);
   top: 0;
 }
 
@@ -103,17 +110,12 @@ canvas {
   top: 16px;
   z-index: 16;
   border-radius: 4px;
-  background-color: var(--mdc-theme-surface);
 }
 
 #buttons {
   position: absolute;
   left: 300px;
   top: 16px;
-}
-
-#delete_button {
-  background-color: var(--mdc-theme-surface);
 }
 
 .mdc-fab,
