@@ -29,9 +29,9 @@ export class Vertex {
         this.remove = () => {
             if (this.graph) {
                 this.graph.vertexes.delete(this.id);
+                this.graph.root.dispatchEvent(new Event('graph:change'));
             }
             this.e.parentElement?.removeChild(this.e);
-            this.graph?.canvas.dispatchEvent(new Event('graph:change'));
         };
         this.e = document.createElement("div");
         this.e.classList.add("mdc-card", "vertex", "mdc-elevation--z1");
@@ -75,6 +75,7 @@ export default class Graph {
             }
             this.edges.clear();
             this.draw();
+            this.root.dispatchEvent(new Event('graph:change'));
         };
         this.resize = () => {
             if (window.innerWidth > 839) {
