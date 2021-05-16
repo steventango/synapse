@@ -4,12 +4,44 @@ body {
   height: 100vh;
   margin: 0 auto;
   overflow: hidden;
+  transition: background-color 500ms cubic-bezier(0.4, 0.0, 0.2, 1);
 }
 
+.dark {
+  --mdc-theme-primary: #fff;
+  --mdc-theme-secondary: #eee;
+  --mdc-theme-surface: #1f1f1f;
+  --mdc-theme-background: #121212;
+  color: var(--mdc-theme-primary)!important;
+}
+
+.dark .mdc-text-field:not(.mdc-text-field--disabled) .mdc-text-field__input {
+  color: rgba(255, 255, 255, 0.87);
+}
+
+.dark .mdc-text-field:not(.mdc-text-field--disabled) .mdc-text-field__icon--leading {
+  color: rgba(255, 255, 255, 0.54)
+}
+
+.dark .mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-notched-outline__leading,
+.dark .mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-notched-outline__notch,
+.dark .mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-notched-outline__trailing {
+  border-color: rgba(255, 255, 255, 0.54)
+}
+
+.dark .mdc-text-field--outlined:not(.mdc-text-field--disabled):not(.mdc-text-field--focused):hover .mdc-notched-outline .mdc-notched-outline__leading,
+.dark .mdc-text-field--outlined:not(.mdc-text-field--disabled):not(.mdc-text-field--focused):hover .mdc-notched-outline .mdc-notched-outline__notch,
+.dark .mdc-text-field--outlined:not(.mdc-text-field--disabled):not(.mdc-text-field--focused):hover .mdc-notched-outline .mdc-notched-outline__trailing {
+  border-color: rgba(255, 255, 255, 0.87);
+}
+
+.dark input::placeholder {
+  color: rgba(255, 255, 255, 0.54) !important;
+}
 canvas {
   width: 100vw;
   height: 100vh;
-  background-color: whitesmoke;
+  background-color: var(--mdc-theme-background);
   top: 0;
 }
 
@@ -25,9 +57,8 @@ canvas {
   padding: 8px;
   height: 72px;
   width: 128px;
-  background-color: #fff;
   cursor: move;
-  transition: box-shadow 100ms cubic-bezier(0.4, 0.0, 0.2, 1);;
+  transition: box-shadow 100ms cubic-bezier(0.4, 0.0, 0.2, 1);
 }
 
 .vertex .mdc-typography {
@@ -72,14 +103,17 @@ canvas {
   top: 16px;
   z-index: 16;
   border-radius: 4px;
-  background-color: #fff;
+  background-color: var(--mdc-theme-surface);
 }
 
-.mdc-fab.mdc-fab--mini.mdc-fab--touch {
+#buttons {
   position: absolute;
   left: 300px;
   top: 16px;
-  background-color: #fff;
+}
+
+#delete_button {
+  background-color: var(--mdc-theme-surface);
 }
 
 .mdc-fab,

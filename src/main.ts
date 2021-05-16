@@ -1,6 +1,7 @@
 import Graph, { Edge, Vertex } from "./graph.js";
-import {rsplit} from "./util.js";
-import {University, Subject} from "./university";
+import { rsplit } from "./util.js";
+import { Subject, University } from "./university";
+declare var mdc: any;
 
 const card = {
   width: 128,
@@ -25,7 +26,7 @@ function random_color() {
  */
 async function load(): Promise<University> {
   const url = "//raw.githubusercontent.com/steventango/synapse/master/data/" +
-  "ualberta.ca.json";
+    "ualberta.ca.json";
   const response = await fetch(url);
   return response.json();
 }
@@ -41,7 +42,7 @@ function search(
   graph: Graph,
   code: string,
   courses: Subject,
-  ) {
+) {
   const explored = new Set();
   const stack: Array<[string[], number[]]> = [];
   stack.push([rsplit(code), [
@@ -165,7 +166,7 @@ function search(
 
 async function main() {
   const data = await load();
-  const main = document.querySelector('main')!;
+  const main = document.querySelector("main")!;
   const graph: Graph = new Graph(main);
 
   const search_input: HTMLInputElement = document.querySelector("#search")!;
@@ -174,8 +175,14 @@ async function main() {
   const delete_button: HTMLButtonElement = document.querySelector(
     "#delete_button",
   )!;
-  const snackbar: HTMLButtonElement = document.querySelector('.mdc-snackbar')!;
-  const snackbar_text: HTMLButtonElement = document.querySelector('.mdc-snackbar__label')!;
+  const iconToggle = new mdc.iconButton.MDCIconButtonToggle(
+    document.querySelector("#toggle_theme"),
+  );
+
+  const snackbar: HTMLButtonElement = document.querySelector(".mdc-snackbar")!;
+  const snackbar_text: HTMLButtonElement = document.querySelector(
+    ".mdc-snackbar__label",
+  )!;
 
   search_bar.addEventListener("focusin", () => {
     search_bar.classList.add("mdc-elevation--z4");
@@ -207,11 +214,11 @@ async function main() {
     }
   });
 
-  main.addEventListener('graph:change', () => {
+  main.addEventListener("graph:change", () => {
     if (graph.size) {
-      delete_button.style.display = 'inline';
+      delete_button.style.display = "inline";
     } else {
-      delete_button.style.display = 'none';
+      delete_button.style.display = "none";
     }
   });
 
@@ -224,6 +231,17 @@ async function main() {
       graph.clear();
     }
   });
+
+  iconToggle.listen(
+    "MDCIconButtonToggle:change",
+    (e: { detail: { isOn: boolean } }) => {
+      if (e.detail.isOn) {
+        document.body.classList.add('dark');
+      } else {
+        document.body.classList.remove('dark');
+      }
+    },
+  );
 }
 
 main();

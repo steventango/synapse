@@ -60,7 +60,7 @@ export class Vertex {
       this.graph.root.dispatchEvent(new Event('graph:change'));
     }
     this.e.parentElement?.removeChild(this.e);
-  };
+  };  
 
   constructor(course: { code: string; name: string }, x?: number, y?: number) {
     this.e = document.createElement("div");
