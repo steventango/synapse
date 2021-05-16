@@ -120,14 +120,15 @@ function search(graph, code, courses) {
 }
 async function main() {
     const data = await load();
-    const main = document.querySelector('main');
+    const main = document.querySelector("main");
     const graph = new Graph(main);
     const search_input = document.querySelector("#search");
     const search_bar = document.querySelector("#search_bar");
     const error_notice = document.querySelector(".error");
     const delete_button = document.querySelector("#delete_button");
-    const snackbar = document.querySelector('.mdc-snackbar');
-    const snackbar_text = document.querySelector('.mdc-snackbar__label');
+    const iconToggle = new mdc.iconButton.MDCIconButtonToggle(document.querySelector("#toggle_theme"));
+    const snackbar = document.querySelector(".mdc-snackbar");
+    const snackbar_text = document.querySelector(".mdc-snackbar__label");
     search_bar.addEventListener("focusin", () => {
         search_bar.classList.add("mdc-elevation--z4");
     });
@@ -150,12 +151,12 @@ async function main() {
             search_bar.classList.add("mdc-text-field--invalid");
         }
     });
-    main.addEventListener('graph:change', () => {
+    main.addEventListener("graph:change", () => {
         if (graph.size) {
-            delete_button.style.display = 'inline';
+            delete_button.style.display = "inline";
         }
         else {
-            delete_button.style.display = 'none';
+            delete_button.style.display = "none";
         }
     });
     delete_button.addEventListener("click", () => {
@@ -164,6 +165,14 @@ async function main() {
         }
         if (confirm("Clear all courses?")) {
             graph.clear();
+        }
+    });
+    iconToggle.listen("MDCIconButtonToggle:change", (e) => {
+        if (e.detail.isOn) {
+            document.body.classList.add('dark');
+        }
+        else {
+            document.body.classList.remove('dark');
         }
     });
 }
