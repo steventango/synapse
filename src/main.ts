@@ -162,7 +162,8 @@ function search(
 
 async function main() {
   const data = await load();
-  const graph: Graph = new Graph(document.querySelector('main')!);
+  const main = document.querySelector('main')!;
+  const graph: Graph = new Graph(main);
 
   const search_input: HTMLInputElement = document.querySelector("#search")!;
   const search_bar: HTMLInputElement = document.querySelector("#search_bar")!;
@@ -191,8 +192,11 @@ async function main() {
     } else {
       search_bar.classList.add("mdc-text-field--invalid");
     }
+  });
+
+  main.addEventListener('graph:change', () => {
     if (graph.size) {
-      delete_button.style.display = 'inline-flex';
+      delete_button.style.display = 'inline';
     } else {
       delete_button.style.display = 'none';
     }
@@ -205,7 +209,6 @@ async function main() {
     }
     if (confirm("Clear all courses?")) {
       graph.clear();
-      delete_button.style.display = 'none';
     }
   });
 }

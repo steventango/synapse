@@ -57,6 +57,7 @@ export class Vertex {
       // remove downward edges
     }
     this.e.parentElement?.removeChild(this.e);
+    this.graph?.canvas.dispatchEvent(new Event('graph:change'));
   };
 
   constructor(course: { code: string; name: string }, x?: number, y?: number) {
@@ -178,6 +179,7 @@ export default class Graph {
     this.vertexes.set(vertex.id, vertex);
     this.root.appendChild(vertex.e);
     vertex.graph = this;
+    this.root.dispatchEvent(new Event('graph:change'));
   }
 
   /**
