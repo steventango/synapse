@@ -195,6 +195,7 @@ async function main() {
   });
 
   main.addEventListener('graph:change', () => {
+    console.log(graph.size);
     if (graph.size) {
       delete_button.style.display = 'inline';
     } else {

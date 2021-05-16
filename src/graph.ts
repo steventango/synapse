@@ -55,9 +55,9 @@ export class Vertex {
       // TODO: smart remove by removing children that ONLY depend on the thing removed
       // remove upward edges
       // remove downward edges
+      this.graph.root.dispatchEvent(new Event('graph:change'));
     }
     this.e.parentElement?.removeChild(this.e);
-    this.graph?.canvas.dispatchEvent(new Event('graph:change'));
   };
 
   constructor(course: { code: string; name: string }, x?: number, y?: number) {
@@ -145,6 +145,7 @@ export default class Graph {
     }
     this.edges.clear();
     this.draw();
+    this.root.dispatchEvent(new Event('graph:change'));
   }
 
   /**
