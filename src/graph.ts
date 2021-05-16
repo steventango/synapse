@@ -230,6 +230,7 @@ export default class Graph {
           this.ctx.beginPath();
           this.ctx.moveTo(x1, y1);
           if (edge.type === "coreq") {
+            // draw start arrow head
             this.ctx.lineTo(
               x1 + 10 * Math.cos(angle - Math.PI / 6),
               y1 + 10 * Math.sin(angle - Math.PI / 6),
@@ -248,6 +249,7 @@ export default class Graph {
             this.ctx.bezierCurveTo(x1, y1 + 64, x2, y2 - 64, x2, y2);
           }
 
+          // draw end arrow head
           this.ctx.lineTo(
             x2 - 10 * Math.cos(angle - Math.PI / 6),
             y2 - 10 * Math.sin(angle - Math.PI / 6),

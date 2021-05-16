@@ -1,4 +1,4 @@
-import Graph, { Edge, Vertex } from "./graph";
+import Graph, { Edge, Vertex } from "./graph.js";
 import {University, Subject} from "./university"
 
 const card = {
@@ -198,6 +198,11 @@ async function main() {
       error_message.textContent = "Course not found"; // This course is already in the graph
       error_notice.style.display = "flex";
     }
+    if (graph.size) {
+      delete_button.style.display = 'inline-flex';
+    } else {
+      delete_button.style.display = 'none';
+    }
   });
 
   delete_button.addEventListener("click", () => {
@@ -207,6 +212,7 @@ async function main() {
     }
     if (confirm("Clear all courses?")) {
       graph.clear();
+      delete_button.style.display = 'none';
     }
   });
 }
