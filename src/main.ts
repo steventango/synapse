@@ -19,6 +19,17 @@ function random_color() {
 }
 
 /**
+ * Splits on the rightmost occurence of separator.
+ * @param string string to split
+ * @param separator characters to split by
+ * @returns 2-tuple of split string
+ */
+function rsplit(string: string, separator: string = " ") {
+  const index = string.lastIndexOf(separator);
+  return [string.substring(0, index), string.substring(index  + 1)];
+}
+
+/**
  * Fetches university data from Github Raw as JSON.
  * @returns university data
  */
@@ -43,7 +54,7 @@ function search(
   ) {
   const explored = new Set();
   const stack: Array<[string[], number[]]> = [];
-  stack.push([code.split(" "), [
+  stack.push([rsplit(code), [
     Math.random() * window.innerWidth / 3 + window.innerWidth / 3,
     0,
   ]]);
@@ -51,7 +62,9 @@ function search(
 
   while (stack.length) {
     const [req, [x, depth]] = stack.pop() || [["", ""], [0, 0]];
-    const [department, number] = req || [];
+    let [department, number] = req || [];
+    department = department.trim();
+    number = number.trim();
     const code = `${department} ${number}`;
     // MOVE DRAWING OUT OF GRAPH MAKING
     if (courses[department]) {
@@ -77,7 +90,7 @@ function search(
           let reqlen = 0;
           for (const prereqs of course.prereqs) {
             for (const prereq of prereqs) {
-              const [department, number] = prereq.split(' ');
+              const [department, number] = rsplit(prereq);
               if (courses[department]) {
                 if (courses[department][number]) {
                   ++reqlen;
@@ -89,7 +102,7 @@ function search(
           for (const prereqs of course.prereqs) {
             const color = random_color();
             for (const prereq of prereqs) {
-              const [department, number] = prereq.split(' ');
+              const [department, number] = rsplit(prereq);
               let e = new Edge(code, prereq, color);
               graph.addEdge(e);
               if (!explored.has(prereq)) {
@@ -102,7 +115,7 @@ function search(
                   ),
                   window.innerWidth - card.width - 160 * Math.random(),
                 );
-                stack.push([prereq.split(" "), [newx, depth + 1]]);
+                stack.push([rsplit(prereq), [newx, depth + 1]]);
                 if (courses[department]) {
                   if (courses[department][number]) {
                     ++i;
@@ -116,7 +129,7 @@ function search(
           let reqlen = 0;
           for (const coreqs of course.coreqs) {
             for (const coreq of coreqs) {
-              const [department, number] = coreq.split(' ');
+              const [department, number] = rsplit(coreq);
               if (courses[department]) {
                 if (courses[department][number]) {
                   ++reqlen;
@@ -128,7 +141,7 @@ function search(
           for (const coreqs of course.coreqs) {
             const color = random_color();
             for (const coreq of coreqs) {
-              const [department, number] = coreq.split(' ');
+              const [department, number] = rsplit(coreq);
               let e = new Edge(code, coreq, color, "coreq");
               graph.addEdge(e);
               if (!explored.has(coreq)) {
@@ -141,7 +154,7 @@ function search(
                   ),
                   window.innerWidth - card.width,
                 );
-                stack.push([coreq.split(" "), [newx, depth + 1]]);
+                stack.push([rsplit(coreq), [newx, depth + 1]]);
                 if (courses[department]) {
                   if (courses[department][number]) {
                     ++i;
