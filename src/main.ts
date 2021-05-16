@@ -1,4 +1,4 @@
-import Graph, { Edge, Vertex } from "./graph";
+import Graph, { Edge, Vertex } from "./graph.js";
 import {University, Subject} from "./university"
 
 const card = {
