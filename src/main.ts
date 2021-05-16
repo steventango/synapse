@@ -1,4 +1,5 @@
 import Graph, { Edge, Vertex } from "./graph.js";
+import {rsplit} from "./util.js";
 import {University, Subject} from "./university";
 
 const card = {
@@ -16,17 +17,6 @@ function random_color() {
   const b = Math.floor(200 + Math.random() * 255) / 2;
 
   return `rgb(${r}, ${g}, ${b})`;
-}
-
-/**
- * Splits on the rightmost occurence of separator.
- * @param string string to split
- * @param separator characters to split by
- * @returns 2-tuple of split string
- */
-function rsplit(string: string, separator: string = " ") {
-  const index = string.lastIndexOf(separator);
-  return [string.substring(0, index), string.substring(index  + 1)];
 }
 
 /**
