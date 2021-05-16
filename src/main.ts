@@ -191,6 +191,11 @@ async function main() {
     } else {
       search_bar.classList.add("mdc-text-field--invalid");
     }
+    if (graph.size) {
+      delete_button.style.display = 'inline-flex';
+    } else {
+      delete_button.style.display = 'none';
+    }
   });
 
   delete_button.addEventListener("click", () => {
