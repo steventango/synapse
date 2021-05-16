@@ -121,7 +121,10 @@ async function main() {
     const graph = new Graph(main);
     const search_input = document.querySelector("#search");
     const search_bar = document.querySelector("#search_bar");
+    const error_notice = document.querySelector(".error");
     const delete_button = document.querySelector("#delete_button");
+    const snackbar = document.querySelector('.mdc-snackbar');
+    const snackbar_text = document.querySelector('.mdc-snackbar__label');
     search_bar.addEventListener("focusin", () => {
         search_bar.classList.add("mdc-elevation--z4");
     });
@@ -130,6 +133,7 @@ async function main() {
     });
     search_input.addEventListener("change", () => {
         let query = search_input.value.toUpperCase();
+        query = query.trim();
         if (!query.includes(" ")) {
             const index = query.search(/\d/);
             query = query.slice(0, index) + " " + query.slice(index);
