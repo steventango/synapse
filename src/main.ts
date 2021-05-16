@@ -147,6 +147,7 @@ async function main() {
 
   const search_input: HTMLInputElement = document.querySelector("#search")!;
   const search_bar: HTMLInputElement = document.querySelector("#search_bar")!;
+  const error_notice: HTMLInputElement = document.querySelector(".error")!;
   const delete_button: HTMLButtonElement = document.querySelector(
     "#delete_button",
   )!;
@@ -161,6 +162,8 @@ async function main() {
 
   search_input.addEventListener("change", () => {
     let query = search_input.value.toUpperCase();
+    // trim left and right
+    query = query.trim();
     if (!query.includes(" ")) {
       const index = query.search(/\d/);
       query = query.slice(0, index) + " " + query.slice(index);
@@ -171,6 +174,10 @@ async function main() {
       search_bar.classList.remove("mdc-text-field--invalid");
     } else {
       search_bar.classList.add("mdc-text-field--invalid");
+      // show error
+      const error_message: HTMLInputElement = document.querySelector(".error p")!;
+      error_message.textContent = "Course not found"; // This course is already in the graph
+      error_notice.style.display = "flex";
     }
   });
 
