@@ -1,10 +1,15 @@
-import Graph, { Edge, Vertex } from "./graph.js";
+import Graph, { Edge, Vertex } from "./graph";
+import {University, Subject} from "./university"
 
 const card = {
   width: 128,
   height: 72,
 };
 
+/**
+ * Generates and returns a random color that is close to rgb(200, 200, 200)
+ * @returns a random color
+ */
 function random_color() {
   const r = Math.floor(200 + Math.random() * 255) / 2;
   const g = Math.floor(200 + Math.random() * 255) / 2;
@@ -13,17 +18,30 @@ function random_color() {
   return `rgb(${r}, ${g}, ${b})`;
 }
 
-async function load() {
-  const response = await fetch("https://raw.githubusercontent.com/steventango/synapse/master/data/ualberta.ca.json");
+/**
+ * Fetches university data from Github Raw as JSON.
+ * @returns university data
+ */
+async function load(): Promise<University> {
+  const url = "//raw.githubusercontent.com/steventango/synapse/master/data/" +
+  "ualberta.ca.json";
+  const response = await fetch(url);
   return response.json();
 }
 
+/**
+ * Builds a requisite graph from a course search
+ * @param graph graph
+ * @param code course code from search
+ * @param courses course data
+ * @returns whether the course was found in course data
+ */
 function search(
   graph: Graph,
   code: string,
-  courses: any,
-  explored = new Set(),
-) {
+  courses: Subject,
+  ) {
+  const explored = new Set();
   const stack: Array<[string[], number[]]> = [];
   stack.push([code.split(" "), [
     Math.random() * window.innerWidth / 3 + window.innerWidth / 3,
@@ -37,7 +55,8 @@ function search(
     const code = `${department} ${number}`;
     // MOVE DRAWING OUT OF GRAPH MAKING
     if (courses[department]) {
-      if (courses[department][number]) {
+      const course = courses[department][number];
+      if (course) {
         if (!graph.vertexes.has(code)) {
           const v = new Vertex(
             {
@@ -54,9 +73,9 @@ function search(
           const rect = v.e.getBoundingClientRect();
           v.e.style.top = rect.top + card.width + "px";
         }
-        if (courses[department][number].prereqs) {
+        if (course.prereqs) {
           let reqlen = 0;
-          for (const prereqs of courses[department][number].prereqs) {
+          for (const prereqs of course.prereqs) {
             for (const prereq of prereqs) {
               const [department, number] = prereq.split(' ');
               if (courses[department]) {
@@ -67,7 +86,7 @@ function search(
             }
           }
           let i = 0;
-          for (const prereqs of courses[department][number].prereqs) {
+          for (const prereqs of course.prereqs) {
             const color = random_color();
             for (const prereq of prereqs) {
               const [department, number] = prereq.split(' ');
@@ -93,9 +112,9 @@ function search(
             }
           }
         }
-        if (courses[department][number].coreqs) {
+        if (course.coreqs) {
           let reqlen = 0;
-          for (const coreqs of courses[department][number].coreqs) {
+          for (const coreqs of course.coreqs) {
             for (const coreq of coreqs) {
               const [department, number] = coreq.split(' ');
               if (courses[department]) {
@@ -106,7 +125,7 @@ function search(
             }
           }
           let i = 0;
-          for (const coreqs of courses[department][number].coreqs) {
+          for (const coreqs of course.coreqs) {
             const color = random_color();
             for (const coreq of coreqs) {
               const [department, number] = coreq.split(' ');
