@@ -9,6 +9,10 @@ function random_color() {
     const b = Math.floor(200 + Math.random() * 255) / 2;
     return `rgb(${r}, ${g}, ${b})`;
 }
+function rsplit(string, separator = " ") {
+    const index = string.lastIndexOf(separator);
+    return [string.substring(0, index), string.substring(index + 1)];
+}
 async function load() {
     const url = "//raw.githubusercontent.com/steventango/synapse/master/data/" +
         "ualberta.ca.json";
@@ -18,14 +22,16 @@ async function load() {
 function search(graph, code, courses) {
     const explored = new Set();
     const stack = [];
-    stack.push([code.split(" "), [
+    stack.push([rsplit(code), [
             Math.random() * window.innerWidth / 3 + window.innerWidth / 3,
             0,
         ]]);
     let found = false;
     while (stack.length) {
         const [req, [x, depth]] = stack.pop() || [["", ""], [0, 0]];
-        const [department, number] = req || [];
+        let [department, number] = req || [];
+        department = department.trim();
+        number = number.trim();
         const code = `${department} ${number}`;
         if (courses[department]) {
             const course = courses[department][number];
@@ -46,7 +52,7 @@ function search(graph, code, courses) {
                     let reqlen = 0;
                     for (const prereqs of course.prereqs) {
                         for (const prereq of prereqs) {
-                            const [department, number] = prereq.split(' ');
+                            const [department, number] = rsplit(prereq);
                             if (courses[department]) {
                                 if (courses[department][number]) {
                                     ++reqlen;
@@ -58,14 +64,14 @@ function search(graph, code, courses) {
                     for (const prereqs of course.prereqs) {
                         const color = random_color();
                         for (const prereq of prereqs) {
-                            const [department, number] = prereq.split(' ');
+                            const [department, number] = rsplit(prereq);
                             let e = new Edge(code, prereq, color);
                             graph.addEdge(e);
                             if (!explored.has(prereq)) {
                                 explored.add(prereq);
                                 let newx = Math.min(Math.max(x +
                                     (i - reqlen / 2) * (card.width + 8), 160 * Math.random()), window.innerWidth - card.width - 160 * Math.random());
-                                stack.push([prereq.split(" "), [newx, depth + 1]]);
+                                stack.push([rsplit(prereq), [newx, depth + 1]]);
                                 if (courses[department]) {
                                     if (courses[department][number]) {
                                         ++i;
@@ -79,7 +85,7 @@ function search(graph, code, courses) {
                     let reqlen = 0;
                     for (const coreqs of course.coreqs) {
                         for (const coreq of coreqs) {
-                            const [department, number] = coreq.split(' ');
+                            const [department, number] = rsplit(coreq);
                             if (courses[department]) {
                                 if (courses[department][number]) {
                                     ++reqlen;
@@ -91,14 +97,14 @@ function search(graph, code, courses) {
                     for (const coreqs of course.coreqs) {
                         const color = random_color();
                         for (const coreq of coreqs) {
-                            const [department, number] = coreq.split(' ');
+                            const [department, number] = rsplit(coreq);
                             let e = new Edge(code, coreq, color, "coreq");
                             graph.addEdge(e);
                             if (!explored.has(coreq)) {
                                 explored.add(coreq);
                                 let newx = Math.min(Math.max(x +
                                     (i - reqlen / 2) * (window.innerWidth) / reqlen, 0), window.innerWidth - card.width);
-                                stack.push([coreq.split(" "), [newx, depth + 1]]);
+                                stack.push([rsplit(coreq), [newx, depth + 1]]);
                                 if (courses[department]) {
                                     if (courses[department][number]) {
                                         ++i;
