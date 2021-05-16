@@ -28,7 +28,7 @@ jobs:
 
       - name: install and build
         run: |
-          npm install
+          npm install --only=prod
           npm run build
 
       # Runs a set of commands using the runners shell
