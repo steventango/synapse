@@ -1,6 +1,7 @@
 :root {
   --mdc-theme-primary: #000;
   --mdc-theme-secondary: #fff;
+  --mdc-theme-background: #eee;
 }
 
 html,
@@ -46,7 +47,10 @@ body {
 .dark input::placeholder {
   color: rgba(255, 255, 255, 0.54) !important;
 }
-canvas {
+
+canvas,
+#graph > div {
+  position: absolute;
   width: 100vw;
   height: 100vh;
   top: 0;
@@ -110,12 +114,14 @@ canvas {
   top: 16px;
   z-index: 16;
   border-radius: 4px;
+  background: var(--mdc-theme-surface);
 }
 
 #buttons {
   position: absolute;
   left: 300px;
   top: 16px;
+  z-index: 16;
 }
 
 .mdc-fab,

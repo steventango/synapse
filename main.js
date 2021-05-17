@@ -121,7 +121,8 @@ function search(graph, code, courses) {
 async function main() {
     const data = await load();
     const main = document.querySelector("main");
-    const graph = new Graph(main);
+    const graph_element = document.querySelector("#graph");
+    const graph = new Graph(graph_element);
     const search_input = document.querySelector("#search");
     const search_bar = document.querySelector("#search_bar");
     const error_notice = document.querySelector(".error");
@@ -151,7 +152,7 @@ async function main() {
             search_bar.classList.add("mdc-text-field--invalid");
         }
     });
-    main.addEventListener("graph:change", () => {
+    graph_element.addEventListener("graph:change", () => {
         if (graph.size) {
             delete_button.style.display = "inline";
         }
@@ -169,10 +170,10 @@ async function main() {
     });
     iconToggle.listen("MDCIconButtonToggle:change", (e) => {
         if (e.detail.isOn) {
-            document.body.classList.add('dark');
+            document.body.classList.add("dark");
         }
         else {
-            document.body.classList.remove('dark');
+            document.body.classList.remove("dark");
         }
     });
 }

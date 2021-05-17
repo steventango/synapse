@@ -30,7 +30,7 @@ export class Vertex {
         this.remove = () => {
             if (this.graph) {
                 this.graph.vertexes.delete(this.id);
-                this.graph.root.dispatchEvent(new Event('graph:change'));
+                this.graph.root.dispatchEvent(new Event("graph:change"));
             }
             this.e.parentElement?.removeChild(this.e);
         };
@@ -40,14 +40,15 @@ export class Vertex {
       <h2 class="mdc-typography mdc-typography--headline6">${course.code}</h2>
       <h3 class="mdc-typography mdc-typography--subtitle2">${course.name}</h3>
       <div class="mdc-card__action-icons">
-      <a href="${'https://apps.ualberta.ca/catalogue/course/'}${rsplit(course.code).join('/').replace(' ', '_')}" target="_blank" class="mdc-icon-button material-icons mdc-card__action mdc-card__action--icon" aria-label="More" title="View ${course.code} - ${course.name}">
+      <a href="${"https://apps.ualberta.ca/catalogue/course/"}${rsplit(course.code).join("/").replace(" ", "_")}" target="_blank" class="mdc-icon-button material-icons mdc-card__action mdc-card__action--icon" aria-label="More" title="View ${course.code} - ${course.name}">
       open_in_new
       </a>
       <button class="mdc-icon-button material-icons mdc-card__action mdc-card__action--icon" aria-label="Remove" title="Delete course">
       delete
       </button>
     </div>`;
-        this.e.querySelector('.mdc-icon-button[aria-label="Remove"]').addEventListener("click", this.remove);
+        this.e.querySelector('.mdc-icon-button[aria-label="Remove"]')
+            .addEventListener("click", this.remove);
         this.draggable = false;
         this.offset = [0, 0];
         this.id = course.code;
@@ -76,7 +77,7 @@ export default class Graph {
             }
             this.edges.clear();
             this.draw();
-            this.root.dispatchEvent(new Event('graph:change'));
+            this.root.dispatchEvent(new Event("graph:change"));
         };
         this.resize = () => {
             if (window.innerWidth > 839) {
@@ -98,11 +99,26 @@ export default class Graph {
                 this.draw();
             }
         };
+        this.wheel = (e) => {
+            let factor;
+            if (e.deltaY > 0) {
+                factor = 0.99;
+            }
+            else {
+                factor = 1.01;
+            }
+            this.ctx.translate(e.x, e.y);
+            this.ctx.scale(factor, factor);
+            this.ctx.translate(-e.x, -e.y);
+            this.scale *= factor;
+            this.vertex_layer.style.transform = `scale(${this.scale})`;
+            this.draw();
+        };
         this.addVertex = (vertex) => {
             this.vertexes.set(vertex.id, vertex);
-            this.root.appendChild(vertex.e);
+            this.vertex_layer.appendChild(vertex.e);
             vertex.graph = this;
-            this.root.dispatchEvent(new Event('graph:change'));
+            this.root.dispatchEvent(new Event("graph:change"));
         };
         this.addEdge = (edge) => {
             if (!this.edges.has(edge.u)) {
@@ -173,11 +189,15 @@ export default class Graph {
         this.canvas = document.createElement("canvas");
         this.ctx = this.canvas.getContext("2d");
         this.root = root;
+        this.vertex_layer = document.createElement("div");
+        this.scale = 1;
         this.root.appendChild(this.canvas);
+        this.root.appendChild(this.vertex_layer);
         this.resize();
         document.addEventListener("mousemove", this.draw);
         document.addEventListener("click", this.draw);
         window.addEventListener("resize", this.resize);
+        document.addEventListener("wheel", this.wheel);
     }
     get size() {
         return this.vertexes.size;
