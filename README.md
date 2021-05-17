@@ -1,9 +1,19 @@
 # Synapse
 Synapse is a tool that generates interactive graphs of course prerequisites and corequisites using data extracted from the UAlberta course catalogue.
 
-View it now on [steventango.github.io/synapse](https://steventango.github.io/synapse/)
+View it now on [**steventango.github.io/synapse**](https://steventango.github.io/synapse/)
 
-![snapshot](img/snapshot.png)
+## Preview
+
+![preview](img/preview.gif)
+
+#### Light Mode:
+
+![snapshot](img/light.png)
+
+#### Dark Mode:
+
+![dark](img/dark.png)
 
 
 
@@ -19,3 +29,8 @@ View it now on [steventango.github.io/synapse](https://steventango.github.io/syn
 ## Acknowledgements
 * Bello, G. (2020, August). [How To Scrape a Website Using Node.js and Puppeteer](https://www.digitalocean.com/community/tutorials/how-to-scrape-a-website-using-node-js-and-puppeteer).
 * Moreno, C. A. (2009, Fall). [Visualization of Course Requisites](https://era.library.ualberta.ca/items/8ad0cac6-0e95-4b71-980c-a65849a271f7/view/808ef335-add6-4d56-bd73-604e50c7f173/Arango_Moreno_Camilo_Fall_2009.pdf).
+
+## License
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT) 
+
