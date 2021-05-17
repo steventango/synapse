@@ -48,6 +48,10 @@ body {
   color: rgba(255, 255, 255, 0.54) !important;
 }
 
+.dark .mdc-card__action--icon:not(:disabled) {
+  color: rgba(255, 255, 255, 0.6);;
+}
+
 canvas,
 #graph > div {
   position: absolute;
