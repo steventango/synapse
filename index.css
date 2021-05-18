@@ -17,6 +17,7 @@ body {
   border-color 1000ms cubic-bezier(0.4, 0.0, 0.2, 1); */
 }
 
+
 .dark {
   --mdc-theme-primary: #fff;
   --mdc-theme-secondary: #1f1f1f;
@@ -66,6 +67,12 @@ canvas,
   height: 100vh;
   top: 0;
 }
+
+/* canvas {
+  background-image: url("./assets/grid.svg");
+  background-repeat: repeat;
+  background-size: 150px;
+} */
 
 .transition {
   transition: .2s;
