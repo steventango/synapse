@@ -1,7 +1,7 @@
 :root {
   --mdc-theme-primary: #000;
   --mdc-theme-secondary: #fff;
-  --mdc-theme-background: #eee;
+  --mdc-theme-background: #f5f5f5;
 }
 
 html,
