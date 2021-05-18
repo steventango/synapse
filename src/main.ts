@@ -167,7 +167,10 @@ function search(
 async function main() {
   const data = await load();
   const main = document.querySelector("main")!;
-  const graph: Graph = new Graph(main);
+  const graph_element: HTMLElement = document.querySelector(
+    "#graph",
+  )!;
+  const graph: Graph = new Graph(graph_element);
 
   const search_input: HTMLInputElement = document.querySelector("#search")!;
   const search_bar: HTMLInputElement = document.querySelector("#search_bar")!;
@@ -214,7 +217,7 @@ async function main() {
     }
   });
 
-  main.addEventListener("graph:change", () => {
+  graph_element.addEventListener("graph:change", () => {
     if (graph.size) {
       delete_button.style.display = "inline";
     } else {
@@ -236,9 +239,9 @@ async function main() {
     "MDCIconButtonToggle:change",
     (e: { detail: { isOn: boolean } }) => {
       if (e.detail.isOn) {
-        document.body.classList.add('dark');
+        document.body.classList.add("dark");
       } else {
-        document.body.classList.remove('dark');
+        document.body.classList.remove("dark");
       }
     },
   );
