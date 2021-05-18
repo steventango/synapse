@@ -1,7 +1,8 @@
 :root {
   --mdc-theme-primary: #000;
   --mdc-theme-secondary: #fff;
-  --mdc-theme-background: #eee;
+  --mdc-theme-background: #f5f5f5;
+  --mdc-theme-on-secondary: rgba(0, 0, 0, 0.6);
 }
 
 html,
@@ -22,6 +23,7 @@ body {
   --mdc-theme-secondary: #1f1f1f;
   --mdc-theme-surface: #1f1f1f;
   --mdc-theme-background: #121212;
+  --mdc-theme-on-secondary: rgba(255, 255, 255, 0.6);
   color: var(--mdc-theme-primary)!important;
 }
 
@@ -49,8 +51,13 @@ body {
   color: rgba(255, 255, 255, 0.54) !important;
 }
 
-.dark .mdc-card__action--icon:not(:disabled) {
-  color: rgba(255, 255, 255, 0.6);;
+.dark .mdc-card__action--icon:not(:disabled),
+.dark .mdc-icon-button {
+  color: var(--mdc-theme-on-secondary);
+}
+
+.mdc-icon-button {
+  color: var(--mdc-theme-on-secondary);
 }
 
 canvas,
@@ -142,7 +149,7 @@ canvas,
 .mdc-fab:not(:disabled) .mdc-fab__label,
 .mdc-fab:disabled .mdc-fab__icon,
 .mdc-fab:disabled .mdc-fab__label {
-  color: #444;
+  color: var(--mdc-theme-on-secondary);
 }
 
 #mobile {
