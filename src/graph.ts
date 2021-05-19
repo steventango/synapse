@@ -1,4 +1,4 @@
-import { rsplit } from "./util.js";
+import { rsplit } from "./util";
 
 export class Vertex {
   e: HTMLElement;

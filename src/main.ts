@@ -1,7 +1,8 @@
-import Graph, { Edge, Vertex } from "./graph.js";
-import { random_color, rsplit } from "./util.js";
+import Graph, { Edge, Vertex } from "./graph";
+import { random_color, rsplit } from "./util";
 import { Subject, University } from "./university";
-declare var mdc: any;
+import { MDCSnackbar } from "@material/snackbar";
+import { MDCIconButtonToggle } from "@material/icon-button";
 
 const card = {
   width: 128,
@@ -164,11 +165,11 @@ async function main() {
   const delete_button: HTMLButtonElement = document.querySelector(
     "#delete_button",
   )!;
-  const iconToggle = new mdc.iconButton.MDCIconButtonToggle(
-    document.querySelector("#toggle_theme"),
+  const iconToggle = new MDCIconButtonToggle(
+    document.querySelector("#toggle_theme")!,
   );
 
-  const snackbar = new mdc.snackbar.MDCSnackbar(document.querySelector('#snackbar')!);
+  const snackbar = new MDCSnackbar(document.querySelector("#snackbar")!);
 
   search_bar.addEventListener("focusin", () => {
     search_bar.classList.add("mdc-elevation--z4");
@@ -193,7 +194,7 @@ async function main() {
     } else {
       search_bar.classList.add("mdc-text-field--invalid");
       snackbar.labelText = "Course not found";
-      snackbar.open()
+      snackbar.open();
     }
   });
 
@@ -215,13 +216,15 @@ async function main() {
     }
   });
 
-  iconToggle.listen(
+  iconToggle.listen<CustomEvent<{ isOn: boolean }>>(
     "MDCIconButtonToggle:change",
-    (e: { detail: { isOn: boolean } }) => {
-      if (e.detail.isOn) {
-        document.body.classList.add("dark");
-      } else {
-        document.body.classList.remove("dark");
+    (e) => {
+      if (e) {
+        if (e.detail.isOn) {
+          document.body.classList.add("dark");
+        } else {
+          document.body.classList.remove("dark");
+        }
       }
     },
   );

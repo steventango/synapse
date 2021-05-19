@@ -2,22 +2,36 @@
   "name": "synapse",
   "version": "0.0.1",
   "description": "Synapse is a tool that generates interactive graphs of course prerequisites and corequisites using data extracted from the UAlberta course catalogue.",
-  "main": "index.js",
+  "private": true,
   "dependencies": {
-    "copyfiles": "^2.4.1"
+    "@material/card": "^11.0.0",
+    "@material/fab": "^11.0.0",
+    "@material/icon-button": "^11.0.0",
+    "@material/snackbar": "^11.0.0",
+    "@material/textfield": "^11.0.0",
+    "@material/typography": "^11.0.0"
   },
   "devDependencies": {
     "@types/puppeteer": "^5.4.3",
-    "nodemon": "^2.0.7",
+    "css-loader": "^5.2.4",
+    "extract-loader": "^5.1.0",
+    "file-loader": "^6.2.0",
+    "html-loader": "^2.1.2",
+    "html-webpack-plugin": "^5.3.1",
     "puppeteer": "^9.1.1",
-    "typescript": "^4.2.4"
+    "sass": "^1.32.13",
+    "sass-loader": "^11.1.1",
+    "ts-loader": "^9.2.1",
+    "typescript": "^4.2.4",
+    "webpack": "^5.37.1",
+    "webpack-cli": "^4.7.0",
+    "webpack-dev-server": "^3.11.2"
   },
   "scripts": {
-    "build": "tsc && copyfiles -u 1 src/**/*.html src/**/*.css dist/",
+    "build": "webpack",
     "scrape": "tsc scraper/pool.ts scraper/scraper.ts --strict && node scraper/scraper.js",
-    "start": "npm run watch",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "watch": "nodemon --watch src --exec \"npm run build\" -e html,css,ts"
+    "start": "webpack serve",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",

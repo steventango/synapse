@@ -2,7 +2,7 @@
 
 name: CI
 
-# Controls when the action will run. 
+# Controls when the action will run.
 on:
   # Triggers the workflow on push or pull request events but only for the master branch
   push:
@@ -26,7 +26,7 @@ jobs:
 
       - name: install and build
         run: |
-          npm install --only=prod
+          npm install
           npm run build
 
       # Runs a set of commands using the runners shell
