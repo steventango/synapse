@@ -13,11 +13,10 @@
   <meta name="description" content="Find out how University classes at the University of Alberta are connected!">
   <meta name="keywords" content="university, alberta, university of alberta, schedule, classes, university classes">
 
-  <link rel="stylesheet" href="https://unpkg.com/material-components-web@11.0.0/dist/material-components-web.min.css">
   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
-  <link rel="stylesheet" href="index.css">
-</head>
+  <link rel="stylesheet" href="bundle.css">
+<script defer src="bundle.js"></script></head>
 
 <body>
   <main>
@@ -43,7 +42,7 @@
         <i class="material-icons mdc-icon-button__icon mdc-icon-button__icon--on">light_mode</i>
         <i class="material-icons mdc-icon-button__icon">dark_mode</i>
       </button>
-      </div>
+    </div>
 
     <div id="snackbar" class="mdc-snackbar main_snackbar">
       <div class="mdc-snackbar__surface" role="status" aria-relevant="additions">
@@ -64,9 +63,7 @@
     </p>
   </div>
 
-  <script src="https://unpkg.com/material-components-web@11.0.0/dist/material-components-web.min.js"></script>
-  <script type="module" src="graph.js"></script>
-  <script type="module" src="main.js"></script>
+  <script src="bundle.js" async></script>
 </body>
 
 </html>
