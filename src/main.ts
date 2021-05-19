@@ -1,5 +1,5 @@
 import Graph, { Edge, Vertex } from "./graph.js";
-import { rsplit } from "./util.js";
+import { random_color, rsplit } from "./util.js";
 import { Subject, University } from "./university";
 declare var mdc: any;
 
@@ -7,18 +7,6 @@ const card = {
   width: 128,
   height: 72,
 };
-
-/**
- * Generates and returns a random color that is close to rgb(200, 200, 200)
- * @returns a random color
- */
-function random_color() {
-  const r = Math.floor(200 + Math.random() * 255) / 2;
-  const g = Math.floor(200 + Math.random() * 255) / 2;
-  const b = Math.floor(200 + Math.random() * 255) / 2;
-
-  return `rgb(${r}, ${g}, ${b})`;
-}
 
 /**
  * Fetches university data from Github Raw as JSON.
