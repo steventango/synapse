@@ -114,16 +114,13 @@ function search(graph, code, courses) {
 }
 async function main() {
     const data = await load();
-    const main = document.querySelector("main");
     const graph_element = document.querySelector("#graph");
     const graph = new Graph(graph_element);
     const search_input = document.querySelector("#search");
     const search_bar = document.querySelector("#search_bar");
-    const error_notice = document.querySelector(".error");
     const delete_button = document.querySelector("#delete_button");
     const iconToggle = new mdc.iconButton.MDCIconButtonToggle(document.querySelector("#toggle_theme"));
-    const snackbar = document.querySelector(".mdc-snackbar");
-    const snackbar_text = document.querySelector(".mdc-snackbar__label");
+    const snackbar = new mdc.snackbar.MDCSnackbar(document.querySelector('#snackbar'));
     search_bar.addEventListener("focusin", () => {
         search_bar.classList.add("mdc-elevation--z4");
     });
@@ -144,6 +141,8 @@ async function main() {
         }
         else {
             search_bar.classList.add("mdc-text-field--invalid");
+            snackbar.labelText = "Course not found";
+            snackbar.open();
         }
     });
     graph_element.addEventListener("graph:change", () => {
