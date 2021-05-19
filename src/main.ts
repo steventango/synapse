@@ -154,7 +154,6 @@ function search(
 
 async function main() {
   const data = await load();
-  const main = document.querySelector("main")!;
   const graph_element: HTMLElement = document.querySelector(
     "#graph",
   )!;
@@ -162,7 +161,6 @@ async function main() {
 
   const search_input: HTMLInputElement = document.querySelector("#search")!;
   const search_bar: HTMLInputElement = document.querySelector("#search_bar")!;
-  const error_notice: HTMLInputElement = document.querySelector(".error")!;
   const delete_button: HTMLButtonElement = document.querySelector(
     "#delete_button",
   )!;
@@ -170,10 +168,7 @@ async function main() {
     document.querySelector("#toggle_theme"),
   );
 
-  const snackbar: HTMLButtonElement = document.querySelector(".mdc-snackbar")!;
-  const snackbar_text: HTMLButtonElement = document.querySelector(
-    ".mdc-snackbar__label",
-  )!;
+  const snackbar = new mdc.snackbar.MDCSnackbar(document.querySelector('#snackbar')!);
 
   search_bar.addEventListener("focusin", () => {
     search_bar.classList.add("mdc-elevation--z4");
@@ -197,11 +192,8 @@ async function main() {
       search_bar.classList.remove("mdc-text-field--invalid");
     } else {
       search_bar.classList.add("mdc-text-field--invalid");
-      // show error
-
-      // show
-      // snackbar_text.innerHTML = "Course not found"; // This course is already in the graph
-      // snackbar.style.display = "block";
+      snackbar.labelText = "Course not found";
+      snackbar.open()
     }
   });
 
