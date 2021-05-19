@@ -1,15 +1,9 @@
 import Graph, { Edge, Vertex } from "./graph.js";
-import { rsplit } from "./util.js";
+import { random_color, rsplit } from "./util.js";
 const card = {
     width: 128,
     height: 72,
 };
-function random_color() {
-    const r = Math.floor(200 + Math.random() * 255) / 2;
-    const g = Math.floor(200 + Math.random() * 255) / 2;
-    const b = Math.floor(200 + Math.random() * 255) / 2;
-    return `rgb(${r}, ${g}, ${b})`;
-}
 async function load() {
     const url = "//raw.githubusercontent.com/steventango/synapse/master/data/" +
         "ualberta.ca.json";
