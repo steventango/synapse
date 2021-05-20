@@ -1,5 +1,6 @@
-import Vertex from "./vertex"
-import Edge from "./edge"
+import Vertex from "./vertex";
+import Edge from "./edge";
+import { bound } from "./util";
 
 export default class Graph {
   canvas: HTMLCanvasElement;
@@ -9,6 +10,10 @@ export default class Graph {
   vertexes: Map<string, Vertex>;
   edges: Map<string, Set<Edge>>;
   scale: number;
+  draggable: boolean;
+  offset: [number, number];
+  translate: [number, number];
+  dimensions: [number, number, number, number];
 
   constructor(root: HTMLElement) {
     this.vertexes = new Map();
@@ -18,19 +23,99 @@ export default class Graph {
     this.root = root;
     this.vertex_layer = document.createElement("div");
     this.scale = 1;
+    this.draggable = false;
+    this.offset = [0, 0];
+    this.translate = [0, 0];
+    this.dimensions = [0, 0, 0, 0];
 
     this.root.appendChild(this.canvas);
     this.root.appendChild(this.vertex_layer);
     this.resize();
 
     document.addEventListener("mousemove", this.draw);
+    this.root.addEventListener("mousedown", this.mousedown);
     document.addEventListener("click", this.draw);
     window.addEventListener("resize", this.resize);
     document.addEventListener("wheel", this.wheel);
   }
 
+  /**
+   * Event listener that handles the beginning of a drag event on a vertex.
+   * @param e mousedown event
+   */
+  mousedown = (e: MouseEvent) => {
+    e.preventDefault();
+    this.draggable = true;
+    this.offset = [
+      e.clientX,
+      e.clientY,
+    ];
+    document.addEventListener("mouseup", this.mouseup);
+    document.addEventListener("mousemove", this.mousemove);
+  };
+
+  /**
+   * Event listener that handles the dragging of a vertex.
+   * @param e mousedown event
+   */
+  mousemove = (e: MouseEvent) => {
+    e.preventDefault();
+    const width = this.dimensions[1] - this.dimensions[3];
+    const height = this.dimensions[2] - this.dimensions[0];
+    if (this.draggable) {
+      this.translate[0] += (e.clientX - this.offset[0]) * 0.05;
+      this.translate[1] += (e.clientY - this.offset[1]) * 0.05;
+      this.translate[0] = bound(
+        -width / 2,
+        this.translate[0],
+        width / 2,
+      );
+      this.translate[1] = bound(
+        -height / 2,
+        this.translate[1],
+        height / 2,
+      );
+      this.vertex_layer.style.transform = `translate(${this.translate[0]}px, ${
+        this.translate[1]
+      }px)`;
+    }
+  };
+
+  /**
+   * Event listener that handles the end of a drag event on a vertex.
+   * @param e mousedown event
+   */
+  mouseup = () => {
+    this.draggable = false;
+    document.removeEventListener("mouseup", this.mouseup);
+    document.removeEventListener("mousemove", this.mousemove);
+  };
+
   get size() {
     return this.vertexes.size;
+  }
+
+  /**
+   * Calculate dimensions.
+   */
+  calculate_dim() {
+    // top, right, bottom, left
+    for (const [_, vertex] of this.vertexes) {
+      const x = vertex.e.offsetLeft;
+      const y = vertex.e.offsetTop;
+      if (y < this.dimensions[0]) {
+        this.dimensions[0] = y;
+      }
+      if (x > this.dimensions[1]) {
+        this.dimensions[1] = x;
+      }
+      if (y > this.dimensions[2]) {
+        this.dimensions[2] = y;
+      }
+      if (x < this.dimensions[3]) {
+        this.dimensions[3] = x;
+      }
+    }
   }
 
   /**
@@ -75,6 +160,7 @@ export default class Graph {
       }
       this.ctx.scale(scale, scale);
       this.draw();
+      this.calculate_dim();
     }
   };
 
@@ -105,6 +191,7 @@ export default class Graph {
     this.vertexes.set(vertex.id, vertex);
     this.vertex_layer.appendChild(vertex.e);
     vertex.graph = this;
+    this.calculate_dim();
     this.root.dispatchEvent(new Event("graph:change"));
   };
 

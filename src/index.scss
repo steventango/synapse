@@ -159,7 +159,7 @@ canvas,
 }
 
 #search_bar {
-  position: absolute;
+  position: fixed;
   left: 16px;
   top: 16px;
   z-index: 16;
@@ -168,7 +168,7 @@ canvas,
 }
 
 #buttons {
-  position: absolute;
+  position: fixed;
   left: 300px;
   top: 16px;
   z-index: 16;

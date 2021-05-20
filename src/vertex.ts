@@ -1,5 +1,6 @@
 import { rsplit } from "./util";
 import Graph from "./graph"
+import { Mouse } from "puppeteer";
 
 export default class Vertex {
   e: HTMLElement;
@@ -9,7 +10,7 @@ export default class Vertex {
   graph?: Graph;
   courseCode?: string;
 
-  get getCourseCode(): string | undefined {
+  get getCourseCode() {
     return this.courseCode;
   }
 
@@ -19,6 +20,7 @@ export default class Vertex {
    */
   mousedown = (e: MouseEvent) => {
     e.preventDefault();
+    e.stopPropagation();
     this.draggable = true;
     this.offset = [
       this.e.offsetLeft - e.clientX,
@@ -36,6 +38,7 @@ export default class Vertex {
    */
   mousemove = (e: MouseEvent) => {
     e.preventDefault();
+    e.stopPropagation();
     if (this.draggable) {
       this.e.style.left = e.clientX + this.offset[0] + "px";
       this.e.style.top = e.clientY + this.offset[1] + "px";
@@ -46,12 +49,14 @@ export default class Vertex {
    * Event listener that handles the end of a drag event on a vertex.
    * @param e mousedown event
    */
-  mouseup = () => {
+  mouseup = (e: MouseEvent) => {
+    e.stopPropagation();
     this.draggable = false;
     this.e.classList.remove("mdc-elevation--z4");
     this.e.classList.add("mdc-elevation--z1");
     document.removeEventListener("mouseup", this.mouseup);
     document.removeEventListener("mousemove", this.mousemove);
+    this.graph?.calculate_dim();
   };
 
   /**
@@ -66,6 +71,7 @@ export default class Vertex {
       this.graph.root.dispatchEvent(new Event("graph:change"));
     }
     this.e.parentElement?.removeChild(this.e);
+    this.graph?.calculate_dim();
   };
 
   constructor(course: { code: string; name: string }, x?: number, y?: number) {

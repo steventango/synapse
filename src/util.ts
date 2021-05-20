@@ -20,3 +20,14 @@ export function rsplit(string: string, separator: string = " ") {
   const index = string.lastIndexOf(separator);
   return [string.substring(0, index), string.substring(index  + 1)];
 }
+
+/**
+ * Bound x between a and b.
+ * @param a lower bound
+ * @param x variable
+ * @param b upper bound
+ * @returns bounded x
+ */
+export function bound(a: number, x: number, b: number) {
+  return Math.max(a, Math.min(x, b));
+}

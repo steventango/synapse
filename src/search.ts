@@ -79,14 +79,15 @@ export default function search(
                 graph.addEdge(e);
                 if (!explored.has(requisite)) {
                   explored.add(requisite);
-                  let newx = Math.min(
-                    Math.max(
-                      x +
-                        (i - reqlen / 2) * (card.width + 8),
-                      160 * Math.random(),
-                    ),
-                    window.innerWidth - card.width - 160 * Math.random(),
-                  );
+                  // let newx = Math.min(
+                  //   Math.max(
+                  //     x +
+                  //       (i - reqlen / 2) * (card.width + 8),
+                  //     160 * Math.random(),
+                  //   ),
+                  //   window.innerWidth - card.width - 160 * Math.random(),
+                  // );
+                  let newx = x + (i - reqlen / 2) * (card.width + 8);
                   stack.push([rsplit(requisite), [newx, depth + 1]]);
                   if (courses[department]) {
                     if (courses[department][number]) {
