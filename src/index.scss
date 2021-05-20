@@ -159,7 +159,7 @@ canvas,
   position: fixed;
   left: 16px;
   top: 16px;
-  z-index: 16;
+  z-index: 6;
   border-radius: 4px;
   background: var(--mdc-theme-surface);
 }
@@ -168,7 +168,7 @@ canvas,
   position: fixed;
   left: 300px;
   top: 16px;
-  z-index: 16;
+  z-index: 6;
 }
 
 .mdc-fab,
