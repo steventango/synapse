@@ -9,6 +9,8 @@ const card = {
   height: 72,
 };
 
+const margin = 16;
+
 /**
  * Builds a requisite graph from a course search
  * @param graph graph
@@ -46,7 +48,7 @@ export default function search(
               name: courses[department][number].name,
             },
             x,
-            depth * (card.height + 32) + 16,
+            depth * (card.height + 2 * margin) + margin,
           );
 
           graph.addVertex(v);
@@ -81,7 +83,7 @@ export default function search(
                 graph.addEdge(e);
                 if (!explored.has(requisite)) {
                   explored.add(requisite);
-                  let newx = x + (i - Math.floor(reqlen / 2)) * (card.width + 8);
+                  let newx = x + (i - Math.floor(reqlen / 2)) * (card.width + margin);
                   stack.push([rsplit(requisite), [newx, depth + 1]]);
                   if (courses[department]) {
                     if (courses[department][number]) {
