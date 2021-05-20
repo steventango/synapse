@@ -32,9 +32,7 @@ export default class Graph {
     this.root.appendChild(this.vertex_layer);
     this.resize();
 
-    document.addEventListener("mousemove", this.draw);
     this.root.addEventListener("mousedown", this.mousedown);
-    document.addEventListener("click", this.draw);
     window.addEventListener("resize", this.resize);
     document.addEventListener("wheel", this.wheel);
   }
@@ -77,6 +75,7 @@ export default class Graph {
         this.translate[1]
       }px)`;
     }
+    this.draw();
   };
 
   /**

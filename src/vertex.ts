@@ -1,6 +1,6 @@
 import { rsplit } from "./util";
 import Graph from "./graph"
-import { Mouse } from "puppeteer";
+import { Mouse, registerCustomQueryHandler } from "puppeteer";
 
 export default class Vertex {
   e: HTMLElement;
@@ -42,6 +42,7 @@ export default class Vertex {
     if (this.draggable) {
       this.e.style.left = e.clientX + this.offset[0] + "px";
       this.e.style.top = e.clientY + this.offset[1] + "px";
+      this.graph?.draw();
     }
   };
 
@@ -68,10 +69,11 @@ export default class Vertex {
       // TODO: smart remove by removing children that ONLY depend on the thing removed
       // remove upward edges
       // remove downward edges
+      this.graph.draw();
       this.graph.root.dispatchEvent(new Event("graph:change"));
+      this.graph.calculate_dim();
     }
     this.e.parentElement?.removeChild(this.e);
-    this.graph?.calculate_dim();
   };
 
   constructor(course: { code: string; name: string }, x?: number, y?: number) {
