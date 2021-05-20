@@ -4554,7 +4554,7 @@ canvas,
 .vertex .mdc-card__action-icons {
   position: absolute;
   bottom: 8px;
-  right: 0;
+  right: 2px;
 }
 
 .vertex .mdc-card__action-icons button,
