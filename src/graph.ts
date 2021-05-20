@@ -173,6 +173,8 @@ export default class Graph {
       factor = 1.1;
     }
     this.scale *= factor;
+    this.scale = bound(0.05, this.scale, 5);
+
     this.vertex_layer.style.transform = `translate(${this.translate[0]}px, ${
       this.translate[1]
     }px) scale(${this.scale})`;
