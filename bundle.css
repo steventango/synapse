@@ -4508,11 +4508,6 @@ canvas,
   top: 0;
 }
 
-/* canvas {
-  background-image: url("./assets/grid.svg");
-  background-repeat: repeat;
-  background-size: 150px;
-} */
 .transition {
   transition: 0.2s;
   -moz-transition: 0.2s;
