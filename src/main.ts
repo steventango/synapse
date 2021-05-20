@@ -21,12 +21,12 @@ async function main() {
   const iconToggle = new MDCIconButtonToggle(
     document.querySelector("#toggle_theme")!,
   );
-  
+
   // local storage dark or light
-  const themeState: string | null = localStorage.getItem("theme");
+  const themeState: string | null = localStorage.getItem("synapse.theme");
   if (themeState === null) {
     // set to light by default
-    localStorage.setItem("theme", "light");
+    localStorage.setItem("synapse.theme", "light");
   } else if (themeState == "dark") {
     document.body.classList.add("dark");
     iconToggle.on = true;
@@ -104,10 +104,10 @@ async function main() {
     (event) => {
       if (event.detail.isOn) {
         document.body.classList.add("dark");
-        localStorage.setItem("theme", "dark");
+        localStorage.setItem("synapse.theme", "dark");
       } else {
         document.body.classList.remove("dark");
-        localStorage.setItem("theme", "light");
+        localStorage.setItem("synapse.theme", "light");
       }
     },
   );
