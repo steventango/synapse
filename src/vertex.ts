@@ -1,6 +1,5 @@
 import { rsplit } from "./util";
 import Graph from "./graph";
-import { Mouse, registerCustomQueryHandler } from "puppeteer";
 
 export default class Vertex {
   e: HTMLElement;
