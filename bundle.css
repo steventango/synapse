@@ -4440,6 +4440,7 @@ svg.mdc-button__icon {
 :root {
   --mdc-theme-primary: #000;
   --mdc-theme-secondary: #fff;
+  --mdc-theme-surface: #fff;
   --mdc-theme-background: #f5f5f5;
   --mdc-theme-on-secondary: rgba(0, 0, 0, 0.6);
 }
