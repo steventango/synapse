@@ -18,6 +18,20 @@ async function load(): Promise<University> {
 }
 
 async function main() {
+  const iconToggle = new MDCIconButtonToggle(
+    document.querySelector("#toggle_theme")!,
+  );
+  
+  // local storage dark or light
+  const themeState: string | null = localStorage.getItem("theme");
+  if (themeState === null) {
+    // set to light by default
+    localStorage.setItem("theme", "light");
+  } else if (themeState == "dark") {
+    document.body.classList.add("dark");
+    iconToggle.on = true;
+  }
+
   const data = await load();
   const graph_element: HTMLElement = document.querySelector(
     "#graph",
@@ -30,10 +44,6 @@ async function main() {
   const delete_button: HTMLButtonElement = document.querySelector(
     "#delete_button",
   )!;
-
-  const iconToggle = new MDCIconButtonToggle(
-    document.querySelector("#toggle_theme")!,
-  );
 
   const snackbar = new MDCSnackbar(document.querySelector("#snackbar")!);
   const dialog = new MDCDialog(document.querySelector(".mdc-dialog")!);
@@ -95,11 +105,14 @@ async function main() {
     (event) => {
       if (event.detail.isOn) {
         document.body.classList.add("dark");
+        localStorage.setItem("theme", "dark");
       } else {
         document.body.classList.remove("dark");
+        localStorage.setItem("theme", "light");
       }
     },
   );
+
 
   dialog.listen<CustomEvent<{action: string}>>("MDCDialog:closing",
   (event) => {
