@@ -207,7 +207,6 @@ export default class Graph {
    */
   draw = () => {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-    console.log(this.scale);
     const width = card.width * this.scale;
     const height = card.height * this.scale;
     for (const [_, edges] of this.edges) {
