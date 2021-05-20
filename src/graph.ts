@@ -172,7 +172,16 @@ export default class Graph {
     } else {
       factor = 1.1;
     }
-    this.scale *= factor;
+    // bounds
+    if (this.scale > 5 ) {
+      this.scale = 5;
+    } else if (this.scale < 0.05) {
+      this.scale = 0.05;
+    } else { 
+      this.scale *= factor;
+    }
+    console.log(this.scale)
+
     this.vertex_layer.style.transform = `translate(${this.translate[0]}px, ${
       this.translate[1]
     }px) scale(${this.scale})`;
