@@ -1,4 +1,5 @@
 @use "@material/card";
+@use "@material/dialog";
 @use "@material/elevation/mdc-elevation";
 @use "@material/fab";
 @use "@material/floating-label/mdc-floating-label";
@@ -10,6 +11,7 @@
 @use "@material/typography/mdc-typography";
 
 @include card.core-styles;
+@include dialog.core-styles;
 @include fab.core-styles;
 @include icon-button.core-styles;
 @include textfield.core-styles;
@@ -33,33 +35,49 @@ body {
   border-color 1000ms cubic-bezier(0.4, 0.0, 0.2, 1); */
 }
 
-
 .dark {
   --mdc-theme-primary: #fff;
   --mdc-theme-secondary: #1f1f1f;
   --mdc-theme-surface: #1f1f1f;
   --mdc-theme-background: #121212;
   --mdc-theme-on-secondary: rgba(255, 255, 255, 0.6);
-  color: var(--mdc-theme-primary)!important;
+  color: var(--mdc-theme-primary) !important;
 }
 
 .dark .mdc-text-field:not(.mdc-text-field--disabled) .mdc-text-field__input {
   color: rgba(255, 255, 255, 0.87);
 }
 
-.dark .mdc-text-field:not(.mdc-text-field--disabled) .mdc-text-field__icon--leading {
-  color: rgba(255, 255, 255, 0.54)
+.dark
+  .mdc-text-field:not(.mdc-text-field--disabled)
+  .mdc-text-field__icon--leading {
+  color: rgba(255, 255, 255, 0.54);
 }
 
-.dark .mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-notched-outline__leading,
-.dark .mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-notched-outline__notch,
-.dark .mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-notched-outline__trailing {
-  border-color: rgba(255, 255, 255, 0.54)
+.dark
+  .mdc-text-field--outlined:not(.mdc-text-field--disabled)
+  .mdc-notched-outline__leading,
+.dark
+  .mdc-text-field--outlined:not(.mdc-text-field--disabled)
+  .mdc-notched-outline__notch,
+.dark
+  .mdc-text-field--outlined:not(.mdc-text-field--disabled)
+  .mdc-notched-outline__trailing {
+  border-color: rgba(255, 255, 255, 0.54);
 }
 
-.dark .mdc-text-field--outlined:not(.mdc-text-field--disabled):not(.mdc-text-field--focused):hover .mdc-notched-outline .mdc-notched-outline__leading,
-.dark .mdc-text-field--outlined:not(.mdc-text-field--disabled):not(.mdc-text-field--focused):hover .mdc-notched-outline .mdc-notched-outline__notch,
-.dark .mdc-text-field--outlined:not(.mdc-text-field--disabled):not(.mdc-text-field--focused):hover .mdc-notched-outline .mdc-notched-outline__trailing {
+.dark
+  .mdc-text-field--outlined:not(.mdc-text-field--disabled):not(.mdc-text-field--focused):hover
+  .mdc-notched-outline
+  .mdc-notched-outline__leading,
+.dark
+  .mdc-text-field--outlined:not(.mdc-text-field--disabled):not(.mdc-text-field--focused):hover
+  .mdc-notched-outline
+  .mdc-notched-outline__notch,
+.dark
+  .mdc-text-field--outlined:not(.mdc-text-field--disabled):not(.mdc-text-field--focused):hover
+  .mdc-notched-outline
+  .mdc-notched-outline__trailing {
   border-color: rgba(255, 255, 255, 0.87);
 }
 
@@ -95,10 +113,10 @@ canvas,
 } */
 
 .transition {
-  transition: .2s;
-  -moz-transition: .2s;
-  -webkit-transition: .2s;
-  -o-transition: .2s;
+  transition: 0.2s;
+  -moz-transition: 0.2s;
+  -webkit-transition: 0.2s;
+  -o-transition: 0.2s;
 }
 
 .vertex {
@@ -107,7 +125,7 @@ canvas,
   height: 72px;
   width: 128px;
   cursor: move;
-  transition: box-shadow 100ms cubic-bezier(0.4, 0.0, 0.2, 1);
+  transition: box-shadow 100ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .vertex .mdc-typography {
@@ -208,10 +226,10 @@ canvas,
   top: 5vh;
   left: 50%;
   transform: translate(-50%, -50%);
-  transition: .2s;
-  -moz-transition: .2s;
-  -webkit-transition: .2s;
-  -o-transition: .2s;
+  transition: 0.2s;
+  -moz-transition: 0.2s;
+  -webkit-transition: 0.2s;
+  -o-transition: 0.2s;
 }
 .error p {
   background-color: #dc3545;
