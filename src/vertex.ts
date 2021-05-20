@@ -1,5 +1,5 @@
 import { rsplit } from "./util";
-import Graph from "./graph"
+import Graph from "./graph";
 import { Mouse, registerCustomQueryHandler } from "puppeteer";
 
 export default class Vertex {
@@ -93,6 +93,14 @@ export default class Vertex {
       delete
       </button>
     </div>`;
+
+    this.e.querySelector(".mdc-card__action-icons")!
+      .addEventListener(
+        "mousedown",
+        (event) => {
+          event.stopPropagation();
+        },
+      );
 
     this.e.querySelector('.mdc-icon-button[aria-label="Remove"]')!
       .addEventListener(
