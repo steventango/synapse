@@ -1,5 +1,7 @@
 import { random_color, rsplit } from "./util";
-import Graph, { Edge, Vertex } from "./graph";
+import Graph from "./graph";
+import Vertex from "./vertex";
+import Edge from "./edge";
 import { Subject } from "./university";
 
 const card = {
