@@ -4053,34 +4053,31 @@ body {
   --mdc-theme-on-secondary: rgba(255, 255, 255, 0.6);
   color: var(--mdc-theme-primary) !important;
 }
-
 .dark .mdc-text-field:not(.mdc-text-field--disabled) .mdc-text-field__input {
   color: rgba(255, 255, 255, 0.87);
 }
-
 .dark .mdc-text-field:not(.mdc-text-field--disabled) .mdc-text-field__icon--leading {
   color: rgba(255, 255, 255, 0.54);
 }
-
 .dark .mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-notched-outline__leading,
 .dark .mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-notched-outline__notch,
 .dark .mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-notched-outline__trailing {
   border-color: rgba(255, 255, 255, 0.54);
 }
-
 .dark .mdc-text-field--outlined:not(.mdc-text-field--disabled):not(.mdc-text-field--focused):hover .mdc-notched-outline .mdc-notched-outline__leading,
 .dark .mdc-text-field--outlined:not(.mdc-text-field--disabled):not(.mdc-text-field--focused):hover .mdc-notched-outline .mdc-notched-outline__notch,
 .dark .mdc-text-field--outlined:not(.mdc-text-field--disabled):not(.mdc-text-field--focused):hover .mdc-notched-outline .mdc-notched-outline__trailing {
   border-color: rgba(255, 255, 255, 0.87);
 }
-
 .dark input::placeholder {
   color: rgba(255, 255, 255, 0.54) !important;
 }
-
 .dark .mdc-card__action--icon:not(:disabled),
 .dark .mdc-icon-button {
   color: var(--mdc-theme-on-secondary);
+}
+.dark .mdc-dialog .mdc-dialog__content {
+  color: rgba(255, 255, 255, 0.6);
 }
 
 .mdc-icon-button {
@@ -4209,28 +4206,4 @@ main {
   #mobile {
     display: flex;
   }
-}
-/* error bar */
-.error {
-  display: none;
-  position: absolute;
-  top: 5vh;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  transition: 0.2s;
-  -moz-transition: 0.2s;
-  -webkit-transition: 0.2s;
-  -o-transition: 0.2s;
-}
-
-.error p {
-  background-color: #dc3545;
-  color: whitesmoke;
-  margin: 0 auto;
-  padding-top: 12px;
-  padding-bottom: 12px;
-  padding-left: 20px;
-  padding-right: 20px;
-  margin-top: 12px;
-  border-radius: 10px;
 }
