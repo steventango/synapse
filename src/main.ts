@@ -1,8 +1,9 @@
 import Graph, { Edge, Vertex } from "./graph";
 import { random_color, rsplit } from "./util";
 import { Subject, University } from "./university";
-import { MDCSnackbar } from "@material/snackbar";
 import { MDCIconButtonToggle } from "@material/icon-button";
+import { MDCSnackbar } from "@material/snackbar";
+import { MDCTextField } from "@material/textfield";
 
 const card = {
   width: 128,
@@ -158,10 +159,11 @@ async function main() {
   const graph_element: HTMLElement = document.querySelector(
     "#graph",
   )!;
+
   const graph: Graph = new Graph(graph_element);
 
-  const search_input: HTMLInputElement = document.querySelector("#search")!;
-  const search_bar: HTMLInputElement = document.querySelector("#search_bar")!;
+  const search_bar = new MDCTextField(document.querySelector("#search_bar")!);
+
   const delete_button: HTMLButtonElement = document.querySelector(
     "#delete_button",
   )!;
@@ -171,30 +173,32 @@ async function main() {
 
   const snackbar = new MDCSnackbar(document.querySelector("#snackbar")!);
 
-  search_bar.addEventListener("focusin", () => {
-    search_bar.classList.add("mdc-elevation--z4");
+  search_bar.root.addEventListener("focusin", () => {
+    search_bar.root.classList.add("mdc-elevation--z4");
   });
 
-  search_bar.addEventListener("focusout", () => {
-    search_bar.classList.remove("mdc-elevation--z4");
+  search_bar.root.addEventListener("focusout", () => {
+    search_bar.root.classList.remove("mdc-elevation--z4");
   });
 
-  search_input.addEventListener("change", () => {
-    let query = search_input.value.toUpperCase();
+  search_bar.root.addEventListener("change", () => {
+    let query = search_bar.value.toUpperCase();
     // trim left and right
     query = query.trim();
-    if (!query.includes(" ")) {
-      const index = query.search(/\d/);
-      query = query.slice(0, index) + " " + query.slice(index);
-    }
-    if (search(graph, query, data.courses)) {
-      search_input.value = "";
-      search_input.placeholder = "";
-      search_bar.classList.remove("mdc-text-field--invalid");
-    } else {
-      search_bar.classList.add("mdc-text-field--invalid");
-      snackbar.labelText = "Course not found";
-      snackbar.open();
+    if (query.length) {
+      if (!query.includes(" ")) {
+        const index = query.search(/\d/);
+        query = query.slice(0, index) + " " + query.slice(index);
+      }
+      if (search(graph, query, data.courses)) {
+        search_bar.root.querySelector("input")!.placeholder = "";
+        search_bar.root.classList.remove("mdc-text-field--invalid");
+        search_bar.value = "";
+      } else {
+        search_bar.root.classList.add("mdc-text-field--invalid");
+        snackbar.labelText = "Course not found";
+        snackbar.open();
+      }
     }
   });
 
@@ -208,7 +212,7 @@ async function main() {
 
   delete_button.addEventListener("click", () => {
     // if nothing to delete, do not display message
-    if (graph.size == 0) {
+    if (graph.size === 0) {
       return;
     }
     if (confirm("Clear all courses?")) {
@@ -218,13 +222,11 @@ async function main() {
 
   iconToggle.listen<CustomEvent<{ isOn: boolean }>>(
     "MDCIconButtonToggle:change",
-    (e) => {
-      if (e) {
-        if (e.detail.isOn) {
-          document.body.classList.add("dark");
-        } else {
-          document.body.classList.remove("dark");
-        }
+    (event) => {
+      if (event.detail.isOn) {
+        document.body.classList.add("dark");
+      } else {
+        document.body.classList.remove("dark");
       }
     },
   );
