@@ -159,11 +159,7 @@ export default class Graph {
    * @returns if the course is found in the graph
    */
   isFound = (courseTitle: string): boolean => {
-    // foreach in vertex
-    if (this.vertexes.has(courseTitle)) {
-      return true;
-    }
-    return false;
+    return this.vertexes.has(courseTitle);
   };
 
   /**
