@@ -46,10 +46,7 @@ export default class Graph {
   mousedown = (e: MouseEvent) => {
     e.preventDefault();
     this.draggable = true;
-    this.offset = [
-      e.clientX,
-      e.clientY,
-    ];
+    this.offset = [e.clientX, e.clientY];
     document.addEventListener("mouseup", this.mouseup);
     document.addEventListener("mousemove", this.mousemove);
   };
@@ -63,8 +60,9 @@ export default class Graph {
     const width = this.dimensions[1] - this.dimensions[3];
     const height = this.dimensions[2] - this.dimensions[0];
     if (this.draggable) {
-      this.translate[0] += (e.clientX - this.offset[0]) * 0.05;
-      this.translate[1] += (e.clientY - this.offset[1]) * 0.05;
+      this.translate[0] += e.clientX - this.offset[0];
+      this.translate[1] += e.clientY - this.offset[1];
+      this.offset = [e.clientX, e.clientY];
       this.translate[0] = bound(
         -width / 2,
         this.translate[0],
