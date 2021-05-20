@@ -53,78 +53,43 @@ export default function search(
           const rect = v.e.getBoundingClientRect();
           v.e.style.top = rect.top + card.width + "px";
         }
-        if (course.prereqs) {
-          let reqlen = 0;
-          for (const prereqs of course.prereqs) {
-            for (const prereq of prereqs) {
-              const [department, number] = rsplit(prereq);
-              if (courses[department]) {
-                if (courses[department][number]) {
-                  ++reqlen;
-                }
-              }
-            }
-          }
-          let i = 0;
-          for (const prereqs of course.prereqs) {
-            const color = random_color();
-            for (const prereq of prereqs) {
-              const [department, number] = rsplit(prereq);
-              let e = new Edge(code, prereq, color);
-              graph.addEdge(e);
-              if (!explored.has(prereq)) {
-                explored.add(prereq);
-                let newx = Math.min(
-                  Math.max(
-                    x +
-                      (i - reqlen / 2) * (card.width + 8),
-                    160 * Math.random(),
-                  ),
-                  window.innerWidth - card.width - 160 * Math.random(),
-                );
-                stack.push([rsplit(prereq), [newx, depth + 1]]);
+
+        const types: ["prereqs", "coreqs"] = ["prereqs", "coreqs"];
+        for (const type of types) {
+          if (type in course) {
+            let reqlen = 0;
+            for (const requisites of course[type]!) {
+              for (const requisite of requisites) {
+                const [department, number] = rsplit(requisite);
                 if (courses[department]) {
                   if (courses[department][number]) {
-                    ++i;
+                    ++reqlen;
                   }
                 }
               }
             }
-          }
-        }
-        if (course.coreqs) {
-          let reqlen = 0;
-          for (const coreqs of course.coreqs) {
-            for (const coreq of coreqs) {
-              const [department, number] = rsplit(coreq);
-              if (courses[department]) {
-                if (courses[department][number]) {
-                  ++reqlen;
-                }
-              }
-            }
-          }
-          let i = 0;
-          for (const coreqs of course.coreqs) {
-            const color = random_color();
-            for (const coreq of coreqs) {
-              const [department, number] = rsplit(coreq);
-              let e = new Edge(code, coreq, color, "coreq");
-              graph.addEdge(e);
-              if (!explored.has(coreq)) {
-                explored.add(coreq);
-                let newx = Math.min(
-                  Math.max(
-                    x +
-                      (i - reqlen / 2) * (window.innerWidth) / reqlen,
-                    0,
-                  ),
-                  window.innerWidth - card.width,
-                );
-                stack.push([rsplit(coreq), [newx, depth + 1]]);
-                if (courses[department]) {
-                  if (courses[department][number]) {
-                    ++i;
+            let i = 0;
+            for (const requisites of course[type]!) {
+              const color = random_color();
+              for (const requisite of requisites) {
+                const [department, number] = rsplit(requisite);
+                let e = new Edge(code, requisite, color, type.slice(0, -1));
+                graph.addEdge(e);
+                if (!explored.has(requisite)) {
+                  explored.add(requisite);
+                  let newx = Math.min(
+                    Math.max(
+                      x +
+                        (i - reqlen / 2) * (card.width + 8),
+                      160 * Math.random(),
+                    ),
+                    window.innerWidth - card.width - 160 * Math.random(),
+                  );
+                  stack.push([rsplit(requisite), [newx, depth + 1]]);
+                  if (courses[department]) {
+                    if (courses[department][number]) {
+                      ++i;
+                    }
                   }
                 }
               }
