@@ -185,6 +185,13 @@ async function main() {
     let query = search_bar.value.toUpperCase();
     // trim left and right
     query = query.trim();
+    // if already in graph, give a notice
+    if (graph.isFound(query)) {
+      search_bar.root.classList.add("mdc-text-field--invalid");
+      snackbar.labelText = "Course is already in graph";
+      snackbar.open();
+      return;
+    }
     if (query.length) {
       if (!query.includes(" ")) {
         const index = query.search(/\d/);
