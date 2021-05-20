@@ -1,3 +1,8 @@
+export const card = {
+  width: 128,
+  height: 72,
+};
+
 /**
  * Generates and returns a random color that is close to rgb(200, 200, 200)
  * @returns a random color

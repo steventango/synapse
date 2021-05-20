@@ -1,6 +1,6 @@
 import Vertex from "./vertex";
 import Edge from "./edge";
-import { bound } from "./util";
+import { bound, card } from "./util";
 
 export default class Graph {
   canvas: HTMLCanvasElement;
@@ -73,7 +73,7 @@ export default class Graph {
       );
       this.vertex_layer.style.transform = `translate(${this.translate[0]}px, ${
         this.translate[1]
-      }px)`;
+      }px) scale(${this.scale})`;
     }
     this.draw();
   };
@@ -168,15 +168,14 @@ export default class Graph {
   wheel = (e: WheelEvent) => {
     let factor: number;
     if (e.deltaY > 0) {
-      factor = 0.99;
+      factor = 0.9;
     } else {
-      factor = 1.01;
+      factor = 1.1;
     }
-    this.ctx.translate(e.x, e.y);
-    this.ctx.scale(factor, factor);
-    this.ctx.translate(-e.x, -e.y);
     this.scale *= factor;
-    this.vertex_layer.style.transform = `scale(${this.scale})`;
+    this.vertex_layer.style.transform = `translate(${this.translate[0]}px, ${
+      this.translate[1]
+    }px) scale(${this.scale})`;
     this.draw();
   };
 
@@ -208,6 +207,9 @@ export default class Graph {
    */
   draw = () => {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    console.log(this.scale);
+    const width = card.width * this.scale;
+    const height = card.height * this.scale;
     for (const [_, edges] of this.edges) {
       for (const edge of edges) {
         const a = this.vertexes.get(edge.u);
@@ -221,22 +223,22 @@ export default class Graph {
           let y2 = rect_b.top + window.scrollY;
           let angle = 0;
           if (edge.type === "prereq") {
-            x1 += 64;
-            y1 += 72;
-            x2 += 64;
+            x1 += width / 2;
+            y1 += height;
+            x2 += width / 2;
             angle = Math.PI / 2;
           } else if (edge.type === "coreq") {
             if (x1 < x2) {
-              x1 += 128;
+              x1 += width;
             } else {
-              x2 += 128;
+              x2 += width;
             }
-            y1 += 36;
-            y2 += 36;
+            y1 += height / 2;
+            y2 += height / 2;
             angle = Math.atan2(y2 - y1, x2 - x1);
           }
 
-          this.ctx.lineWidth = 1;
+          this.ctx.lineWidth = 1 * this.scale;
           this.ctx.strokeStyle = edge.color;
 
           this.ctx.beginPath();
@@ -244,13 +246,13 @@ export default class Graph {
           if (edge.type === "coreq") {
             // draw start arrow head
             this.ctx.lineTo(
-              x1 + 10 * Math.cos(angle - Math.PI / 6),
-              y1 + 10 * Math.sin(angle - Math.PI / 6),
+              x1 + 10 * Math.cos(angle - Math.PI / 6) * this.scale,
+              y1 + 10 * Math.sin(angle - Math.PI / 6) * this.scale,
             );
             this.ctx.moveTo(x1, y1);
             this.ctx.lineTo(
-              x1 + 10 * Math.cos(angle + Math.PI / 6),
-              y1 + 10 * Math.sin(angle + Math.PI / 6),
+              x1 + 10 * Math.cos(angle + Math.PI / 6) * this.scale,
+              y1 + 10 * Math.sin(angle + Math.PI / 6) * this.scale,
             );
             this.ctx.moveTo(x1, y1);
           }
@@ -258,18 +260,25 @@ export default class Graph {
           if (Math.abs(x2 - x1) < 32 || edge.type === "coreq") {
             this.ctx.lineTo(x2, y2);
           } else {
-            this.ctx.bezierCurveTo(x1, y1 + 64, x2, y2 - 64, x2, y2);
+            this.ctx.bezierCurveTo(
+              x1,
+              y1 + width / 2,
+              x2,
+              y2 - width / 2,
+              x2,
+              y2,
+            );
           }
 
           // draw end arrow head
           this.ctx.lineTo(
-            x2 - 10 * Math.cos(angle - Math.PI / 6),
-            y2 - 10 * Math.sin(angle - Math.PI / 6),
+            x2 - 10 * Math.cos(angle - Math.PI / 6) * this.scale,
+            y2 - 10 * Math.sin(angle - Math.PI / 6) * this.scale,
           );
           this.ctx.moveTo(x2, y2);
           this.ctx.lineTo(
-            x2 - 10 * Math.cos(angle + Math.PI / 6),
-            y2 - 10 * Math.sin(angle + Math.PI / 6),
+            x2 - 10 * Math.cos(angle + Math.PI / 6) * this.scale,
+            y2 - 10 * Math.sin(angle + Math.PI / 6) * this.scale,
           );
           this.ctx.stroke();
         } else {

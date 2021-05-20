@@ -1,13 +1,8 @@
-import { random_color, rsplit } from "./util";
+import { card, random_color, rsplit } from "./util";
 import Graph from "./graph";
 import Vertex from "./vertex";
 import Edge from "./edge";
 import { Subject } from "./university";
-
-const card = {
-  width: 128,
-  height: 72,
-};
 
 const margin = 16;
 
