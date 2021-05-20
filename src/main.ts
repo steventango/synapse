@@ -58,19 +58,18 @@ async function main() {
 
   search_bar.root.addEventListener("change", () => {
     let query = search_bar.value.toUpperCase();
-    // trim left and right
     query = query.trim();
     // if already in graph, give a notice
-    if (graph.isFound(query)) {
-      search_bar.root.classList.add("mdc-text-field--invalid");
-      snackbar.labelText = "Course is already in graph";
-      snackbar.open();
-      return;
-    }
     if (query.length) {
       if (!query.includes(" ")) {
         const index = query.search(/\d/);
         query = query.slice(0, index) + " " + query.slice(index);
+      }
+      if (graph.isFound(query)) {
+        search_bar.root.classList.add("mdc-text-field--invalid");
+        snackbar.labelText = "Course is already in graph";
+        snackbar.open();
+        return;
       }
       if (search(graph, query, data.courses)) {
         search_bar.root.querySelector("input")!.placeholder = "";
