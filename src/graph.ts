@@ -172,14 +172,8 @@ export default class Graph {
     } else {
       factor = 1.1;
     }
-    // bounds
-    if (this.scale > 5) {
-      this.scale = 5;
-    } else if (this.scale < 0.05) {
-      this.scale = 0.05;
-    } else { 
-      this.scale *= factor;
-    }
+    this.scale *= factor;
+    this.scale = bound(0.05, this.scale, 5);
 
     this.vertex_layer.style.transform = `translate(${this.translate[0]}px, ${
       this.translate[1]
