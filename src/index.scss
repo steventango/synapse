@@ -1,3 +1,4 @@
+@use "@material/button/mdc-button";
 @use "@material/card";
 @use "@material/dialog";
 @use "@material/elevation/mdc-elevation";
@@ -10,6 +11,9 @@
 @use "@material/textfield";
 @use "@material/typography/mdc-typography";
 
+// possible bug, see:
+// https://github.com/material-components/material-components-web/issues/5832
+// @include button.core-styles;
 @include card.core-styles;
 @include dialog.core-styles;
 @include fab.core-styles;

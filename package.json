@@ -4,7 +4,9 @@
   "description": "Synapse is a tool that generates interactive graphs of course prerequisites and corequisites using data extracted from the UAlberta course catalogue.",
   "private": true,
   "dependencies": {
+    "@material/button": "^11.0.0",
     "@material/card": "^11.0.0",
+    "@material/dialog": "^11.0.0",
     "@material/elevation": "^11.0.0",
     "@material/fab": "^11.0.0",
     "@material/icon-button": "^11.0.0",
@@ -17,7 +19,6 @@
     "css-loader": "^5.2.4",
     "extract-loader": "^5.1.0",
     "file-loader": "^6.2.0",
-    "html-loader": "^2.1.2",
     "html-webpack-plugin": "^5.3.1",
     "puppeteer": "^9.1.1",
     "sass": "^1.32.13",

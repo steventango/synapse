@@ -1,10 +1,10 @@
 import Graph, { Edge, Vertex } from "./graph";
 import { random_color, rsplit } from "./util";
 import { Subject, University } from "./university";
+import { MDCDialog } from "@material/dialog";
 import { MDCIconButtonToggle } from "@material/icon-button";
 import { MDCSnackbar } from "@material/snackbar";
 import { MDCTextField } from "@material/textfield";
-
 const card = {
   width: 128,
   height: 72,
@@ -167,11 +167,13 @@ async function main() {
   const delete_button: HTMLButtonElement = document.querySelector(
     "#delete_button",
   )!;
+
   const iconToggle = new MDCIconButtonToggle(
     document.querySelector("#toggle_theme")!,
   );
 
   const snackbar = new MDCSnackbar(document.querySelector("#snackbar")!);
+  const dialog = new MDCDialog(document.querySelector(".mdc-dialog")!);
 
   search_bar.root.addEventListener("focusin", () => {
     search_bar.root.classList.add("mdc-elevation--z4");
@@ -215,9 +217,7 @@ async function main() {
     if (graph.size === 0) {
       return;
     }
-    if (confirm("Clear all courses?")) {
-      graph.clear();
-    }
+    dialog.open();
   });
 
   iconToggle.listen<CustomEvent<{ isOn: boolean }>>(
@@ -230,6 +230,13 @@ async function main() {
       }
     },
   );
+
+  dialog.listen<CustomEvent<{action: string}>>("MDCDialog:closing",
+  (event) => {
+    if (event.detail.action === "discard") {
+      graph.clear();
+    }
+  });
 }
 
 main();
