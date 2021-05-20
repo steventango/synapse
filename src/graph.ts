@@ -6,6 +6,11 @@ export class Vertex {
   offset: [number, number];
   id: string;
   graph?: Graph;
+  courseCode?: string;
+
+  get getCourseCode(): string | undefined {
+    return this.courseCode;
+  }
 
   /**
    * Event listener that handles the beginning of a drag event on a vertex.
@@ -63,6 +68,7 @@ export class Vertex {
   };
 
   constructor(course: { code: string; name: string }, x?: number, y?: number) {
+    this.courseCode = course.code;
     this.e = document.createElement("div");
     this.e.classList.add("mdc-card", "vertex", "mdc-elevation--z1");
     this.e.innerHTML = `
@@ -157,6 +163,19 @@ export default class Graph {
     this.edges.clear();
     this.draw();
     this.root.dispatchEvent(new Event("graph:change"));
+  };
+
+  /**
+   * determines if the course is already in the graph
+   * @param courseTitle the course title
+   * @returns if the course is found in the graph
+   */
+  isFound = (courseTitle: string): boolean => {
+    // foreach in vertex
+    if (this.vertexes.has(courseTitle)) {
+      return true;
+    }
+    return false;
   };
 
   /**
