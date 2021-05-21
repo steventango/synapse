@@ -42,7 +42,6 @@ export default class Graph {
    * @param e mousedown event
    */
   mousedown = (e: MouseEvent) => {
-    e.preventDefault();
     this.draggable = true;
     this.offset = [e.clientX, e.clientY];
     document.addEventListener("mouseup", this.mouseup);
