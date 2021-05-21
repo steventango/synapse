@@ -32,6 +32,10 @@ async function main() {
     iconToggle.on = true;
   }
 
+  window.setTimeout(() => {
+    document.body.classList.add('transition');
+  }, 1000);
+
   const data = await load();
   const graph_element: HTMLElement = document.querySelector(
     "#graph",
