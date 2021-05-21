@@ -21,10 +21,14 @@ export default class Vertex {
     e.preventDefault();
     e.stopPropagation();
     this.draggable = true;
-    this.offset = [
-      this.e.offsetLeft - e.clientX,
-      this.e.offsetTop - e.clientY,
-    ];
+    if (this.graph) {
+      const scale = this.graph.scale;
+      this.offset = [
+        this.e.offsetLeft - e.clientX / scale,
+        this.e.offsetTop - e.clientY / scale,
+      ];
+    }
+    console.log(this.offset);
     this.e.classList.remove("mdc-elevation--z1");
     this.e.classList.add("mdc-elevation--z4");
     document.addEventListener("mouseup", this.mouseup);
@@ -39,9 +43,12 @@ export default class Vertex {
     e.preventDefault();
     e.stopPropagation();
     if (this.draggable) {
-      this.e.style.left = e.clientX + this.offset[0] + "px";
-      this.e.style.top = e.clientY + this.offset[1] + "px";
-      this.graph?.draw();
+      if (this.graph) {
+        const scale = this.graph.scale;
+        this.e.style.left = e.clientX / scale + this.offset[0] + "px";
+        this.e.style.top = e.clientY / scale + this.offset[1] + "px";
+        this.graph.draw();
+      }
     }
   };
 
