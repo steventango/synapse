@@ -4452,9 +4452,11 @@ body {
   margin: 0 auto;
   overflow: hidden;
   background-color: var(--mdc-theme-background);
-  /* transition: background-color 1000ms cubic-bezier(0.4, 0.0, 0.2, 1),
-  color 1000ms cubic-bezier(0.4, 0.0, 0.2, 1),
-  border-color 1000ms cubic-bezier(0.4, 0.0, 0.2, 1); */
+}
+
+.transition,
+.transition * {
+  transition: background-color 1000ms cubic-bezier(0.4, 0, 0.2, 1), color 100ms cubic-bezier(0.4, 0, 0.2, 1), border-color 1000ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .dark {
@@ -4491,6 +4493,12 @@ body {
 .dark .mdc-dialog .mdc-dialog__content {
   color: rgba(255, 255, 255, 0.6);
 }
+.dark .vertex.mdc-elevation--z1 {
+  background-color: var(--mdc-theme-surface);
+}
+.dark .vertex.mdc-elevation--z4 {
+  background-color: #333333;
+}
 
 .mdc-icon-button {
   color: var(--mdc-theme-on-secondary);
@@ -4508,20 +4516,13 @@ canvas,
   top: 0;
 }
 
-.transition {
-  transition: 0.2s;
-  -moz-transition: 0.2s;
-  -webkit-transition: 0.2s;
-  -o-transition: 0.2s;
-}
-
 .vertex {
   position: absolute;
   padding: 8px;
   height: 72px;
   width: 128px;
   cursor: move;
-  transition: box-shadow 100ms cubic-bezier(0.4, 0, 0.2, 1);
+  transition: box-shadow 100ms cubic-bezier(0.4, 0, 0.2, 1), background-color 1000ms cubic-bezier(0.4, 0, 0.2, 1), border-color 1000ms cubic-bezier(0.4, 0, 0.2, 1), color 100ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .vertex .mdc-typography {
