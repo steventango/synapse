@@ -30,6 +30,11 @@ export default class Graph {
 
     this.root.appendChild(this.canvas);
     this.root.appendChild(this.vertex_layer);
+    const scale = window.devicePixelRatio;
+    let w = Math.floor(window.innerWidth * scale);
+    let h = Math.floor(window.innerHeight * scale);
+    this.canvas.width = w;
+    this.canvas.height = h;
     this.resize();
 
     this.root.addEventListener("mousedown", this.mousedown);
@@ -139,25 +144,26 @@ export default class Graph {
    * Handle resize events
    */
   resize = () => {
-    if (window.innerWidth > 839) {
-      const scale = window.devicePixelRatio;
-      let w = Math.floor(window.innerWidth * scale);
-      let h = Math.floor(window.innerHeight * scale);
-      let xfactor = w / this.canvas.width;
-      let yfactor = h / this.canvas.height;
-      this.canvas.width = w;
-      this.canvas.height = h;
-      for (const [_, vertex] of this.vertexes) {
-        const rect = vertex.e.getBoundingClientRect();
-        let x = rect.left + window.scrollX;
-        let y = rect.top + window.scrollY;
-        vertex.e.style.left = x * xfactor + "px";
-        vertex.e.style.top = y * yfactor + "px";
-      }
-      this.ctx.scale(scale, scale);
-      this.draw();
-      this.calculate_dim();
+    const scale = window.devicePixelRatio;
+    let w = Math.floor(window.innerWidth * scale);
+    let h = Math.floor(window.innerHeight * scale);
+    let xfactor = w / this.canvas.width;
+    let yfactor = h / this.canvas.height;
+    this.canvas.width = w;
+    this.canvas.height = h;
+    if (xfactor > 1 || yfactor > 1) {
+      this.scale *= Math.min(xfactor, yfactor);
+    } else {
+      this.scale *= Math.max(xfactor, yfactor);
     }
+    this.scale = bound(0.05, this.scale, 5);
+
+    this.vertex_layer.style.transform = `translate(${this.translate[0]}px, ${
+      this.translate[1]
+    }px) scale(${this.scale})`;
+    this.ctx.scale(scale, scale);
+    this.draw();
+    this.calculate_dim();
   };
 
   /**
