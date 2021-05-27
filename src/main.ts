@@ -89,9 +89,9 @@ async function main() {
 
   graph_element.addEventListener("graph:change", () => {
     if (graph.size) {
-      delete_button.style.display = "inline";
+      delete_button.style.opacity = "1";
     } else {
-      delete_button.style.display = "none";
+      delete_button.style.opacity = "0";
     }
   });
 

@@ -33,29 +33,31 @@
 
 <body class="mdc-typography">
   <main>
-    <label id="search_bar" class="mdc-text-field mdc-text-field--outlined mdc-text-field--no-label">
-      <span class="mdc-notched-outline">
-        <span class="mdc-notched-outline__leading"></span>
-        <span class="mdc-notched-outline__trailing"></span>
-      </span>
-      <i class="material-icons mdc-text-field__icon mdc-text-field__icon--leading" tabindex="0" role="button" title="Search">search</i>
-      <input id="search" class="mdc-text-field__input" type="text" aria-label="Label" placeholder="CMPUT 466" spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="off" title="Find your classes">
-    </label>
+    <nav>
+      <label id="search_bar" class="mdc-text-field mdc-text-field--outlined mdc-text-field--no-label">
+        <span class="mdc-notched-outline">
+          <span class="mdc-notched-outline__leading"></span>
+          <span class="mdc-notched-outline__trailing"></span>
+        </span>
+        <i class="material-icons mdc-text-field__icon mdc-text-field__icon--leading" tabindex="0" role="button" title="Search">search</i>
+        <input id="search" class="mdc-text-field__input" type="text" aria-label="Label" placeholder="CMPUT 466" spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="off" title="Find your classes">
+      </label>
 
-    <div id="buttons">
-      <div id="delete_button" class="mdc-touch-target-wrapper" style="display: none;">
-        <button class="mdc-fab mdc-fab--mini mdc-fab--touch" title="Clear all courses">
-          <div class="mdc-fab__ripple"></div>
-          <span class="material-icons mdc-fab__icon">delete</span>
-          <div class="mdc-fab__touch"></div>
+      <div id="buttons">
+        <button id="toggle_theme" class="mdc-icon-button" aria-label="Toggle Theme" aria-pressed="false">
+          <i class="material-icons mdc-icon-button__icon mdc-icon-button__icon--on">light_mode</i>
+          <i class="material-icons mdc-icon-button__icon">dark_mode</i>
         </button>
+        <div id="delete_button" class="mdc-touch-target-wrapper" style="opacity: 0;">
+          <button class="mdc-fab mdc-fab--mini mdc-fab--touch" title="Clear all courses">
+            <div class="mdc-fab__ripple"></div>
+            <span class="material-icons mdc-fab__icon">delete</span>
+            <div class="mdc-fab__touch"></div>
+          </button>
+        </div>
       </div>
+    </nav>
 
-      <button id="toggle_theme" class="mdc-icon-button" aria-label="Toggle Theme" aria-pressed="false">
-        <i class="material-icons mdc-icon-button__icon mdc-icon-button__icon--on">light_mode</i>
-        <i class="material-icons mdc-icon-button__icon">dark_mode</i>
-      </button>
-    </div>
 
     <div id="snackbar" class="mdc-snackbar main_snackbar">
       <div class="mdc-snackbar__surface" role="status" aria-relevant="additions">
@@ -67,14 +69,6 @@
     </div>
     <div id="graph"></div>
   </main>
-
-  <div id="mobile">
-    <p>
-      Small screen sizes are not supported. Please reopen on a larger device.
-      <br>
-      <a href="https://steventang.tk/projects/synapse/" rel="noopener noreferrer">https://steventang.tk/projects/synapse/</a>
-    </p>
-  </div>
 
   <div class="mdc-dialog">
     <div class="mdc-dialog__container">
