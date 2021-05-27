@@ -39,7 +39,9 @@ export default class Graph {
 
     this.root.addEventListener("mousedown", this.mousedown);
     window.addEventListener("resize", this.resize);
-    document.addEventListener("wheel", this.wheel);
+    document.addEventListener("wheel", this.wheel, {
+      passive: false,
+    });
   }
 
   /**
@@ -171,6 +173,9 @@ export default class Graph {
    * @param e wheel event
    */
   wheel = (e: WheelEvent) => {
+    if (e.ctrlKey) {
+      e.preventDefault();
+    }
     let factor: number;
     if (e.deltaY > 0) {
       factor = 0.9;
