@@ -61,10 +61,10 @@ async function scrape_subjects(browser: puppeteer.Browser, url: string) {
 }
 
 /**
- * Scrapes course data from course catalogue.
+ * Scrapes course data from subject.
  * @param browser browser instance
  * @param url subject catalogue URL
- * @return array of course catalogue URLs
+ * @return array of subject objects
  */
 async function scrape_courses(browser: puppeteer.Browser, url: string) {
   const page = await browser.newPage();
@@ -201,11 +201,85 @@ function parse_courses(cards: Element[]) {
 }
 
 /**
+ * Logs errors in scraped data to file.
+ * @param data scraped data object
+ * @param data path to write logs to
+ */
+async function log_errors(data: University, path: string) {
+  await fs.promises.truncate(path);
+  const fstream = fs.createWriteStream(path, { flags: "a" });
+
+  for (const [s, subject] of Object.entries(data.courses)) {
+    for (const [c, course] of Object.entries(subject)) {
+      const types: ["prereqs", "coreqs"] = ["prereqs", "coreqs"];
+      const allowed: Set<string> = new Set(
+        [
+          "consent of instructor",
+          "consent of the instructor",
+          "by consent of instructor",
+          "by consent of the instructor",
+          "instructor consent",
+          "consent of the instructors",
+          "permission of instructor",
+          "permission of the instructor",
+          "written permission of instructor",
+          "written permission of the instructor",
+          "consent from the course coordinator",
+          "consent from the course coordinators",
+          "consent of the associate chair",
+          "consent of department",
+          "consent of the department",
+          "consent of the department chair",
+          "department consent",
+          "departmental consent",
+          "departmental permission",
+          "permission of department",
+          "permission of the department",
+          "with consent of department",
+          "with consent of the department",
+          "consent of program",
+          "consent of program coordinator",
+          "consent of the program director",
+          "with the consent of the program director(s)",
+          "with the permission of the program director",
+          "consent of faculty",
+          "consent of the faculty",
+          "with faculty consent",
+          "consent of division",
+          "equivalent",
+          "equivalents",
+          "equivalent knowledge",
+          "varies according to topic",
+          "based on audition",
+        ],
+      );
+      for (const type of types) {
+        if (type in course) {
+          for (const requisites of course[type]!) {
+            for (const requisite of requisites) {
+              if (/([A-z ]{3,5} [\dX]{3})|([A-z]+ \d{2})/.test(requisite)) {
+                continue;
+              } else if (allowed.has(requisite.toLowerCase())) {
+                continue;
+              } else {
+                fstream.write(`${s} ${c} | ${requisite}\n`);
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  fstream.end();
+}
+
+/**
  * Launch browser and scrape courses
  */
 async function main() {
   const COURSE_CATALOGUE = "https://apps.ualberta.ca/catalogue/course";
-  const PATH = "data/ualberta.ca.json";
+  const DATA_PATH = "data/ualberta.ca.json";
+  const LOG_PATH = "scraper/log.txt";
   const MAX_CONCURRENCY = 10;
   const POOL = new Pool<Subject>(MAX_CONCURRENCY);
 
@@ -231,6 +305,8 @@ async function main() {
       Object.assign(DATA.courses, course);
     }
 
+    await log_errors(DATA, LOG_PATH);
+
     await browser.close();
   } catch (error) {
     console.error(error);
@@ -239,7 +315,7 @@ async function main() {
 
   // Save data to file
   fs.writeFile(
-    PATH,
+    DATA_PATH,
     JSON.stringify(DATA),
     "utf8",
     function (error) {
@@ -247,7 +323,7 @@ async function main() {
         console.error(error);
         return;
       }
-      console.log(`The data has been saved successfully to ${PATH}!`);
+      console.log(`The data has been saved successfully to ${DATA_PATH}!`);
     },
   );
 }
