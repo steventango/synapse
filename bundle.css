@@ -4448,9 +4448,11 @@ svg.mdc-button__icon {
 html,
 body {
   width: 100vw;
-  height: 100vh;
+  height: 100%;
   margin: 0 auto;
   overflow: hidden;
+  touch-action: none;
+  position: relative;
   background-color: var(--mdc-theme-background);
 }
 
@@ -4512,7 +4514,7 @@ canvas,
 #graph > div {
   position: absolute;
   width: 100vw;
-  height: 100vh;
+  height: 100%;
   top: 0;
 }
 
@@ -4562,20 +4564,27 @@ canvas,
   will-change: auto;
 }
 
-#search_bar {
+nav {
   position: fixed;
   left: 16px;
-  top: 16px;
   z-index: 6;
+  display: flex;
+  top: 16px;
+  max-width: calc(100vw - 32px);
+}
+
+#search_bar {
   border-radius: 4px;
   background: var(--mdc-theme-surface);
 }
 
 #buttons {
-  position: fixed;
-  left: 300px;
-  top: 16px;
-  z-index: 6;
+  display: inline-flex;
+  align-items: center;
+}
+
+#buttons > * {
+  margin-left: 8px;
 }
 
 .mdc-fab,
@@ -4584,35 +4593,4 @@ canvas,
 .mdc-fab:disabled .mdc-fab__icon,
 .mdc-fab:disabled .mdc-fab__label {
   color: var(--mdc-theme-on-secondary);
-}
-
-#mobile {
-  display: none;
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  padding: 16px;
-  display: none;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: center;
-}
-
-#mobile p {
-  text-align: center;
-  width: 100%;
-}
-
-@media screen and (max-width: 839px) {
-  #search_bar,
-#delete_button,
-main {
-    display: none;
-  }
-
-  #mobile {
-    display: flex;
-  }
 }
