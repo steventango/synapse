@@ -75,7 +75,6 @@ export default class Vertex {
     this.draggable = true;
     if (this.graph) {
         for (const touch of e.changedTouches) {
-          // console.log(touch.target, this.e);
           if (this.e.contains(<Node>(touch.target))) {
             const scale = this.graph.scale;
             this.offset = [
@@ -101,7 +100,6 @@ export default class Vertex {
     if (this.draggable) {
       if (this.graph) {
         for (const touch of e.changedTouches) {
-          // console.log(touch.target, this.e);
           if (this.e.contains(<Node>(touch.target))) {
             const scale = this.graph.scale;
             this.e.style.left = touch.clientX / scale + this.offset[0] + "px";
