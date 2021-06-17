@@ -5,7 +5,6 @@ export default class Vertex {
   e: HTMLElement;
   draggable: boolean;
   offset: [number, number];
-  touchid: number | null;
   id: string;
   graph?: Graph;
   courseCode?: string;
@@ -121,7 +120,6 @@ export default class Vertex {
   touchend = (e: TouchEvent) => {
     e.stopPropagation();
     this.draggable = false;
-    this.touchid = null;
     this.e.classList.remove("mdc-elevation--z4");
     this.e.classList.add("mdc-elevation--z1");
     document.removeEventListener("touchend", this.touchend);
@@ -137,7 +135,6 @@ export default class Vertex {
   touchcancel = (e: TouchEvent) => {
     e.stopPropagation();
     this.draggable = false;
-    this.touchid = null;
     this.e.classList.remove("mdc-elevation--z4");
     this.e.classList.add("mdc-elevation--z1");
     document.removeEventListener("mouseup", this.mouseup);
@@ -196,7 +193,6 @@ export default class Vertex {
 
     this.draggable = false;
     this.offset = [0, 0];
-    this.touchid = null;
     this.id = course.code;
 
     if (x !== null) {
