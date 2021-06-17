@@ -74,113 +74,14 @@ async function scrape_courses(browser: puppeteer.Browser, url: string) {
 
   const courses: Subject = {};
 
-  const cards = await page.$$eval("div.card-body > div:last-child", (cards) => {
-    /**
-     * Parses course requisites
-     * @param requisites_text raw requisites text from website
-     * @return array of parsed course requisites
-     */
-    function parse_requisites(requisites_text: string) {
-      const generic: {
-        [key: string]: string;
-      } = {
-        "": "ANY",
-        "ANTHROPOLOGY": "ANTHR",
-        "ART HISTORY": "AUART",
-        "BIOLOGICAL SCIENCES": "BIOL",
-        "BIOLOGY": "BIOL",
-        "COMPUTING SCIENCE": "CMPUT",
-        "THE FACULTY OF SCIENCE": "SCIENCE",
-      };
-
-      let reqs = [];
-      let prev = "";
-      for (let branch of requisites_text.split(/\band\b|; /)) {
-        branch = branch.trim().replace(/one of/i, "");
-        let codes = branch.split(/,|\bor\b/i).map((v) => v.trim());
-        let set = [];
-        for (let code of codes) {
-          code = code.trim();
-          if (code.length) {
-            const generics_1 = code.match(
-              /(?:Any|a) (\d{3})-level course in (.*)/i,
-            );
-            const generics_2 = code.match(
-              /(?:Any|a) (\d{3})-level (.*) course/i,
-            );
-            if (generics_1 || generics_2) {
-              let [_, level, subject] = (generics_1 || generics_2)!;
-              if (level) {
-                level = level[0] + "XX";
-              }
-              if (subject) {
-                subject = subject.trim().toUpperCase();
-              }
-              if (subject in generic) {
-                subject = generic[subject];
-              }
-              set.push(`${subject} ${level}`);
-            } else if (/[a-zA-Z]/.test(code[0])) {
-              prev = code.split(" ")[0];
-              set.push(code);
-            } else {
-              set.push(`${prev} ${code}`);
-            }
-          }
-        }
-        reqs.push(set);
-      }
-      return reqs;
-    }
-
-    /**
-     * Splits on the rightmost occurence of separator.
-     * @param string string to split
-     * @param separator characters to split by
-     * @returns 2-tuple of split string
-     */
-    function rsplit(string: string, separator: string = " ") {
-      const index = string.lastIndexOf(separator);
-      return [string.substring(0, index), string.substring(index + 1)];
-    }
-
-    return cards.map((card) => {
-      // parse title for subject, course code, and course name
-      const h4 = card.querySelector("h4")!.childNodes[0].textContent!.trim();
-      const [code, name] = h4.split(" - ");
-
-      const [subject, number] = rsplit(code);
-
-      const data: Course = {
-        name: name,
-      };
-
-      const p = card.querySelector("div > p:last-child");
-      if (p) {
-        // parse course requisites
-        const prereq_regex = /Prerequisites*:* (.+?)(?:\.)/;
-        const prereqtext = p.textContent!.match(prereq_regex);
-        if (prereqtext) {
-          data.prereqs = parse_requisites(prereqtext[1]);
-        }
-
-        const coreq_regex = /Corequisites*:* (.+?)(?:\.)/;
-        const coreqtext = p.textContent!.match(coreq_regex);
-        if (coreqtext) {
-          data.coreqs = parse_requisites(coreqtext[1]);
-        }
-      }
-
-      return {
-        subject: subject,
-        number: number,
-        data: data,
-      };
-    });
-  });
+  const cards = await page.$$eval(
+    "div.card-body > div:last-child",
+    parse_courses,
+  );
 
   await page.close();
 
+  // reformat data into Subject interface
   for (const card of cards) {
     if (!courses[card.subject]) {
       courses[card.subject] = {};
@@ -189,6 +90,114 @@ async function scrape_courses(browser: puppeteer.Browser, url: string) {
   }
 
   return courses;
+}
+
+/**
+ * Processes courses data from page elements.
+ * @param cards page elements
+ * @return courses data
+ */
+function parse_courses(cards: Element[]) {
+  /**
+   * Parses course requisites
+   * @param requisites_text raw requisites text from website
+   * @return array of parsed course requisites
+   */
+  function parse_requisites(requisites_text: string) {
+    const generic: {
+      [key: string]: string;
+    } = {
+      "": "ANY",
+      "ANTHROPOLOGY": "ANTHR",
+      "ART HISTORY": "AUART",
+      "BIOLOGICAL SCIENCES": "BIOL",
+      "BIOLOGY": "BIOL",
+      "COMPUTING SCIENCE": "CMPUT",
+      "THE FACULTY OF SCIENCE": "SCIENCE",
+    };
+
+    let reqs = [];
+    let prev = "";
+    for (let branch of requisites_text.split(/\band\b|; /)) {
+      branch = branch.trim().replace(/one of/i, "");
+      let codes = branch.split(/,|\bor\b/i).map((v) => v.trim());
+      let set = [];
+      for (let code of codes) {
+        code = code.trim();
+        if (code.length) {
+          const generics_1 = code.match(
+            /(?:Any|a) (\d{3})-level course in (.*)/i,
+          );
+          const generics_2 = code.match(/(?:Any|a) (\d{3})-level (.*) course/i);
+          if (generics_1 || generics_2) {
+            let [_, level, subject] = (generics_1 || generics_2)!;
+            if (level) {
+              level = level[0] + "XX";
+            }
+            if (subject) {
+              subject = subject.trim().toUpperCase();
+            }
+            if (subject in generic) {
+              subject = generic[subject];
+            }
+            set.push(`${subject} ${level}`);
+          } else if (/[a-zA-Z]/.test(code[0])) {
+            prev = code.split(" ")[0];
+            set.push(code);
+          } else {
+            set.push(`${prev} ${code}`);
+          }
+        }
+      }
+      reqs.push(set);
+    }
+    return reqs;
+  }
+
+  /**
+   * Splits on the rightmost occurence of separator.
+   * @param string string to split
+   * @param separator characters to split by
+   * @returns 2-tuple of split string
+   */
+  function rsplit(string: string, separator: string = " ") {
+    const index = string.lastIndexOf(separator);
+    return [string.substring(0, index), string.substring(index + 1)];
+  }
+
+  return cards.map((card) => {
+    // parse title for subject, course code, and course name
+    const h4 = card.querySelector("h4")!.childNodes[0].textContent!.trim();
+    const [code, name] = h4.split(" - ");
+
+    const [subject, number] = rsplit(code);
+
+    const data: Course = {
+      name: name,
+    };
+
+    const p = card.querySelector("div > p:last-child");
+    if (p) {
+      // parse course requisites
+      const prereq_regex = /Prerequisites*:* (.+?)(?:\.)/;
+      const prereqtext = p.textContent!.match(prereq_regex);
+      if (prereqtext) {
+        data.prereqs = parse_requisites(prereqtext[1]);
+      }
+
+      const coreq_regex = /Corequisites*:* (.+?)(?:\.)/;
+      const coreqtext = p.textContent!.match(coreq_regex);
+      if (coreqtext) {
+        data.coreqs = parse_requisites(coreqtext[1]);
+      }
+    }
+
+    return {
+      subject: subject,
+      number: number,
+      data: data,
+    };
+  });
 }
 
 /**
