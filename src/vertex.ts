@@ -72,11 +72,11 @@ export default class Vertex {
   touchstart = (e: TouchEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    this.draggable = true;
-    if (this.graph) {
-        for (const touch of e.changedTouches) {
-          if (this.e.contains(<Node>(touch.target))) {
-            const scale = this.graph.scale;
+    if (this.graph && !this.graph.scaling && !this.graph.draggable) {
+      for (const touch of e.changedTouches) {
+        if (this.e.contains(<Node>(touch.target))) {
+          this.draggable = true;
+          const scale = this.graph.scale;
             this.offset = [
               this.e.offsetLeft - touch.clientX / scale,
               this.e.offsetTop - touch.clientY / scale,

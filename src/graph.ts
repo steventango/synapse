@@ -11,8 +11,10 @@ export default class Graph {
   edges: Map<string, Set<Edge>>;
   scale: number;
   draggable: boolean;
+  scaling: boolean;
   offset: [number, number];
   translate: [number, number];
+  scaledistance: number;
   dimensions: [number, number, number, number];
 
   constructor(root: HTMLElement) {
@@ -24,8 +26,10 @@ export default class Graph {
     this.vertex_layer = document.createElement("div");
     this.scale = 1;
     this.draggable = false;
+    this.scaling = false;
     this.offset = [0, 0];
     this.translate = [0, 0];
+    this.scaledistance = 0;
     this.dimensions = [0, 0, 0, 0];
 
     this.root.appendChild(this.canvas);
@@ -100,10 +104,19 @@ export default class Graph {
    * @param e touchstart event
    */
   touchstart = (e: TouchEvent) => {
-    this.draggable = true;
-    for (const touch of e.changedTouches) {
-      if (this.root.contains(<Node> (touch.target))) {
-        this.offset = [touch.clientX, touch.clientY];
+    if (e.touches.length === 2) {
+      this.scaling = true;
+      e.preventDefault();
+      this.scaledistance = Math.hypot(
+        e.touches[0].pageX - e.touches[1].pageX,
+        e.touches[0].pageY - e.touches[1].pageY,
+      );
+    } else {
+      this.draggable = true;
+      for (const touch of e.changedTouches) {
+        if (this.root.contains(<Node> (touch.target))) {
+          this.offset = [touch.clientX, touch.clientY];
+        }
       }
     }
     document.addEventListener("touchmove", this.touchmove);
@@ -116,31 +129,40 @@ export default class Graph {
    * @param e touchmove event
    */
   touchmove = (e: TouchEvent) => {
-    const width = this.dimensions[1] - this.dimensions[3];
-    const height = this.dimensions[2] - this.dimensions[0];
-    if (this.draggable) {
-      for (const touch of e.changedTouches) {
-        if (this.root.contains(<Node> (touch.target))) {
-          this.translate[0] += touch.clientX - this.offset[0];
-          this.translate[1] += touch.clientY - this.offset[1];
-          this.offset = [touch.clientX, touch.clientY];
-          this.translate[0] = bound(
-            -width / 2,
-            this.translate[0],
-            width / 2,
-          );
-          this.translate[1] = bound(
-            -height / 2,
-            this.translate[1],
-            height / 2,
-          );
-          this.vertex_layer.style.transform = `translate(${
-            this.translate[0]
-          }px, ${this.translate[1]}px) scale(${this.scale})`;
+    if (this.scaling) {
+      e.preventDefault();
+      const factor = (Math.hypot(
+        e.touches[0].pageX - e.touches[1].pageX,
+        e.touches[0].pageY - e.touches[1].pageY,
+      ) / this.scaledistance - 1) / 10 + 1;
+      this.rescale(factor);
+    } else {
+      const width = this.dimensions[1] - this.dimensions[3];
+      const height = this.dimensions[2] - this.dimensions[0];
+      if (this.draggable) {
+        for (const touch of e.changedTouches) {
+          if (this.root.contains(<Node> (touch.target))) {
+            this.translate[0] += touch.clientX - this.offset[0];
+            this.translate[1] += touch.clientY - this.offset[1];
+            this.offset = [touch.clientX, touch.clientY];
+            this.translate[0] = bound(
+              -width / 2,
+              this.translate[0],
+              width / 2,
+            );
+            this.translate[1] = bound(
+              -height / 2,
+              this.translate[1],
+              height / 2,
+            );
+            this.vertex_layer.style.transform = `translate(${
+              this.translate[0]
+            }px, ${this.translate[1]}px) scale(${this.scale})`;
+          }
         }
       }
+      this.draw();
     }
-    this.draw();
   };
 
   /**
@@ -148,6 +170,7 @@ export default class Graph {
    * @param e mousedown event
    */
   touchend = () => {
+    this.scaling = false;
     this.draggable = false;
     document.removeEventListener("touchend", this.touchend);
     document.removeEventListener("touchmove", this.touchmove);
@@ -159,6 +182,7 @@ export default class Graph {
    * @param e mousedown event
    */
   touchcancel = () => {
+    this.scaling = false;
     this.draggable = false;
     document.removeEventListener("touchend", this.touchend);
     document.removeEventListener("touchmove", this.touchmove);
@@ -253,6 +277,14 @@ export default class Graph {
     } else {
       factor = 1.1;
     }
+    this.rescale(factor);
+  };
+
+  /**
+   * Scale graph
+   * @param factor scaling factor
+   */
+  rescale = (factor: number) => {
     this.scale *= factor;
     this.scale = bound(0.05, this.scale, 5);
 
