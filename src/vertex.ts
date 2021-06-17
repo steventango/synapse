@@ -5,6 +5,7 @@ export default class Vertex {
   e: HTMLElement;
   draggable: boolean;
   offset: [number, number];
+  touchid: number | null;
   id: string;
   graph?: Graph;
   courseCode?: string;
@@ -28,7 +29,6 @@ export default class Vertex {
         this.e.offsetTop - e.clientY / scale,
       ];
     }
-    console.log(this.offset);
     this.e.classList.remove("mdc-elevation--z1");
     this.e.classList.add("mdc-elevation--z4");
     document.addEventListener("mouseup", this.mouseup);
@@ -37,7 +37,7 @@ export default class Vertex {
 
   /**
    * Event listener that handles the dragging of a vertex.
-   * @param e mousedown event
+   * @param e mousemove event
    */
   mousemove = (e: MouseEvent) => {
     e.preventDefault();
@@ -54,7 +54,7 @@ export default class Vertex {
 
   /**
    * Event listener that handles the end of a drag event on a vertex.
-   * @param e mousedown event
+   * @param e mouseup event
    */
   mouseup = (e: MouseEvent) => {
     e.stopPropagation();
@@ -63,6 +63,86 @@ export default class Vertex {
     this.e.classList.add("mdc-elevation--z1");
     document.removeEventListener("mouseup", this.mouseup);
     document.removeEventListener("mousemove", this.mousemove);
+    this.graph?.calculate_dim();
+  };
+
+  /**
+   * Event listener that handles the beginning of a drag event on a vertex.
+   * @param e touchstart event
+   */
+  touchstart = (e: TouchEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    this.draggable = true;
+    if (this.graph) {
+        for (const touch of e.changedTouches) {
+          // console.log(touch.target, this.e);
+          if (this.e.contains(<Node>(touch.target))) {
+            const scale = this.graph.scale;
+            this.offset = [
+              this.e.offsetLeft - touch.clientX / scale,
+              this.e.offsetTop - touch.clientY / scale,
+            ];
+          }
+      }
+    }
+    this.e.classList.remove("mdc-elevation--z1");
+    this.e.classList.add("mdc-elevation--z4");
+    document.addEventListener("touchend", this.touchend);
+    document.addEventListener("touchmove", this.touchmove);
+    document.addEventListener("touchcancel", this.touchcancel);
+  };
+
+  /**
+   * Event listener that handles the dragging of a vertex.
+   * @param e touchmove event
+   */
+  touchmove = (e: TouchEvent) => {
+    e.stopPropagation();
+    if (this.draggable) {
+      if (this.graph) {
+        for (const touch of e.changedTouches) {
+          // console.log(touch.target, this.e);
+          if (this.e.contains(<Node>(touch.target))) {
+            const scale = this.graph.scale;
+            this.e.style.left = touch.clientX / scale + this.offset[0] + "px";
+            this.e.style.top = touch.clientY / scale + this.offset[1] + "px";
+            this.graph.draw();
+          }
+        }
+      }
+    }
+  };
+
+  /**
+   * Event listener that handles the end of a drag event on a vertex.
+   * @param e touchend event
+   */
+  touchend = (e: TouchEvent) => {
+    e.stopPropagation();
+    this.draggable = false;
+    this.touchid = null;
+    this.e.classList.remove("mdc-elevation--z4");
+    this.e.classList.add("mdc-elevation--z1");
+    document.removeEventListener("touchend", this.touchend);
+    document.removeEventListener("touchmove", this.touchmove);
+    document.removeEventListener("touchcancel", this.touchcancel);
+    this.graph?.calculate_dim();
+  };
+
+  /**
+ * Event listener that handles the cancelling of a drag event on a vertex.
+ * @param e touchcancel event
+ */
+  touchcancel = (e: TouchEvent) => {
+    e.stopPropagation();
+    this.draggable = false;
+    this.touchid = null;
+    this.e.classList.remove("mdc-elevation--z4");
+    this.e.classList.add("mdc-elevation--z1");
+    document.removeEventListener("mouseup", this.mouseup);
+    document.removeEventListener("mousemove", this.mousemove);
+    document.removeEventListener("touchcancel", this.touchcancel);
     this.graph?.calculate_dim();
   };
 
@@ -116,6 +196,7 @@ export default class Vertex {
 
     this.draggable = false;
     this.offset = [0, 0];
+    this.touchid = null;
     this.id = course.code;
 
     if (x !== null) {
@@ -127,5 +208,6 @@ export default class Vertex {
     }
 
     this.e.addEventListener("mousedown", this.mousedown);
+    this.e.addEventListener("touchstart", this.touchstart);
   }
 }
