@@ -98,7 +98,7 @@ export default class Vertex {
   touchmove = (e: TouchEvent) => {
     e.stopPropagation();
     if (this.draggable) {
-      if (this.graph) {
+      if (this.graph && !this.graph.scaling && !this.graph.draggable) {
         for (const touch of e.changedTouches) {
           if (this.e.contains(<Node>(touch.target))) {
             const scale = this.graph.scale;
