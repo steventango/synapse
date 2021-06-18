@@ -70,18 +70,17 @@ export default class Vertex {
    * @param e touchstart event
    */
   touchstart = (e: TouchEvent) => {
-    e.preventDefault();
     e.stopPropagation();
     if (this.graph && !this.graph.scaling && !this.graph.draggable) {
       for (const touch of e.changedTouches) {
-        if (this.e.contains(<Node>(touch.target))) {
+        if (this.e.contains(<Node> (touch.target))) {
           this.draggable = true;
           const scale = this.graph.scale;
-            this.offset = [
-              this.e.offsetLeft - touch.clientX / scale,
-              this.e.offsetTop - touch.clientY / scale,
-            ];
-          }
+          this.offset = [
+            this.e.offsetLeft - touch.clientX / scale,
+            this.e.offsetTop - touch.clientY / scale,
+          ];
+        }
       }
     }
     this.e.classList.remove("mdc-elevation--z1");
@@ -100,7 +99,7 @@ export default class Vertex {
     if (this.draggable) {
       if (this.graph && !this.graph.scaling && !this.graph.draggable) {
         for (const touch of e.changedTouches) {
-          if (this.e.contains(<Node>(touch.target))) {
+          if (this.e.contains(<Node> (touch.target))) {
             const scale = this.graph.scale;
             this.e.style.left = touch.clientX / scale + this.offset[0] + "px";
             this.e.style.top = touch.clientY / scale + this.offset[1] + "px";
@@ -175,18 +174,23 @@ export default class Vertex {
       </button>
     </div>`;
 
-    this.e.querySelector(".mdc-card__action-icons")!
-      .addEventListener(
-        "mousedown",
-        (event) => {
-          event.stopPropagation();
-        },
-      );
+    ["mousedown", "touchstart"].forEach((event) => {
+      this.e.querySelector(".mdc-card__action-icons")!
+        .addEventListener(
+          "mousedown",
+          (event) => {
+            event.stopPropagation();
+          },
+        );
+    });
 
     this.e.querySelector('.mdc-icon-button[aria-label="Remove"]')!
       .addEventListener(
         "click",
-        this.remove,
+        (e) => {
+          e.stopPropagation();
+          this.remove();
+        },
       );
 
     this.draggable = false;
