@@ -18,25 +18,12 @@ async function load(): Promise<University> {
 }
 
 async function main() {
-  const iconToggle = new MDCIconButtonToggle(
+  const toggle_theme = new MDCIconButtonToggle(
     document.querySelector("#toggle_theme")!,
   );
-
-  // local storage dark or light
-  const themeState: string | null = localStorage.getItem("synapse.theme");
-  if (themeState === null) {
-    // set to light by default
-    localStorage.setItem("synapse.theme", "light");
-  } else if (themeState == "dark") {
-    document.body.classList.add("dark");
-    iconToggle.on = true;
-  }
-
-  window.setTimeout(() => {
-    document.body.classList.add('transition');
-  }, 1000);
-
-  const data = await load();
+  const toggle_info = new MDCIconButtonToggle(
+    document.querySelector("#toggle_info")!,
+  );
   const graph_element: HTMLElement = document.querySelector(
     "#graph",
   )!;
@@ -50,7 +37,26 @@ async function main() {
   )!;
 
   const snackbar = new MDCSnackbar(document.querySelector("#snackbar")!);
-  const dialog = new MDCDialog(document.querySelector(".mdc-dialog")!);
+  const info_dialog = new MDCDialog(document.querySelector("#info_dialog")!);
+  const discard_dialog = new MDCDialog(document.querySelector("#discard_dialog")!);
+
+  // local storage dark or light
+  const themeState: string | null = localStorage.getItem("synapse.theme");
+  if (themeState === null) {
+    // set to light by default
+    localStorage.setItem("synapse.theme", "light");
+    // show info dialog on first visit
+    info_dialog.open();
+  } else if (themeState == "dark") {
+    document.body.classList.add("dark");
+    toggle_theme.on = true;
+  }
+
+  window.setTimeout(() => {
+    document.body.classList.add('transition');
+  }, 1000);
+
+  const data = await load();
 
   search_bar.root.addEventListener("focusin", () => {
     search_bar.root.classList.add("mdc-elevation--z4");
@@ -100,10 +106,10 @@ async function main() {
     if (graph.size === 0) {
       return;
     }
-    dialog.open();
+    discard_dialog.open();
   });
 
-  iconToggle.listen<CustomEvent<{ isOn: boolean }>>(
+  toggle_theme.listen<CustomEvent<{ isOn: boolean }>>(
     "MDCIconButtonToggle:change",
     (event) => {
       if (event.detail.isOn) {
@@ -117,7 +123,21 @@ async function main() {
   );
 
 
-  dialog.listen<CustomEvent<{action: string}>>("MDCDialog:closing",
+  toggle_info.listen<CustomEvent<{ isOn: boolean }>>(
+    "MDCIconButtonToggle:change",
+    () => {
+      info_dialog.open();
+      const demo_graph_element: HTMLElement = document.querySelector(
+        "#demo_graph",
+      )!;
+
+      const demo_graph: Graph = new Graph(demo_graph_element);
+      search(demo_graph, "CMPUT 291", data.courses)
+    },
+  );
+
+
+  discard_dialog.listen<CustomEvent<{action: string}>>("MDCDialog:closing",
   (event) => {
     if (event.detail.action === "discard") {
       graph.clear();

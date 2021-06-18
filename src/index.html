@@ -48,6 +48,10 @@
           <i class="material-icons mdc-icon-button__icon mdc-icon-button__icon--on">light_mode</i>
           <i class="material-icons mdc-icon-button__icon">dark_mode</i>
         </button>
+        <button id="toggle_info" class="mdc-icon-button" aria-label="Toggle Theme" aria-pressed="false">
+          <i class="material-icons mdc-icon-button__icon mdc-icon-button__icon--on">info_outline</i>
+          <i class="material-icons mdc-icon-button__icon">info_outline</i>
+        </button>
         <div id="delete_button" class="mdc-touch-target-wrapper" style="opacity: 0;">
           <button class="mdc-fab mdc-fab--mini mdc-fab--touch" title="Clear all courses">
             <div class="mdc-fab__ripple"></div>
@@ -70,10 +74,46 @@
     <div id="graph"></div>
   </main>
 
-  <div class="mdc-dialog">
+  <div id="info_dialog" class="mdc-dialog">
     <div class="mdc-dialog__container">
-      <div class="mdc-dialog__surface" role="alertdialog" aria-modal="true" aria-labelledby="my-dialog-title" aria-describedby="my-dialog-content">
-        <div class="mdc-dialog__content" id="my-dialog-content">
+      <div class="mdc-dialog__surface" role="alertdialog" aria-modal="true" aria-labelledby="info-dialog-title" aria-describedby="info-dialog-content">
+        <div class="mdc-dialog__content" id="info-dialog-content">
+          <span class="mdc-typography--headline4">Synapse</span>
+          <div class="button-row">
+            <a href="https://github.com/steventango/synapse/" target="_blank">
+              <button class="mdc-icon-button" title="GitHub">
+                <img src="https://unpkg.com/simple-icons@v5/icons/github.svg" />
+              </button>
+            </a>
+            <a href="https://github.com/steventango/synapse/issues/" target="_blank">
+              <button class="mdc-icon-button material-icons" title="Report an Issue">bug_report</button>
+            </a>
+          </div>
+          <p class="mdc-typography--body1">Synapse is a tool that generates interactive graphs of course prerequisites and corequisites.</p>
+          <div id="demo_graph"></div>
+          <p class="mdc-typography--body1">
+          <ul>
+            <li>Prerequisites: vertical arrows.</li>
+            <li>Corequisites: horizontal arrows.</li>
+            <li>Arrows of the same color mean one of them is required.</li>
+          </ul>
+          </p>
+          <p class="mdc-typography--body2">Made by Steven Tang and Open Source Contributors</p>
+        </div>
+        <div class="mdc-dialog__actions">
+          <button type="button" class="mdc-button mdc-dialog__button" data-mdc-dialog-action="close">
+            <div class="mdc-button__ripple"></div>
+            <span class="mdc-button__label">Close</span>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="mdc-dialog__scrim"></div>
+  </div>
+  <div id="discard_dialog" class="mdc-dialog">
+    <div class="mdc-dialog__container">
+      <div class="mdc-dialog__surface" role="alertdialog" aria-modal="true" aria-labelledby="discard-dialog-title" aria-describedby="discard-dialog-content">
+        <div class="mdc-dialog__content" id="discard-dialog-content">
           Discard all courses?
         </div>
         <div class="mdc-dialog__actions">
