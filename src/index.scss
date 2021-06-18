@@ -206,7 +206,15 @@ nav {
   margin-left: 16px;
 }
 
-#demo_graph {
+#demo_img {
+  background-image: url('https://steventango.github.io/synapse/assets/demo_light.png');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
   width: 100%;
   height: 300px;
+}
+
+.dark #demo_img {
+  background-image: url('https://steventango.github.io/synapse/assets/demo_dark.png');
 }

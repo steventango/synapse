@@ -122,20 +122,12 @@ async function main() {
     },
   );
 
-
   toggle_info.listen<CustomEvent<{ isOn: boolean }>>(
     "MDCIconButtonToggle:change",
     () => {
       info_dialog.open();
-      const demo_graph_element: HTMLElement = document.querySelector(
-        "#demo_graph",
-      )!;
-
-      const demo_graph: Graph = new Graph(demo_graph_element);
-      search(demo_graph, "CMPUT 291", data.courses)
     },
   );
-
 
   discard_dialog.listen<CustomEvent<{action: string}>>("MDCDialog:closing",
   (event) => {
