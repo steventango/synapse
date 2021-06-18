@@ -4456,7 +4456,10 @@ body {
   background-color: var(--mdc-theme-background);
 }
 
-a {
+a,
+a:hover,
+a:visited {
+  color: #d81b60;
   text-decoration: none;
 }
 
