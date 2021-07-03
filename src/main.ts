@@ -1,5 +1,5 @@
 import Graph from "./graph";
-import search from "./search"
+import search from "./search";
 import { University } from "./university";
 import { MDCDialog } from "@material/dialog";
 import { MDCIconButtonToggle } from "@material/icon-button";
@@ -38,7 +38,9 @@ async function main() {
 
   const snackbar = new MDCSnackbar(document.querySelector("#snackbar")!);
   const info_dialog = new MDCDialog(document.querySelector("#info_dialog")!);
-  const discard_dialog = new MDCDialog(document.querySelector("#discard_dialog")!);
+  const discard_dialog = new MDCDialog(
+    document.querySelector("#discard_dialog")!,
+  );
 
   // local storage dark or light
   const themeState: string | null = localStorage.getItem("synapse.theme");
@@ -53,7 +55,7 @@ async function main() {
   }
 
   window.setTimeout(() => {
-    document.body.classList.add('transition');
+    document.body.classList.add("transition");
   }, 1000);
 
   const data = await load();
@@ -93,6 +95,21 @@ async function main() {
     }
   });
 
+  const urlParams = new URLSearchParams(window.location.search);
+  const q = urlParams.get("q");
+  if (q) {
+    search_bar.value = q;
+    const event = document.createEvent("HTMLEvents");
+    event.initEvent("change", false, true);
+    search_bar.root.dispatchEvent(event);
+    urlParams.delete("q");
+    window.history.replaceState(
+      {},
+      document.title,
+      window.location.origin + window.location.pathname + urlParams.toString(),
+    );
+  }
+
   graph_element.addEventListener("graph:change", () => {
     if (graph.size) {
       delete_button.style.opacity = "1";
@@ -129,12 +146,14 @@ async function main() {
     },
   );
 
-  discard_dialog.listen<CustomEvent<{action: string}>>("MDCDialog:closing",
-  (event) => {
-    if (event.detail.action === "discard") {
-      graph.clear();
-    }
-  });
+  discard_dialog.listen<CustomEvent<{ action: string }>>(
+    "MDCDialog:closing",
+    (event) => {
+      if (event.detail.action === "discard") {
+        graph.clear();
+      }
+    },
+  );
 }
 
 main();
