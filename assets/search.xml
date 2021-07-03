@@ -1,0 +1,10 @@
+<OpenSearchDescription xmlns="http://a9.com/-/spec/opensearch/1.1/"
+                       xmlns:moz="http://www.mozilla.org/2006/browser/search/">
+  <ShortName>Synapse</ShortName>
+  <Description>Search Synapse to generate a course prerequsite diagram.</Description>
+  <InputEncoding>[UTF-8]</InputEncoding>
+  <Image width="32" height="32" type="image/x-icon">https://steventango.github.io/synapse/assets/fav-32.png</Image>
+  <Url type="text/html" template="https://steventango.github.io/synapse/">
+    <Param name="q" value="{searchTerms}"/>
+  </Url>
+</OpenSearchDescription>
