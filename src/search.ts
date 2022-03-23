@@ -27,6 +27,7 @@ export default function search(
   let found = false;
 
   while (stack.length) {
+    console.log(JSON.parse(JSON.stringify(stack)).map((v: Array<Array<string>>) => v[0].join(" ")));
     const [req, [x, depth]] = stack.pop() || [["", ""], [0, 0]];
     let [department, number] = req || [];
     department = department.trim();
@@ -37,6 +38,7 @@ export default function search(
       const course = courses[department][number];
       if (course) {
         if (!graph.vertexes.has(code)) {
+          console.log(code, depth);
           const v = new Vertex(
             {
               code: code,
@@ -57,12 +59,12 @@ export default function search(
         for (const type of types) {
           if (type in course) {
             let reqlen = 0;
-            for (const requisites of course[type]!) {
-              for (const requisite of requisites) {
+            for (const requisites of course[type]!.sort()) {
+              for (const requisite of requisites.sort()) {
                 const [department, number] = rsplit(requisite);
                 if (courses[department]) {
                   if (courses[department][number]) {
-                    if (!graph.isFound(requisite)) {
+                    if (!explored.has(requisite)) {
                       ++reqlen;
                     }
                   }
@@ -70,9 +72,9 @@ export default function search(
               }
             }
             let i = 0;
-            for (const requisites of course[type]!) {
+            for (const requisites of course[type]!.sort()) {
               const color = random_color();
-              for (const requisite of requisites) {
+              for (const requisite of requisites.sort()) {
                 const [department, number] = rsplit(requisite);
                 let e = new Edge(code, requisite, color, type.slice(0, -1));
                 graph.addEdge(e);
@@ -83,6 +85,12 @@ export default function search(
                   if (courses[department]) {
                     if (courses[department][number]) {
                       ++i;
+                    }
+                  }
+                } else {
+                  for (const index in stack) {
+                    if (stack[index][0][0] === rsplit(requisite)[0]) {
+                      stack[index][1][1] = Math.max(stack[index][1][1], depth + 1);
                     }
                   }
                 }
