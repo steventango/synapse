@@ -315,6 +315,10 @@ export default class Graph {
       this.edges.set(edge.u, new Set());
     }
     this.edges.get(edge.u)?.add(edge);
+    if (edge.type === "coreq") {
+      const reverse = new Edge(edge.v, edge.u, edge.color, edge.type);
+      this.edges.get(edge.v)?.add(reverse);
+    }
   };
 
   /**

@@ -1,5 +1,6 @@
 import { rsplit } from "./util";
 import Graph from "./graph";
+import Edge from "./edge";
 
 export default class Vertex {
   e: HTMLElement;
@@ -146,9 +147,30 @@ export default class Vertex {
   remove = () => {
     if (this.graph) {
       this.graph.vertexes.delete(this.id);
-      // TODO: smart remove by removing children that ONLY depend on the thing removed
+      const successors: Map<string, number> = new Map();
       // remove upward edges
-      // remove downward edges
+      for (const vertex of this.graph.edges.values()) {
+        for (const edge of vertex) {
+          // remove predecessor edges
+          if (edge.v == this.id) {
+            vertex.delete(edge);
+          }
+          if (edge.u == this.id) {
+            if (successors.has(edge.u)) {
+              successors.set(edge.u, successors.get(edge.u)! + 1);
+            } else {
+              successors.set(edge.u, 0);
+            }
+          }
+        }
+        // remove successor edges
+        for (const [successor, count] of successors) {
+          console.log(successor, count);
+          if (count == 0 && this.graph.vertexes.has(successor)) {
+            this.graph.vertexes.get(successor)!.remove();
+          }
+        }
+      }
       this.graph.draw();
       this.graph.root.dispatchEvent(new Event("graph:change"));
       this.graph.calculate_dim();
