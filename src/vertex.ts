@@ -156,6 +156,29 @@ export default class Vertex {
     this.e.parentElement?.removeChild(this.e);
   };
 
+  /**
+   * Select a vertex and delete the other options.
+   */
+   select = () => {
+    if (this.graph) {
+      for (const vertex of this.graph.edges.values()) {
+        for (const edge of vertex) {
+          if (edge.v == this.id) {
+            const parent = edge.u;
+            for (const child_edge of this.graph.edges.get(parent)!) {
+              if (child_edge.color === edge.color && child_edge.v != this.id) {
+                this.graph.vertexes.get(child_edge.v)?.remove();
+              }
+            }
+          }
+        }
+      }
+      this.graph.draw();
+      this.graph.root.dispatchEvent(new Event("graph:change"));
+      this.graph.calculate_dim();
+    }
+  };
+
   constructor(course: { code: string; name: string }, x?: number, y?: number) {
     this.courseCode = course.code;
     this.e = document.createElement("div");
@@ -169,6 +192,9 @@ export default class Vertex {
     }" target="_blank" class="mdc-icon-button material-icons mdc-card__action mdc-card__action--icon" aria-label="More" title="View ${course.code} - ${course.name}">
       open_in_new
       </a>
+      <button class="mdc-icon-button material-icons mdc-card__action mdc-card__action--icon" aria-label="Select" title="Select course">
+      star
+      </button>
       <button class="mdc-icon-button material-icons mdc-card__action mdc-card__action--icon" aria-label="Remove" title="Delete course">
       delete
       </button>
@@ -192,6 +218,15 @@ export default class Vertex {
           this.remove();
         },
       );
+
+    this.e.querySelector('.mdc-icon-button[aria-label="Select"]')!
+    .addEventListener(
+      "click",
+      (e) => {
+        e.stopPropagation();
+        this.select();
+      },
+    );
 
     this.draggable = false;
     this.offset = [0, 0];
