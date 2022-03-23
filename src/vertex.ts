@@ -165,7 +165,6 @@ export default class Vertex {
         }
         // remove successor edges
         for (const [successor, count] of successors) {
-          console.log(successor, count);
           if (count == 0 && this.graph.vertexes.has(successor)) {
             this.graph.vertexes.get(successor)!.remove();
           }
