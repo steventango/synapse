@@ -1,6 +1,6 @@
 import Graph from "./graph";
 import search from "./search";
-import { University } from "./university";
+import { University, Subject } from "./university";
 import { MDCDialog } from "@material/dialog";
 import { MDCIconButtonToggle } from "@material/icon-button";
 import { MDCSnackbar } from "@material/snackbar";
@@ -15,6 +15,26 @@ async function load(): Promise<University> {
     "ualberta.ca.json";
   const response = await fetch(url);
   return response.json();
+}
+
+/**
+ * Generates autocomplete list for search bar.
+ * @param courses course data
+ * @param search_bar search bar MDC text field
+ */
+function generate_autocomplete(courses: Subject, search_bar: MDCTextField) {
+  const datalist = document.createElement('datalist');
+  datalist.id = 'search-autocomplete';
+  for (const [department, subject] of Object.entries(courses)) {
+    for (const number of Object.keys(subject)) {
+      const option = document.createElement('option');
+      option.value = `${department} ${number}`;
+      datalist.appendChild(option);
+    }
+  }
+  const input = search_bar.root.querySelector('input')!;
+  input.setAttribute('list', 'search-autocomplete');
+  document.body.appendChild(datalist);
 }
 
 async function main() {
@@ -59,6 +79,8 @@ async function main() {
   }, 1000);
 
   const data = await load();
+
+  generate_autocomplete(data.courses, search_bar);
 
   search_bar.root.addEventListener("focusin", () => {
     search_bar.root.classList.add("mdc-elevation--z4");
