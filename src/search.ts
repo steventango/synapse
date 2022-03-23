@@ -91,6 +91,7 @@ export default function search(
                   for (const index in stack) {
                     if (stack[index][0][0] === rsplit(requisite)[0]) {
                       stack[index][1][1] = Math.max(stack[index][1][1], depth + 1);
+                      break;
                     }
                   }
                 }
