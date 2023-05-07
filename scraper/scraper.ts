@@ -50,8 +50,8 @@ async function scrape_subjects(browser: puppeteer.Browser, url: string) {
   const page = await browser.newPage();
   console.log(`Scraping ${url}`);
   await page.goto(url);
-  await page.waitForSelector("div.content ul > li > a");
-  const urls = await page.$$eval("div.content ul > li > a", (links) => {
+  await page.waitForSelector("div.subject-columns > a", {timeout: 5000});
+  const urls = await page.$$eval("div.subject-columns > a", (links) => {
     return links
       .filter((e): e is HTMLAnchorElement => (e instanceof HTMLAnchorElement))
       .map((e) => e.href);
@@ -70,7 +70,7 @@ async function scrape_courses(browser: puppeteer.Browser, url: string) {
   const page = await browser.newPage();
   console.log(`Scraping ${url}`);
   await page.goto(url);
-  await page.waitForSelector("div.card-body > div:last-child");
+  await page.waitForSelector("div.card-body > div:last-child", {timeout: 5000});
 
   const courses: Subject = {};
 
@@ -83,6 +83,9 @@ async function scrape_courses(browser: puppeteer.Browser, url: string) {
 
   // reformat data into Subject interface
   for (const card of cards) {
+    if (card === undefined) {
+      continue;
+    }
     if (!courses[card.subject]) {
       courses[card.subject] = {};
     }
@@ -167,8 +170,12 @@ function parse_courses(cards: Element[]) {
 
   return cards.map((card) => {
     // parse title for subject, course code, and course name
-    const h4 = card.querySelector("h4")!.childNodes[0].textContent!.trim();
-    const [code, name] = h4.split(" - ");
+    const node_title = card.querySelector("h2 *:last-child");
+    if (!node_title) {
+      return;
+    }
+    const title = node_title.textContent!.trim();
+    const [code, name] = title.split(" - ");
 
     const [subject, number] = rsplit(code);
 
@@ -197,7 +204,7 @@ function parse_courses(cards: Element[]) {
       number: number,
       data: data,
     };
-  });
+  })
 }
 
 /**
