@@ -30,9 +30,9 @@
     "webpack-dev-server": "^3.11.2"
   },
   "scripts": {
-    "build": "webpack",
+    "build": "export NODE_OPTIONS=--openssl-legacy-provider && webpack",
     "scrape": "tsc scraper/pool.ts scraper/scraper.ts --strict && node scraper/scraper.js",
-    "start": "webpack serve",
+    "start": "export NODE_OPTIONS=--openssl-legacy-provider && webpack serve",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
