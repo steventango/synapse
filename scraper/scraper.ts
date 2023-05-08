@@ -21,6 +21,7 @@ interface Subject {
 
 interface Course {
   name: string;
+  raw?: string;
   prereqs?: string[][];
   coreqs?: string[][];
 }
@@ -190,12 +191,14 @@ function parse_courses(cards: Element[]) {
       const prereqtext = p.textContent!.match(prereq_regex);
       if (prereqtext) {
         data.prereqs = parse_requisites(prereqtext[1]);
+        data.raw = prereqtext[0];
       }
 
       const coreq_regex = /Corequisites*:* (.+?)(?:\.)/;
       const coreqtext = p.textContent!.match(coreq_regex);
       if (coreqtext) {
         data.coreqs = parse_requisites(coreqtext[1]);
+        data.raw = data.raw ? data.raw + " " + coreqtext[0] : coreqtext[0];
       }
     }
 
