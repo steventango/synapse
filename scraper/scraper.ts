@@ -21,6 +21,7 @@ interface Subject {
 
 interface Course {
   name: string;
+  desc?: string;
   raw?: string;
   prereqs?: string[][];
   coreqs?: string[][];
@@ -185,21 +186,25 @@ function parse_courses(cards: Element[]) {
     };
 
     const p = card.querySelector("div > p:last-child");
-    if (p) {
+    if (p?.textContent) {
+      const text = p.textContent;
       // parse course requisites
       const prereq_regex = /Prerequisites*:* (.+?)(?:\.)/;
-      const prereqtext = p.textContent!.match(prereq_regex);
+      const prereqtext = text.match(prereq_regex);
       if (prereqtext) {
         data.prereqs = parse_requisites(prereqtext[1]);
-        data.raw = prereqtext[0];
+        data.raw = text.substring(prereqtext.index!);
       }
 
       const coreq_regex = /Corequisites*:* (.+?)(?:\.)/;
-      const coreqtext = p.textContent!.match(coreq_regex);
+      const coreqtext = text.match(coreq_regex);
       if (coreqtext) {
         data.coreqs = parse_requisites(coreqtext[1]);
-        data.raw = data.raw ? data.raw + " " + coreqtext[0] : coreqtext[0];
+        if (!data.raw) {
+          data.raw = text.substring(coreqtext.index!);
+        }
       }
+      data.desc = text.replace(data.raw!, "").trim();
     }
 
     return {
