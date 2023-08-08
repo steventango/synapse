@@ -225,7 +225,7 @@ function parse_courses(cards: Element[]) {
  */
 async function log_errors(data: University, path: string) {
   await fs.promises.truncate(path);
-  const fstream = fs.createWriteStream(path, { flags: "a" });
+  const fstream = fs.createWriteStream(path, { flags: "w" });
 
   for (const [s, subject] of Object.entries(data.courses)) {
     for (const [c, course] of Object.entries(subject)) {

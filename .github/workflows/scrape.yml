@@ -42,3 +42,8 @@ jobs:
         git add data
         git diff-index --quiet HEAD || git commit -m "Update UAlberta data"
         git push
+
+    - uses: actions/upload-artifact@v3
+      with:
+        name: log
+        path: scraper/log.txt
