@@ -224,9 +224,7 @@ function parse_courses(cards: Element[]) {
  * @param data path to write logs to
  */
 async function log_errors(data: University, path: string) {
-  await fs.promises.truncate(path);
-  const fstream = fs.createWriteStream(path, { flags: "w" });
-
+  let errors = "";
   for (const [s, subject] of Object.entries(data.courses)) {
     for (const [c, course] of Object.entries(subject)) {
       const types: ["prereqs", "coreqs"] = ["prereqs", "coreqs"];
@@ -280,7 +278,7 @@ async function log_errors(data: University, path: string) {
               } else if (allowed.has(requisite.toLowerCase())) {
                 continue;
               } else {
-                fstream.write(`${s} ${c} | ${requisite}\n`);
+                errors += `${s} ${c} | ${requisite}\n`;
               }
             }
           }
@@ -288,7 +286,18 @@ async function log_errors(data: University, path: string) {
       }
     }
   }
-  fstream.end();
+  fs.writeFile(
+    path,
+    errors,
+    "utf8",
+    function (error) {
+      if (error) {
+        console.error(error);
+        return;
+      }
+      console.log(`The data has been saved successfully to ${path}!`);
+    },
+  );
 }
 
 /**
@@ -297,7 +306,7 @@ async function log_errors(data: University, path: string) {
 async function main() {
   const COURSE_CATALOGUE = "https://apps.ualberta.ca/catalogue/course";
   const DATA_PATH = "data/ualberta.ca.json";
-  const LOG_PATH = "scraper/log.txt";
+  const LOG_PATH = "log.txt";
   const MAX_CONCURRENCY = 10;
   const POOL = new Pool<Subject>(MAX_CONCURRENCY);
 
