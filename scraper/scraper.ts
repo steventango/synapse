@@ -109,9 +109,10 @@ function parse_courses(cards: Element[]) {
   /**
    * Parses course requisites
    * @param requisites_text raw requisites text from website
+   * @param subject course subject
    * @return array of parsed course requisites
    */
-  function parse_requisites(requisites_text: string) {
+  function parse_requisites(requisites_text: string, subject: string) {
     const generic: {
       [key: string]: string;
     } = {
@@ -124,12 +125,12 @@ function parse_courses(cards: Element[]) {
       "THE FACULTY OF SCIENCE": "SCIENCE",
     };
 
-    let reqs = [];
-    let prev = "";
+    let reqs: string[][] = [];
+    let prev = subject;
     for (let branch of requisites_text.split(/\band\b|; /)) {
       branch = branch.trim().replace(/one of/i, "");
       let codes = branch.split(/,|\bor\b/i).map((v) => v.trim());
-      let set = [];
+      let set: string[] = [];
       for (let code of codes) {
         code = code.trim();
         if (code.length) {
@@ -195,14 +196,14 @@ function parse_courses(cards: Element[]) {
       const prereq_regex = /Prerequisites*:* (.+?)(?:\.)/;
       const prereqtext = text.match(prereq_regex);
       if (prereqtext) {
-        data.prereqs = parse_requisites(prereqtext[1]);
+        data.prereqs = parse_requisites(prereqtext[1], subject);
         data.raw = text.substring(prereqtext.index!);
       }
 
       const coreq_regex = /Corequisites*:* (.+?)(?:\.)/;
       const coreqtext = text.match(coreq_regex);
       if (coreqtext) {
-        data.coreqs = parse_requisites(coreqtext[1]);
+        data.coreqs = parse_requisites(coreqtext[1], subject);
         if (!data.raw) {
           data.raw = text.substring(coreqtext.index!);
         }
@@ -267,6 +268,13 @@ async function log_errors(data: University, path: string) {
           "equivalent knowledge",
           "varies according to topic",
           "based on audition",
+          "are determined by the instructor in the course outline",
+          "with a sufficient score on the on-line placement test",
+          "consent of the instructor(s) based on successful completion of the selection process",
+          "consent of the instructors based on successful completion of the selection process",
+          "None",
+          "other approved course",
+          "consent of the Department of Medical Genetics"
         ],
       );
       for (const type of types) {

@@ -8,4 +8,4 @@ dist/*
 *.ai
 !webpack.config.js
 
-scraper/log.txt
+log.txt
