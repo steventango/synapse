@@ -55,7 +55,7 @@ async function scrape_subjects(browser: puppeteer.Browser, url: string) {
   const page = await browser.newPage();
   console.log(`Scraping ${url}`);
   await page.goto(url);
-  await page.waitForSelector("div.subject-columns > a", {timeout: 5000});
+  await page.waitForSelector("div.subject-columns > a", { timeout: 5000 });
   const urls = await page.$$eval("div.subject-columns > a", (links) => {
     return links
       .filter((e): e is HTMLAnchorElement => (e instanceof HTMLAnchorElement))
@@ -75,7 +75,7 @@ async function scrape_courses(browser: puppeteer.Browser, url: string) {
   const page = await browser.newPage();
   console.log(`Scraping ${url}`);
   await page.goto(url);
-  await page.waitForSelector("div.card-body > div:last-child", {timeout: 5000});
+  await page.waitForSelector("div.card-body > div:last-child", { timeout: 5000 });
 
   const courses: Subject = {};
 
@@ -191,7 +191,8 @@ function parse_courses(cards: Element[]) {
 
     const p = card.querySelector("div > p:last-child");
     if (p?.textContent) {
-      const text = p.textContent;
+      const desc = p.textContent;
+      const text = desc.replace("Prerequisite or Corequisites", "Corequisites");
       // parse course requisites
       const prereq_regex = /Prerequisites*:* (.+?)(?:\.)/;
       const prereqtext = text.match(prereq_regex);
@@ -228,7 +229,9 @@ async function log_errors(data: University, path: string) {
   let errors = "";
   for (const [s, subject] of Object.entries(data.courses)) {
     for (const [c, course] of Object.entries(subject)) {
-      const types: ["prereqs", "coreqs"] = ["prereqs", "coreqs"];
+      const types: ["prereqs",
+        "coreqs"] = ["prereqs",
+          "coreqs"];
       const allowed: Set<string> = new Set(
         [
           "consent of instructor",
@@ -272,9 +275,103 @@ async function log_errors(data: University, path: string) {
           "with a sufficient score on the on-line placement test",
           "consent of the instructor(s) based on successful completion of the selection process",
           "consent of the instructors based on successful completion of the selection process",
-          "None",
+          "none",
           "other approved course",
-          "consent of the Department of Medical Genetics"
+          "consent of the department of medical genetics",
+          "consent of department based on assessment in the first class",
+          "permission from the department based on portfolio review",
+          "consent of department based upon audition",
+          "consent of department based on audition",
+          "substantial conducting experience",
+          "based upon audition",
+          "aural skills exam for other than bmus students",
+          "satisfactory completion of department of music theory placement exam",
+          "consent from course coordinator",
+          "Consult department",
+          "consent of instructor)",
+          "a minimum grade of b+ in the prerequisite course is strongly recommended",
+          "consent of  instructor",
+          "consent of the course coordinator",
+          "permission from the instructor",
+          "assistant dean",
+          "undergraduate program",
+          "consent of department chair",
+          "depend on the subject",
+          "consent of the  instructor (based on portfolio submission)",
+          "consent of the selection committee",
+          "participation in a 'leadership role' on campus",
+          "consent of program adviser",
+          "consent of instructor based on audition",
+          "consent of the division",
+          "consent of the department of biochemistry",
+          "consent of instructors for students not registered in the systematics",
+          "the consent of the associate chair",
+          "consent of  the instructor",
+          "consent of the business undergraduate office",
+          "consent of faculty of business",
+          "restricted to honors computing science students",
+          "consent of community service - learning director",
+          "instructor",
+          "the equivalent",
+          "permission from the program office",
+          "which may be taken concurrently with permission of the instructor",
+          "instructor's consent",
+          "consent of supervisor",
+          "department",
+          "consent of the program",
+          "consent of instructors",
+          "consent of the associate dean (undergraduate programs)",
+          "consent of  department",
+          "consent of graduate co-ordinator",
+          "with instructor's consent",
+          "consent of the program administrator",
+          "consent of the instructor (based on portfolio submission)",
+          "consent of the instructor based on completion of a csl placement (a record of courses",
+          "consent of the instructor based on audition",
+          "consent of the instructor(s)",
+          "consent of department of biochemistry",
+          "consent of the program coordinator",
+          "the consent of the course coordinator",
+          "registration is by consent of department",
+          "consent of the college",
+          "consent of college",
+          "consent of program director",
+          "consent of the graduate student's supervisor",
+          "consent of the associate dean",
+          "consent (undergraduate programs)",
+          "the consent of the instructor",
+          "consent of the thesis supervisor",
+          "consent of instructor is required",
+          "consent of the course instructor",
+          "restricted to students who have received consent from torch executive advisory committee",
+          "consent of course coordinator",
+          "consent of the department based on assessment in the first class",
+          "consent of the department based on portfolio review",
+          "consent of the department based on audition",
+          "consent of the neuroscience",
+          "consent of the centre for neuroscience",
+          "consent of the department of",
+          "consent of the faculty of native studies",
+          "the consent of the department",
+          "corequisites: consent of the department",
+          "consent of the course co-ordinator",
+          "consent of the department of physiology",
+          "consent of the department of pharmacology",
+          "consent of student's graduate supervisor",
+          "consent of program [office of interdisciplinary studies]",
+          "prerequisite courses vary",
+          "depending on topic",
+          "vary depending on topic",
+          "the course coordinator",
+          "the student's supervisor",
+          "equivalent)",
+          "their equivalents",
+          "honors advisor",
+          "permission from the mba office",
+          "the undergraduate advisor",
+          "instructor approval",
+          "application to department",
+          "approval of the department",
         ],
       );
       for (const type of types) {
@@ -286,7 +383,7 @@ async function log_errors(data: University, path: string) {
               } else if (allowed.has(requisite.toLowerCase())) {
                 continue;
               } else {
-                errors += `${s} ${c} | ${requisite}\n`;
+                errors += `${s} ${c} | ${requisite.toLowerCase()}\n`;
               }
             }
           }
