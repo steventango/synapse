@@ -5,7 +5,7 @@ on:
     branches:
       - 'main'
     paths:
-      - 'scraper/**/*.js'
+      - 'scraper/**/*'
   schedule:
     - cron: '0 12 * * 0'
   workflow_dispatch:
