@@ -22,6 +22,7 @@ interface Subject {
 interface Course {
   name: string;
   desc?: string;
+  faculty?: string;
   raw?: string;
   prereqs?: string[][];
   coreqs?: string[][];
@@ -84,6 +85,11 @@ async function scrape_courses(browser: puppeteer.Browser, url: string) {
     parse_courses,
   );
 
+  const faculty = await page.$eval(
+    "body > div > div > p:nth-child(3) > a",
+    (e) => e.textContent!,
+  );
+
   await page.close();
 
   // reformat data into Subject interface
@@ -94,6 +100,7 @@ async function scrape_courses(browser: puppeteer.Browser, url: string) {
     if (!courses[card.subject]) {
       courses[card.subject] = {};
     }
+    card.data.faculty = faculty;
     courses[card.subject][card.number] = card.data;
   }
 
