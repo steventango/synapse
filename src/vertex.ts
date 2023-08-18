@@ -200,23 +200,24 @@ export default class Vertex {
     }
   };
 
-  constructor(course: { code: string; name: string }, x?: number, y?: number) {
+  constructor(course: { code: string; name: string, desc?: string }, x?: number, y?: number) {
     this.courseCode = course.code;
     this.e = document.createElement("div");
     this.e.classList.add("mdc-card", "vertex", "mdc-elevation--z1");
+    this.e.title = course.desc ? course.desc : "There is no available course description.";
     this.e.innerHTML = `
       <h2 class="mdc-typography mdc-typography--headline6">${course.code}</h2>
       <h3 class="mdc-typography mdc-typography--subtitle2">${course.name}</h3>
       <div class="mdc-card__action-icons">
       <a href="${"https://apps.ualberta.ca/catalogue/course/"}${
       rsplit(course.code).join("/").replace(" ", "_")
-    }" target="_blank" class="mdc-icon-button material-icons mdc-card__action mdc-card__action--icon" aria-label="More" title="View ${course.code} - ${course.name}">
+    }" target="_blank" class="mdc-icon-button material-icons mdc-card__action mdc-card__action--icon" aria-label="More" title="View ${course.code}">
       open_in_new
       </a>
-      <button class="mdc-icon-button material-icons mdc-card__action mdc-card__action--icon" aria-label="Select" title="Select course">
+      <button class="mdc-icon-button material-icons mdc-card__action mdc-card__action--icon" aria-label="Select" title="Select ${course.code}">
       star
       </button>
-      <button class="mdc-icon-button material-icons mdc-card__action mdc-card__action--icon" aria-label="Remove" title="Delete course">
+      <button class="mdc-icon-button material-icons mdc-card__action mdc-card__action--icon" aria-label="Remove" title="Delete ${course.code}">
       delete
       </button>
     </div>`;

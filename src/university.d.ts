@@ -17,6 +17,7 @@ export interface Subject {
 
 export interface Course {
   name: string;
+  desc?: string;
   prereqs?: string[][];
   coreqs?: string[][];
 }

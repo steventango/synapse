@@ -43,6 +43,7 @@ export default function search(
             {
               code: code,
               name: courses[department][number].name,
+              desc: courses[department][number].desc,
             },
             x,
             depth * (card.height + 2 * margin) + margin,
