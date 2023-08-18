@@ -22,6 +22,10 @@ interface Subject {
 interface Course {
   name: string;
   desc?: string;
+  units?: number;
+  approved_hours?: number[];
+  fi?: number;
+  typically_offered?: string;
   faculty?: string;
   raw?: string;
   prereqs?: string[][];
@@ -196,6 +200,21 @@ function parse_courses(cards: Element[]) {
       name: name,
     };
 
+    const b = card.querySelector("div > b:last-of-type");
+    if (b?.textContent) {
+      const text = b.textContent;
+      const regex = /★ (\d+) \(fi (\d+)\)\(([A-Z]+), (\d+)-(\d+)-(\d+)/
+      const match = text.match(regex);
+      if (match) {
+        const [_, units, fi, typically_offered, a, b, c] = match;
+        data.units = parseInt(units);
+        data.fi = parseInt(fi);
+        data.typically_offered = typically_offered;
+        data.approved_hours = [parseInt(a), parseInt(b), parseInt(c)]
+      } else {
+        console.log(`No match for ${text}`);
+      }
+    }
     const p = card.querySelector("div > p:last-child");
     if (p?.textContent) {
       const desc = p.textContent;
