@@ -219,19 +219,19 @@ function parse_courses(cards: Element[]) {
     if (p?.textContent) {
       const text = p.textContent;
       // parse course requisites
-      const prereq_regex = /Prerequisites*:* (.+?)(?:\.)/i;
-      const prereqtext = text.match(prereq_regex);
-      if (prereqtext) {
+      const prereq_regex = /Prerequisites*:* (?:(?!(?:and\/)*(?:and|or|\/) (?:[Cc]orequisite)s*|for).)+ (.+?)(?:\.)/;
+      for (const prereqtext of text.matchAll(prereq_regex)) {
         data.prereqs = parse_requisites(prereqtext[1], subject);
-        data.raw = text.substring(prereqtext.index!);
+        if (!data.raw) {
+          data.raw = text.substring(prereqtext.index!).trim();
+        }
       }
 
-      const coreq_regex = /(?:(?:(?:Corequisite|Prerequisite)s* or (?:Corequisite|Prerequisite)s*)|(?:Corequisites*)):* (.+?)(?:\.)/i;
-      const coreqtext = text.match(coreq_regex);
-      if (coreqtext) {
+      const coreq_regex = /(?:(?:(?:Corequisite|Prerequisite|Pre-*)s* (?:and\/)*(?:and|or|\/) (?:Corequisite|Prerequisite)s*)|(?:Corequisites*)|(?: Pre\/corequisites*)):* (.+?)(?:\.)/i;
+      for (const coreqtext of text.matchAll(coreq_regex)) {
         data.coreqs = parse_requisites(coreqtext[1], subject);
         if (!data.raw) {
-          data.raw = text.substring(coreqtext.index!);
+          data.raw = text.substring(coreqtext.index!).trim();
         }
       }
       data.desc = text.replace(data.raw!, "").trim();
