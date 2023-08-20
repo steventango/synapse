@@ -9,3 +9,6 @@ dist/*
 !webpack.config.js
 
 log.txt
+
+data/ualberta.ca.json.patch
+data/ualberta.ca.old.json

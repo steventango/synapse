@@ -27,8 +27,16 @@ jobs:
     - name: Install npm dependencies
       run: npm ci
 
+    - name: Rename old data
+      run: mv data/ualberta.ca.json data/ualberta.ca.old.json || true
+
     - name: Scrape data
       run: npm run scrape
+
+    - name: Run diff
+      run: |
+        json-diff data/ualberta.ca.old.json data/ualberta.ca.json > data/ualberta.ca.json.patch
+        cat data/ualberta.ca.json.patch
 
     - name: Update data
       run: |
@@ -41,4 +49,6 @@ jobs:
     - uses: actions/upload-artifact@v3
       with:
         name: log
-        path: log.txt
+        path: |
+          log.txt
+          data/ualberta.ca.json.patch

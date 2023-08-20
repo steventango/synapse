@@ -12,7 +12,8 @@
     "@material/icon-button": "^11.0.0",
     "@material/snackbar": "^11.0.0",
     "@material/textfield": "^11.0.0",
-    "@material/typography": "^11.0.0"
+    "@material/typography": "^11.0.0",
+    "json-diff": "^1.0.6"
   },
   "devDependencies": {
     "@types/puppeteer": "^5.4.3",
