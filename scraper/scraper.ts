@@ -138,7 +138,7 @@ function parse_courses(cards: Element[]) {
 
     let reqs: string[][] = [];
     let prev = subject;
-    for (let branch of requisites_text.split(/\band\b|; /)) {
+    for (let branch of requisites_text.split(/\band\b|; /i)) {
       branch = branch.trim().replace(/one of/i, "");
       let codes = branch.split(/,|\bor\b/i).map((v) => v.trim());
       let set: string[] = [];
@@ -219,14 +219,14 @@ function parse_courses(cards: Element[]) {
     if (p?.textContent) {
       const text = p.textContent;
       // parse course requisites
-      const prereq_regex = /Prerequisites*:* (.+?)(?:\.)/;
+      const prereq_regex = /Prerequisites*:* (.+?)(?:\.)/i;
       const prereqtext = text.match(prereq_regex);
       if (prereqtext) {
         data.prereqs = parse_requisites(prereqtext[1], subject);
         data.raw = text.substring(prereqtext.index!);
       }
 
-      const coreq_regex = /(?:(?:(?:Corequisite|Prerequisite)s* or (?:Corequisite|Prerequisite)s*)|(?:Corequisites*)):* (.+?)(?:\.)/;
+      const coreq_regex = /(?:(?:(?:Corequisite|Prerequisite)s* or (?:Corequisite|Prerequisite)s*)|(?:Corequisites*)):* (.+?)(?:\.)/i;
       const coreqtext = text.match(coreq_regex);
       if (coreqtext) {
         data.coreqs = parse_requisites(coreqtext[1], subject);
