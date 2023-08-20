@@ -11,7 +11,7 @@ import { MDCTextField } from "@material/textfield";
  * @returns university data
  */
 async function load(): Promise<University> {
-  const url = "//raw.githubusercontent.com/steventango/synapse/master/data/" +
+  const url = "//raw.githubusercontent.com/steventango/synapse/main/data/" +
     "ualberta.ca.json";
   const response = await fetch(url);
   return response.json();
