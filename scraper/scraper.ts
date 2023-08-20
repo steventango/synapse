@@ -98,7 +98,7 @@ async function scrape_courses(browser: puppeteer.Browser, url: string) {
 
   // reformat data into Subject interface
   for (const card of cards) {
-    if (card === undefined) {
+    if (!card) {
       continue;
     }
     if (!courses[card.subject]) {
@@ -216,26 +216,34 @@ function parse_courses(cards: Element[]) {
       }
     }
     const p = card.querySelector("div > p:last-child");
-    if (p?.textContent) {
-      const text = p.textContent;
-      // parse course requisites
-      const prereq_regex = /Prerequisites*:* (?:(?!(?:and\/)*(?:and|or|\/) (?:[Cc]orequisite)s*|for).)+ (.+?)(?:\.)/;
-      for (const prereqtext of text.matchAll(prereq_regex)) {
-        data.prereqs = parse_requisites(prereqtext[1], subject);
-        if (!data.raw) {
-          data.raw = text.substring(prereqtext.index!).trim();
+      if (p?.textContent) {
+        const text = p.textContent;
+        // parse course requisites
+        const prereq_regex = /Prerequisites*:* (?:(?!(?:and\/)*(?:and|or|\/) (?:[Cc]orequisite)s*|for).)+ (.+?)(?:\.)/g;
+        for (const prereqtext of text.matchAll(prereq_regex)) {
+          if (data.prereqs) {
+            data.prereqs.push(...parse_requisites(prereqtext[1], subject));
+          } else {
+            data.prereqs = parse_requisites(prereqtext[1], subject);
+          }
+          if (!data.raw) {
+            data.raw = text.substring(prereqtext.index!).trim();
+          }
         }
-      }
 
-      const coreq_regex = /(?:(?:(?:Corequisite|Prerequisite|Pre-*)s* (?:and\/)*(?:and|or|\/) (?:Corequisite|Prerequisite)s*)|(?:Corequisites*)|(?: Pre\/corequisites*)):* (.+?)(?:\.)/i;
-      for (const coreqtext of text.matchAll(coreq_regex)) {
-        data.coreqs = parse_requisites(coreqtext[1], subject);
-        if (!data.raw) {
-          data.raw = text.substring(coreqtext.index!).trim();
+        const coreq_regex = /(?:(?:(?:Corequisite|Prerequisite|Pre-*)s* (?:and\/)*(?:and|or|\/) (?:Corequisite|Prerequisite)s*)|(?:Corequisites*)|(?: Pre\/corequisites*)):* (.+?)(?:\.)/ig;
+        for (const coreqtext of text.matchAll(coreq_regex)) {
+          if (data.coreqs) {
+            data.coreqs.push(...parse_requisites(coreqtext[1], subject));
+          } else {
+            data.coreqs = parse_requisites(coreqtext[1], subject);
+          }
+          if (!data.raw) {
+            data.raw = text.substring(coreqtext.index!).trim();
+          }
         }
+        data.desc = text.replace(data.raw!, "").trim();
       }
-      data.desc = text.replace(data.raw!, "").trim();
-    }
 
     return {
       subject: subject,
