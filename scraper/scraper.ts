@@ -217,8 +217,7 @@ function parse_courses(cards: Element[]) {
     }
     const p = card.querySelector("div > p:last-child");
     if (p?.textContent) {
-      const desc = p.textContent;
-      const text = desc.replace(/(Corequisite|Prerequisite)s* or (Corequisite|Prerequisite)s*/i, "Corequisites");
+      const text = p.textContent;
       // parse course requisites
       const prereq_regex = /Prerequisites*:* (.+?)(?:\.)/;
       const prereqtext = text.match(prereq_regex);
@@ -227,7 +226,7 @@ function parse_courses(cards: Element[]) {
         data.raw = text.substring(prereqtext.index!);
       }
 
-      const coreq_regex = /Corequisites*:* (.+?)(?:\.)/;
+      const coreq_regex = /(?:(?:(?:Corequisite|Prerequisite)s* or (?:Corequisite|Prerequisite)s*)|(?:Corequisites*)):* (.+?)(?:\.)/;
       const coreqtext = text.match(coreq_regex);
       if (coreqtext) {
         data.coreqs = parse_requisites(coreqtext[1], subject);
