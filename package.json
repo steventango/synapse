@@ -32,7 +32,7 @@
   },
   "scripts": {
     "build": "export NODE_OPTIONS=--openssl-legacy-provider && webpack",
-    "scrape": "tsc scraper/pool.ts scraper/scraper.ts --lib es2020 && node scraper/scraper.js",
+    "scrape": "tsc scraper/pool.ts scraper/scraper.ts --lib es2020,dom && node scraper/scraper.js",
     "start": "export NODE_OPTIONS=--openssl-legacy-provider && webpack serve",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
