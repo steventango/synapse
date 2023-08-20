@@ -219,8 +219,11 @@ function parse_courses(cards: Element[]) {
       if (p?.textContent) {
         const text = p.textContent;
         // parse course requisites
-        const prereq_regex = /Prerequisites*:* (?:(?!(?:and\/)*(?:and|or|\/) (?:[Cc]orequisite)s*|for).)+ (.+?)(?:\.)/g;
-        for (const prereqtext of text.matchAll(prereq_regex)) {
+        const prereq_regex = /Prerequisites*:* (.+?)(?:\.)/;
+        const coreq_regex = /(?:(?:(?:Corequisite|Prerequisite|Pre-*)s* (?:and\/)*(?:and|or|\/) (?:Corequisite|Prerequisite)s*)|(?:Corequisites*)|(?:Pre\/corequisites*)):* (.+?)(?:\.)/i;
+        // for (const prereqtext of text.matchAll(prereq_regex)) {
+        const prereqtext = text.match(prereq_regex);
+        if (prereqtext && !coreq_regex.test(prereqtext[1])) {
           if (data.prereqs) {
             data.prereqs.push(...parse_requisites(prereqtext[1], subject));
           } else {
@@ -231,8 +234,9 @@ function parse_courses(cards: Element[]) {
           }
         }
 
-        const coreq_regex = /(?:(?:(?:Corequisite|Prerequisite|Pre-*)s* (?:and\/)*(?:and|or|\/) (?:Corequisite|Prerequisite)s*)|(?:Corequisites*)|(?: Pre\/corequisites*)):* (.+?)(?:\.)/ig;
-        for (const coreqtext of text.matchAll(coreq_regex)) {
+        // for (const coreqtext of text.matchAll(coreq_regex)) {
+        const coreqtext = text.match(coreq_regex);
+        if (coreqtext && coreqtext[1]) {
           if (data.coreqs) {
             data.coreqs.push(...parse_requisites(coreqtext[1], subject));
           } else {
