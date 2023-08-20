@@ -218,7 +218,7 @@ function parse_courses(cards: Element[]) {
     const p = card.querySelector("div > p:last-child");
     if (p?.textContent) {
       const desc = p.textContent;
-      const text = desc.replace("Prerequisite or Corequisites", "Corequisites");
+      const text = desc.replace(/(Corequisite|Prerequisite)s* or (Corequisite|Prerequisite)s*/i, "Corequisites");
       // parse course requisites
       const prereq_regex = /Prerequisites*:* (.+?)(?:\.)/;
       const prereqtext = text.match(prereq_regex);
