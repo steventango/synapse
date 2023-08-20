@@ -36,7 +36,7 @@ jobs:
 
     - name: Run diff
       run: |
-        ./node_modules/.bin/json-diff data/ualberta.ca.old.json data/ualberta.ca.json > data/ualberta.ca.json.patch
+        ./node_modules/.bin/json-diff data/ualberta.ca.old.json data/ualberta.ca.json > data/ualberta.ca.json.patch || true
         cat data/ualberta.ca.json.patch
 
     - name: Update data
