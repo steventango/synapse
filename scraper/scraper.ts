@@ -80,7 +80,7 @@ async function scrape_courses(browser: puppeteer.Browser, url: string) {
   const page = await browser.newPage();
   console.log(`Scraping ${url}`);
   await page.goto(url);
-  await page.waitForSelector("div.card-body > div:last-child", { timeout: 5000 });
+  await page.waitForSelector("div.course:last-child", { timeout: 5000 });
 
   const courses: Subject = {};
 
