@@ -85,7 +85,7 @@ async function scrape_courses(browser: puppeteer.Browser, url: string) {
   const courses: Subject = {};
 
   const cards = await page.$$eval(
-    "div.card-body > div:last-child",
+    "div.course:last-child",
     parse_courses,
   );
 
