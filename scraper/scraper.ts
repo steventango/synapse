@@ -90,7 +90,7 @@ async function scrape_courses(browser: puppeteer.Browser, url: string) {
   );
 
   const faculty = await page.$eval(
-    "body > div > div > p:nth-child(3) > a",
+    "body > div > div > p:nth-child(4) > a",
     (e) => e.textContent!,
   );
 
