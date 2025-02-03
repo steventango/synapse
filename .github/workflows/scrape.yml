@@ -47,7 +47,7 @@ jobs:
         git diff-index --quiet HEAD || git commit -m "Update UAlberta data"
         git push
 
-    - uses: actions/upload-artifact@v3
+    - uses: actions/upload-artifact@v4
       with:
         name: log
         path: |
