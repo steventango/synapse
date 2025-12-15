@@ -80,12 +80,18 @@ async function scrape_courses(browser: puppeteer.Browser, url: string) {
   const page = await browser.newPage();
   console.log(`Scraping ${url}`);
   await page.goto(url);
-  await page.waitForSelector("div.course:last-child", { timeout: 5000 });
+  try {
+    await page.waitForSelector("div.course", { timeout: 5000 });
+  } catch (e) {
+    console.log(`No courses found at ${url}`);
+    await page.close();
+    return {};
+  }
 
   const courses: Subject = {};
 
   const cards = await page.$$eval(
-    "div.course:last-child",
+    "div.course",
     parse_courses,
   );
 
